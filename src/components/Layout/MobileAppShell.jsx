@@ -11,10 +11,16 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
         <button
           type="button"
           onClick={onProfileClick}
-          className="w-8 h-8 rounded-full flex items-center justify-center bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-all active:scale-95"
+          className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition-all active:scale-95"
           aria-label="Abrir perfil"
         >
-          <span className="text-xs font-medium">{(user?.username || 'ME').slice(0, 2).toUpperCase()}</span>
+          {user?.photoURL ? (
+            <img src={user.photoURL} alt="Avatar" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-xs font-medium">
+              {(user?.displayName || user?.email || 'ME').slice(0, 2).toUpperCase()}
+            </span>
+          )}
         </button>
       </header>
 

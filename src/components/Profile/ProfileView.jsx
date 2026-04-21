@@ -43,15 +43,16 @@ export default function ProfileView({
 
   return (
     <div className="p-4 space-y-6 pb-10">
-      {/* Avatar + nombre */}
       <div className="flex flex-col items-center justify-center text-center space-y-2 pt-2">
         <label className="relative cursor-pointer group">
           <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
           <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center group-hover:opacity-80 transition-opacity">
-            {safePreferences.profilePicture ? (
-              <img src={safePreferences.profilePicture} alt="Perfil" className="w-full h-full object-cover" />
+            {(user?.photoURL || safePreferences.profilePicture) ? (
+              <img src={user?.photoURL || safePreferences.profilePicture} alt="Perfil" className="w-full h-full object-cover" />
             ) : (
-              <span className="text-3xl font-bold text-zinc-400">{(user?.username || 'ME').slice(0, 2).toUpperCase()}</span>
+              <span className="text-3xl font-bold text-zinc-400">
+                {(user?.displayName || user?.email || 'ME').slice(0, 2).toUpperCase()}
+              </span>
             )}
           </div>
           <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -59,8 +60,13 @@ export default function ProfileView({
           </div>
         </label>
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">{user?.username || 'Invitado'}</h2>
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            {user?.displayName || user?.email?.split('@')[0] || 'Atleta'}
+          </h2>
           <p className="text-brand-600 dark:text-brand-400 text-sm font-medium">Gymbro Pro</p>
+          {user?.email && (
+            <p className="text-xs text-zinc-500 mt-0.5">{user.email}</p>
+          )}
         </div>
       </div>
 

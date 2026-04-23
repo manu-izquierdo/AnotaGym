@@ -8,6 +8,7 @@ export default function ProfileView({
   onSavePreferences,
   onAddBodyMetric,
   onDeleteBodyMetric,
+  onLogout,
   user,
 }) {
   const safePreferences = preferences || { theme: 'dark', unit: 'kg' };
@@ -190,6 +191,14 @@ export default function ProfileView({
           </div>
         )}
       </Card>
+
+      <Button
+        variant="ghost"
+        className="w-full text-red-500 hover:text-red-600 dark:hover:text-red-400 mt-6"
+        onClick={onLogout}
+      >
+        Cerrar Sesión
+      </Button>
     </div>
   );
 }

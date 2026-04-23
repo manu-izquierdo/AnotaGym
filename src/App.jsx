@@ -132,8 +132,10 @@ function App() {
   const handleSetFieldChange = (exerciseId, setId, field, value) => {
     // Si marcamos una serie como completada, iniciar el timer
     if (field === 'completed' && value === true) {
-      const duration = workoutState.preferences?.defaultRestTimer || 90;
-      setRestTimerEnd(Date.now() + duration * 1000);
+      const duration = workoutState.preferences?.defaultRestTimer ?? 90;
+      if (duration > 0) {
+        setRestTimerEnd(Date.now() + duration * 1000);
+      }
     }
 
     setWorkoutState((prev) => {
@@ -322,6 +324,7 @@ function App() {
             onSavePreferences={handleSavePreferences}
             onAddBodyMetric={handleAddBodyMetric}
             onDeleteBodyMetric={handleDeleteBodyMetric}
+            onLogout={logout}
             user={uiUser}
           />
         )}
@@ -334,7 +337,6 @@ function App() {
             onDeleteExercise={handleDeleteExercise}
             onCreateExercise={handleCreateCustomExercise}
             onRestoreExercises={handleRestoreDefaultExercises}
-            onLogout={logout}
             onExportData={exportData}
             onImportData={importData}
             user={uiUser}

@@ -10,7 +10,6 @@ export default function SettingsView({
   onDeleteExercise,
   onCreateExercise,
   onRestoreExercises,
-  onLogout,
   onExportData,
   onImportData,
   user,
@@ -157,16 +156,20 @@ export default function SettingsView({
           <div>
             <h4 className="font-medium text-sm text-zinc-900 dark:text-zinc-100 mb-2">Descanso automático</h4>
             <div className="flex gap-2">
-              {[60, 90, 120, 180].map(secs => (
-                <Button
-                  key={secs}
-                  variant={(safePreferences.defaultRestTimer || 90) === secs ? 'primary' : 'secondary'}
-                  className="h-10 text-sm flex-1 font-bold"
-                  onClick={() => onSavePreferences({ defaultRestTimer: secs })}
-                >
-                  {secs}s
-                </Button>
-              ))}
+              {[0, 60, 90, 120, 180].map(secs => {
+                const currentVal = safePreferences.defaultRestTimer ?? 90;
+                const isSelected = currentVal === secs;
+                return (
+                  <Button
+                    key={secs}
+                    variant={isSelected ? 'primary' : 'secondary'}
+                    className={`h-10 text-sm flex-1 font-bold ${secs === 0 ? 'text-xs' : ''}`}
+                    onClick={() => onSavePreferences({ defaultRestTimer: secs })}
+                  >
+                    {secs === 0 ? 'Off' : `${secs}s`}
+                  </Button>
+                );
+              })}
             </div>
             <p className="text-[11px] text-zinc-500 mt-2 leading-relaxed">
               El temporizador se activará automáticamente al marcar una serie como completada. Al llegar a 0, tu móvil vibrará.
@@ -278,14 +281,6 @@ export default function SettingsView({
             <p className="text-xs font-medium text-center text-zinc-500">{importMsg}</p>
           )}
         </Card>
-
-        <Button
-          variant="ghost"
-          className="w-full text-red-500 hover:text-red-600 dark:hover:text-red-400 mt-6"
-          onClick={onLogout}
-        >
-          Cerrar Sesión
-        </Button>
       </section>
     </div>
   );

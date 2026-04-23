@@ -270,7 +270,7 @@ function App() {
     uid: currentUser.uid,
     email: currentUser.email,
     displayName: userProfile?.displayName || currentUser.displayName || currentUser.email,
-    photoURL: currentUser.photoURL || workoutState.preferences?.profilePicture || null,
+    photoURL: workoutState.preferences?.profilePicture || currentUser.photoURL || null,
     role: userProfile?.role || 'user',
   };
 

@@ -85,8 +85,8 @@ export default function ProfileView({
         <label className="relative cursor-pointer group">
           <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
           <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center group-hover:opacity-80 transition-opacity">
-            {(user?.photoURL || safePreferences.profilePicture) ? (
-              <img src={user?.photoURL || safePreferences.profilePicture} alt="Perfil" className="w-full h-full object-cover" />
+            {(safePreferences.profilePicture || user?.photoURL) ? (
+              <img src={safePreferences.profilePicture || user?.photoURL} alt="Perfil" className="w-full h-full object-cover" />
             ) : (
               <span className="text-3xl font-bold text-zinc-400">
                 {(user?.displayName || user?.email || 'ME').slice(0, 2).toUpperCase()}

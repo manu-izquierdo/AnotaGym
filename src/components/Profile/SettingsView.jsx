@@ -150,6 +150,30 @@ export default function SettingsView({
           </div>
         </Card>
 
+        {/* Entrenamiento */}
+        <Card className="space-y-4">
+          <h3 className="font-medium text-sm text-zinc-900 dark:text-zinc-100">Entrenamiento</h3>
+          
+          <div>
+            <h4 className="font-medium text-sm text-zinc-900 dark:text-zinc-100 mb-2">Descanso automático</h4>
+            <div className="flex gap-2">
+              {[60, 90, 120, 180].map(secs => (
+                <Button
+                  key={secs}
+                  variant={(safePreferences.defaultRestTimer || 90) === secs ? 'primary' : 'secondary'}
+                  className="h-10 text-sm flex-1 font-bold"
+                  onClick={() => onSavePreferences({ defaultRestTimer: secs })}
+                >
+                  {secs}s
+                </Button>
+              ))}
+            </div>
+            <p className="text-[11px] text-zinc-500 mt-2 leading-relaxed">
+              El temporizador se activará automáticamente al marcar una serie como completada. Al llegar a 0, tu móvil vibrará.
+            </p>
+          </div>
+        </Card>
+
         {/* Catálogo de ejercicios */}
         <Card className="space-y-4">
           <div className="flex items-center justify-between">

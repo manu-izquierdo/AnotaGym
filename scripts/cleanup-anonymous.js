@@ -28,8 +28,8 @@ initializeApp({
 const auth = getAuth();
 const db = getFirestore();
 
-// 1 minuto en milisegundos (SOLO PARA PRUEBAS)
-const FIFTEEN_DAYS_MS = 1 * 60 * 1000;
+// 15 días en milisegundos
+const FIFTEEN_DAYS_MS = 15 * 24 * 60 * 60 * 1000;
 const cutoffDate = new Date(Date.now() - FIFTEEN_DAYS_MS);
 
 async function cleanup() {

@@ -7,6 +7,7 @@ import SetLogger from './components/Tracker/SetLogger';
 import HistoryView from './components/History/HistoryView';
 import ProfileView from './components/Profile/ProfileView';
 import SettingsView from './components/Profile/SettingsView';
+import RestTimerPill from './components/Tracker/RestTimerPill';
 import { useAuth } from './contexts/AuthContext';
 import useFirestoreData from './hooks/useFirestoreData';
 
@@ -62,6 +63,7 @@ function App() {
 
   const [activeTab, setActiveTab] = useState('routine');
   const [editingTemplate, setEditingTemplate] = useState(null);
+  const [restTimerEnd, setRestTimerEnd] = useState(null);
 
   // ---- Hooks siempre ANTES de cualquier return condicional ----
 
@@ -128,6 +130,12 @@ function App() {
   };
 
   const handleSetFieldChange = (exerciseId, setId, field, value) => {
+    // Si marcamos una serie como completada, iniciar el timer
+    if (field === 'completed' && value === true) {
+      const duration = workoutState.preferences?.defaultRestTimer || 90;
+      setRestTimerEnd(Date.now() + duration * 1000);
+    }
+
     setWorkoutState((prev) => {
       if (!prev.activeSession) return prev;
       return {
@@ -342,6 +350,14 @@ function App() {
           onSave={handleSaveTemplate}
           onCancel={() => setEditingTemplate(null)}
           onCreateExercise={handleCreateCustomExercise}
+        />
+      )}
+
+      {restTimerEnd && (
+        <RestTimerPill
+          endTime={restTimerEnd}
+          onAdd={(secs) => setRestTimerEnd((prev) => prev + secs * 1000)}
+          onStop={() => setRestTimerEnd(null)}
         />
       )}
     </>

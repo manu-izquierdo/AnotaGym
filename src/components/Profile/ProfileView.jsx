@@ -35,9 +35,47 @@ export default function ProfileView({
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) { alert('La imagen es demasiado grande. Usa una menor a 2MB.'); return; }
+    
+    // Validar tipo de archivo
+    if (!file.type.startsWith('image/')) {
+      alert('Por favor, selecciona un archivo de imagen válido.');
+      return;
+    }
+
     const reader = new FileReader();
-    reader.onloadend = () => onSavePreferences({ profilePicture: reader.result });
+    reader.onloadend = () => {
+      // Comprimir la imagen antes de guardarla para no saturar Firestore (Límite 1MB)
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_SIZE = 300; // 300px es más que suficiente para un avatar
+        let width = img.width;
+        let height = img.height;
+
+        // Mantener proporción
+        if (width > height) {
+          if (width > MAX_SIZE) {
+            height *= MAX_SIZE / width;
+            width = MAX_SIZE;
+          }
+        } else {
+          if (height > MAX_SIZE) {
+            width *= MAX_SIZE / height;
+            height = MAX_SIZE;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Exportar a JPEG comprimido (aprox 10-30KB)
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+        onSavePreferences({ profilePicture: compressedBase64 });
+      };
+      img.src = reader.result;
+    };
     reader.readAsDataURL(file);
   };
 

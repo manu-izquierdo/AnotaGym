@@ -42,7 +42,9 @@ export default function LoginView() {
     setError('');
     setLoading(true);
     const result = await loginWithGoogle();
-    if (!result.ok) setError(result.message);
+    // En móvil, loginWithGoogle() redirige la página y no devuelve resultado aquí
+    // En desktop, sí devuelve el resultado y podemos mostrar el error
+    if (result && !result.ok) setError(result.message);
     setLoading(false);
   };
 
@@ -58,7 +60,7 @@ export default function LoginView() {
         {/* Logo / Title */}
         <div className="text-center space-y-1">
           <h1 className="text-4xl font-black tracking-tight bg-gradient-to-br from-brand-400 to-brand-600 bg-clip-text text-transparent">
-            AnotoGym
+            AnotaGym
           </h1>
           <p className="text-zinc-500 text-sm">
             {mode === 'login' ? 'Bienvenido de vuelta' : 'Crea tu cuenta gratuita'}

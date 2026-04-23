@@ -4,6 +4,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   updateProfile,
 } from 'firebase/auth';
@@ -13,19 +15,31 @@ import { auth, db, googleProvider } from '../firebase';
 const AuthContext = createContext(null);
 
 /**
+ * Detecta si el usuario está en un navegador móvil.
+ * En móvil usamos signInWithRedirect en lugar de signInWithPopup
+ * porque los navegadores móviles (especialmente Safari iOS) bloquean
+ * las ventanas emergentes por política de seguridad.
+ */
+function isMobileBrowser() {
+  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+}
+
+/**
  * Traduce los códigos de error de Firebase al español.
  */
 function translateFirebaseError(code) {
   const messages = {
-    'auth/user-not-found':       'No existe ninguna cuenta con ese email',
-    'auth/wrong-password':       'Contraseña incorrecta',
-    'auth/email-already-in-use': 'Ya existe una cuenta con ese email',
-    'auth/weak-password':        'La contraseña debe tener al menos 6 caracteres',
-    'auth/invalid-email':        'El email no tiene un formato válido',
-    'auth/popup-closed-by-user': 'Cancelaste el inicio de sesión con Google',
-    'auth/network-request-failed': 'Sin conexión a internet',
-    'auth/too-many-requests':    'Demasiados intentos. Espera un momento e inténtalo de nuevo',
-    'auth/invalid-credential':   'Email o contraseña incorrectos',
+    'auth/user-not-found':          'No existe ninguna cuenta con ese email',
+    'auth/wrong-password':          'Contraseña incorrecta',
+    'auth/email-already-in-use':    'Ya existe una cuenta con ese email',
+    'auth/weak-password':           'La contraseña debe tener al menos 6 caracteres',
+    'auth/invalid-email':           'El email no tiene un formato válido',
+    'auth/popup-closed-by-user':    'Cancelaste el inicio de sesión con Google',
+    'auth/popup-blocked':           'Tu navegador bloqueó la ventana emergente. Inténtalo de nuevo.',
+    'auth/network-request-failed':  'Sin conexión a internet',
+    'auth/too-many-requests':       'Demasiados intentos. Espera un momento e inténtalo de nuevo',
+    'auth/invalid-credential':      'Email o contraseña incorrectos',
+    'auth/cancelled-popup-request': 'Solo puede abrirse una ventana de Google a la vez',
   };
   return messages[code] || 'Error inesperado. Inténtalo de nuevo';
 }
@@ -55,10 +69,13 @@ async function ensureUserProfile(firebaseUser) {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [userProfile, setUserProfile] = useState(null); // { role, displayName, ... }
-  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser]   = useState(null);
+  const [userProfile, setUserProfile]   = useState(null);
+  const [loading, setLoading]           = useState(true);
+  // Estado específico para el flujo de redirect de Google
+  const [redirectPending, setRedirectPending] = useState(false);
 
+  // ── Escucha cambios de autenticación ──
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -78,6 +95,30 @@ export function AuthProvider({ children }) {
     });
 
     return unsubscribe;
+  }, []);
+
+  // ── Maneja el resultado de signInWithRedirect (solo móvil) ──
+  // Cuando el usuario vuelve a la app tras autenticarse en Google,
+  // Firebase dispara getRedirectResult() con el resultado.
+  useEffect(() => {
+    setRedirectPending(true);
+    getRedirectResult(auth)
+      .then((result) => {
+        // result es null si no hay redirect pendiente (caso normal)
+        // Si hay resultado, onAuthStateChanged ya lo habrá manejado
+        if (result?.user) {
+          console.log('Google redirect sign-in successful:', result.user.email);
+        }
+      })
+      .catch((err) => {
+        // Solo loguear errores reales, no el caso "no redirect"
+        if (err.code && err.code !== 'auth/no-auth-event') {
+          console.error('Google redirect error:', err.code, err.message);
+        }
+      })
+      .finally(() => {
+        setRedirectPending(false);
+      });
   }, []);
 
   // ---------- Auth actions ----------
@@ -103,10 +144,27 @@ export function AuthProvider({ children }) {
     }
   }
 
+  /**
+   * Google Sign-In:
+   * - Desktop → signInWithPopup (más rápido, no recarga la página)
+   * - Móvil   → signInWithRedirect (única opción fiable en Safari iOS y Chrome Android)
+   *
+   * En móvil esta función no devuelve { ok: true } inmediatamente —
+   * redirige a Google y cuando el usuario vuelve, onAuthStateChanged
+   * se encarga de actualizar el estado.
+   */
   async function loginWithGoogle() {
     try {
-      await signInWithPopup(auth, googleProvider);
-      return { ok: true };
+      if (isMobileBrowser()) {
+        // Redirige al usuario a la página de Google.
+        // Al volver, el useEffect con getRedirectResult() procesará el resultado.
+        await signInWithRedirect(auth, googleProvider);
+        // Este return nunca se ejecuta en móvil (la página se redirige)
+        return { ok: true };
+      } else {
+        await signInWithPopup(auth, googleProvider);
+        return { ok: true };
+      }
     } catch (err) {
       return { ok: false, message: translateFirebaseError(err.code) };
     }
@@ -130,7 +188,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     userProfile,
-    loading,
+    loading: loading || redirectPending,
     isAdmin: userProfile?.role === 'admin',
     loginWithEmail,
     registerWithEmail,
@@ -141,7 +199,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {!value.loading && children}
     </AuthContext.Provider>
   );
 }

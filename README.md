@@ -28,7 +28,7 @@ A diferencia de apps como Hevy, Caliber o Strong — AnotaGym es completamente *
 
 | Feature | Descripción |
 |---------|-------------|
-| 🔐 **Autenticación** | Email + contraseña y Google Sign-In |
+| 🔐 **Autenticación** | Email + contraseña, Google Sign-In y Modo Invitado |
 | 📋 **Plantillas de rutina** | Crea rutinas con hasta 15 ejercicios |
 | 🏷️ **Tipos de serie** | Normal, Top Set, Back-off, Drop Set, Rest-Pause, Myo-Rep, Calentamiento, Al Fallo |
 | ✅ **Check de series** | Marca cada serie como completada con indicador visual |
@@ -40,6 +40,8 @@ A diferencia de apps como Hevy, Caliber o Strong — AnotaGym es completamente *
 | 💾 **Export/Import JSON** | Copia de seguridad completa de tus datos |
 | 🎨 **Temas y colores** | Modo oscuro/claro + 8 paletas de color de acento |
 | 👑 **Rol admin** | Catálogo global de ejercicios gestionado por el administrador |
+| 🛡️ **Seguridad Anti-bots** | Firebase App Check con reCAPTCHA v3 |
+| 🧹 **Mantenimiento auto** | Script en GitHub Actions para limpieza de invitados |
 
 ### 📱 ¿PWA o App nativa?
 
@@ -282,6 +284,9 @@ Una vez tengas el dominio, en Vercel o Firebase Hosting puedes conectarlo gratis
 - [x] Export / Import JSON
 - [x] Temas y paletas de color
 - [x] PWA instalable (iOS + Android)
+- [x] Modo Invitado (Anonymous Auth)
+- [x] Firebase App Check (reCAPTCHA)
+- [x] Script automático GitHub Actions para limpieza de invitados
 - [ ] Timer de descanso entre series
 - [ ] Notas por ejercicio en la sesión
 - [ ] Estadísticas por ejercicio (curva de progresión)
@@ -311,7 +316,7 @@ Unlike Hevy, Caliber or Strong — AnotaGym is completely **free, ad-free and gi
 
 | Feature | Description |
 |---------|-------------|
-| 🔐 **Authentication** | Email/password + Google Sign-In |
+| 🔐 **Authentication** | Email/password, Google Sign-In & Guest Mode |
 | 📋 **Routine Templates** | Create routines with up to 15 exercises |
 | 🏷️ **Set Types** | Normal, Top Set, Back-off, Drop Set, Rest-Pause, Myo-Rep, Warm-up, To Failure |
 | ✅ **Set Completion Check** | Mark each set as done with visual green highlight |
@@ -323,6 +328,8 @@ Unlike Hevy, Caliber or Strong — AnotaGym is completely **free, ad-free and gi
 | 💾 **Export/Import JSON** | Full data backup at any time |
 | 🎨 **Themes** | Dark/light mode + 8 accent color palettes |
 | 👑 **Admin role** | Global exercise catalog managed by admin |
+| 🛡️ **Security** | Firebase App Check with reCAPTCHA v3 |
+| 🧹 **Auto Cleanup** | GitHub Actions cron job for guest accounts cleanup |
 
 ### 🛠️ Tech Stack
 
@@ -422,6 +429,9 @@ firebase deploy
 - [x] Full data export / import (JSON)
 - [x] Themes and color palettes
 - [x] Installable PWA (iOS + Android)
+- [x] Guest Mode (Anonymous Auth)
+- [x] Firebase App Check (reCAPTCHA)
+- [x] Automated guest cleanup via GitHub Actions
 - [ ] Rest timer between sets
 - [ ] Per-exercise notes in session
 - [ ] Exercise progression chart

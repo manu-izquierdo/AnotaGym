@@ -61,14 +61,24 @@ export default function ProfileView({
         </label>
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            {user?.displayName || user?.email?.split('@')[0] || 'Atleta'}
+            {user?.displayName || user?.email?.split('@')[0] || (user?.isAnonymous ? 'Atleta Invitado' : 'Atleta')}
           </h2>
-          <p className="text-brand-600 dark:text-brand-400 text-sm font-medium">AnotoGym Pro</p>
+          <p className="text-brand-600 dark:text-brand-400 text-sm font-medium">AnotaGym</p>
           {user?.email && (
             <p className="text-xs text-zinc-500 mt-0.5">{user.email}</p>
           )}
         </div>
       </div>
+
+      {/* Guest Warning */}
+      {user?.isAnonymous && (
+        <Card className="bg-orange-500/10 border-orange-500/20 p-4">
+          <p className="text-orange-600 dark:text-orange-400 text-sm font-medium">Estás usando el Modo Invitado</p>
+          <p className="text-xs text-orange-600/80 dark:text-orange-400/80 mt-1 leading-relaxed">
+            Si cierras sesión en este navegador, perderás tus entrenamientos. En el futuro añadiremos la opción de guardar tu cuenta con Google o Email.
+          </p>
+        </Card>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3">

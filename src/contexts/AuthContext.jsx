@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
+  signInAnonymously,
   getRedirectResult,
   signOut,
   updateProfile,
@@ -167,6 +168,16 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function loginAsGuest() {
+    setRedirectError('');
+    try {
+      await signInAnonymously(auth);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, message: translateFirebaseError(err.code) };
+    }
+  }
+
   async function logout() {
     await signOut(auth);
   }
@@ -187,6 +198,7 @@ export function AuthProvider({ children }) {
     loginWithEmail,
     registerWithEmail,
     loginWithGoogle,
+    loginAsGuest,
     logout,
     refreshProfile,
   };

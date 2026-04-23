@@ -28,3 +28,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Personal dev notes — do not push to GitHub
+DEVLOG.md

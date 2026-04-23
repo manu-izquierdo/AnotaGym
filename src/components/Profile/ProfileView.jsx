@@ -63,7 +63,7 @@ export default function ProfileView({
           <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
             {user?.displayName || user?.email?.split('@')[0] || 'Atleta'}
           </h2>
-          <p className="text-brand-600 dark:text-brand-400 text-sm font-medium">Gymbro Pro</p>
+          <p className="text-brand-600 dark:text-brand-400 text-sm font-medium">AnotoGym Pro</p>
           {user?.email && (
             <p className="text-xs text-zinc-500 mt-0.5">{user.email}</p>
           )}

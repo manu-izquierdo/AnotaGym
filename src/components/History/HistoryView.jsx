@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Card } from '../UI/Card';
 import { Trash2 } from 'lucide-react';
+import { SET_TYPE_MAP } from '../Dashboard/TemplateEditor';
 
 function isoToDay(isoDate) { return (isoDate || '').slice(0, 10); }
 function sessionDate(session) { return session.finishedAt || session.startedAt; }
@@ -330,8 +331,18 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
                         <div key={exercise.id} className="flex items-start justify-between gap-2">
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 truncate">{name}</p>
-                            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
-                              {exercise.sets.map(s => `${s.reps || '-'}×${s.weight || '-'}`).join(' · ')}
+                            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 flex flex-wrap gap-1">
+                              {exercise.sets.map((s, si) => {
+                                const typeInfo = SET_TYPE_MAP[s.setType] || SET_TYPE_MAP.normal;
+                                return (
+                                  <span key={si} className="inline-flex items-center gap-0.5">
+                                    <span className={`text-[8px] font-black px-1 py-0.5 rounded ${typeInfo.color}`}>
+                                      {typeInfo.short}
+                                    </span>
+                                    <span>{s.reps || '-'}×{s.weight || '-'}</span>
+                                  </span>
+                                );
+                              })}
                             </p>
                           </div>
                           <div className="flex flex-col items-end shrink-0">

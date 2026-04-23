@@ -7,7 +7,7 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
       
       {/* Top Header */}
       <header className="sticky top-0 z-10 backdrop-blur-xl bg-white/70 dark:bg-[#09090b]/70 border-b border-zinc-200 dark:border-zinc-800/80 px-4 py-4 flex items-center justify-between transition-colors duration-300">
-        <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-brand-500 to-brand-700 dark:from-brand-400 dark:to-brand-600 bg-clip-text text-transparent">GymLog</h1>
+        <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-brand-500 to-brand-700 dark:from-brand-400 dark:to-brand-600 bg-clip-text text-transparent">AnotoGym</h1>
         <button
           type="button"
           onClick={onProfileClick}

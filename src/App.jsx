@@ -33,14 +33,16 @@ export const ACCENT_NAMES = {
   pink:   'Rosa',
 };
 
-const createSessionSets = (templateExerciseId, targetSets) =>
-  Array.from({ length: targetSets }, (_, index) => ({
-    id: `${templateExerciseId}-set-${index + 1}`,
+const createSessionSets = (templateExercise) =>
+  Array.from({ length: templateExercise.targetSets }, (_, index) => ({
+    id: `${templateExercise.id}-set-${index + 1}`,
     order: index + 1,
     weight: '',
     reps: '',
     effort: '',
     completed: false,
+    // Inherit set type from the template plan (falls back to 'normal')
+    setType: templateExercise.setTypes?.[index] || 'normal',
   }));
 
 function App() {
@@ -61,24 +63,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('routine');
   const [editingTemplate, setEditingTemplate] = useState(null);
 
-  // Mostrar la app vacía con un loading mientras Firestore carga
-  if (!currentUser) {
-    return <LoginView />;
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center gap-4">
-        <svg className="animate-spin w-8 h-8 text-brand-500" viewBox="0 0 24 24" fill="none">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-        </svg>
-        <p className="text-zinc-500 text-sm">Cargando tu información…</p>
-      </div>
-    );
-  }
-
-  // ---- Theme & accent effects ----
+  // ---- Hooks siempre ANTES de cualquier return condicional ----
 
   useEffect(() => {
     const isLight = workoutState.preferences?.theme === 'light';
@@ -99,6 +84,24 @@ function App() {
     }
   }, []); // Solo al montar
 
+  // ---- Returns condicionales DESPUÉS de todos los hooks ----
+
+  if (!currentUser) {
+    return <LoginView />;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center gap-4">
+        <svg className="animate-spin w-8 h-8 text-brand-500" viewBox="0 0 24 24" fill="none">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+        </svg>
+        <p className="text-zinc-500 text-sm">Cargando tu información…</p>
+      </div>
+    );
+  }
+
   // ---- Session handlers ----
 
   const handleStartTraining = (templateId) => {
@@ -115,7 +118,8 @@ function App() {
         exerciseId: exercise.exerciseId,
         targetSets: exercise.targetSets,
         targetReps: exercise.targetReps,
-        sets: createSessionSets(exercise.id, exercise.targetSets),
+        setTypes: exercise.setTypes || [],
+        sets: createSessionSets(exercise),
       })),
     };
 

@@ -9,9 +9,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Gym Tracker PWA',
-        short_name: 'GymLog',
-        description: 'Libreta minimalista para seguimiento de rutinas',
+        name: 'AnotaGym: Tu Agenda para el Gym',
+        short_name: 'AnotaGym',
+        description: 'Tu agenda inteligente para el gimnasio. Registra rutinas, sigue tu progreso y sincroniza en todos tus dispositivos.',
         theme_color: '#09090b', // zinc-950
         background_color: '#09090b',
         display: 'standalone',

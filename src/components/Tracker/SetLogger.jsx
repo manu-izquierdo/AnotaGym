@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { Card, Button } from '../UI/Card';
-import { PlayCircle } from 'lucide-react';
+import { PlayCircle, Check } from 'lucide-react';
+import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
 
-// Epley formula: 1RM = weight × (1 + reps/30)
+// ─── 1RM Estimation (Epley formula) ─────────────────────────────────────────
 // Most accurate between 2–12 reps.
 function estimateRM(weight, reps) {
   const w = parseFloat(weight);
@@ -16,6 +17,8 @@ function estimateRM(weight, reps) {
     rm8: Math.round(rm1 * 0.80 * 2) / 2,
   };
 }
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
 
 function RmBadge({ label, value, unit, prev, isHigher }) {
   const deltaColor = prev == null
@@ -35,6 +38,41 @@ function RmBadge({ label, value, unit, prev, isHigher }) {
   );
 }
 
+/** Small chip showing the set type with its color */
+function SetTypeBadge({ typeId, size = 'sm' }) {
+  const type = SET_TYPE_MAP[typeId] || SET_TYPE_MAP.normal;
+  const sizeClass = size === 'xs'
+    ? 'text-[8px] px-1.5 py-0.5'
+    : 'text-[10px] px-2 py-0.5';
+  return (
+    <span className={`font-black rounded-md ${type.color} ${sizeClass}`}>
+      {type.short}
+    </span>
+  );
+}
+
+/** Inline type picker — horizontal scroll row of chips */
+function InlineTypePicker({ current, onChange }) {
+  return (
+    <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+      {SET_TYPES.map((type) => (
+        <button
+          key={type.id}
+          onClick={() => onChange(type.id)}
+          className={`shrink-0 text-[9px] font-black px-2 py-1 rounded-md transition-all border-2 ${type.color} ${
+            current === type.id ? 'border-white/60 scale-110' : 'border-transparent opacity-60 hover:opacity-100'
+          }`}
+          title={type.desc}
+        >
+          {type.short}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+
 export default function SetLogger({
   activeSession,
   completedSessions,
@@ -44,8 +82,15 @@ export default function SetLogger({
   onFinishSession,
   onCancelSession,
 }) {
-  const getExerciseById = (exerciseId) =>
-    exerciseLibrary.find((exercise) => exercise.id === exerciseId);
+  // Track which set has the type-picker open: { exerciseId, setId }
+  const [openTypePicker, setOpenTypePicker] = useState(null);
+
+  const getExerciseById = useCallback(
+    (exerciseId) => exerciseLibrary.find((exercise) => exercise.id === exerciseId),
+    [exerciseLibrary]
+  );
+
+  // ── Previous session data ──
 
   const previousSessionByExercise = useMemo(() => {
     const previousByExercise = {};
@@ -80,6 +125,19 @@ export default function SetLogger({
     return result;
   }, [previousSessionByExercise]);
 
+  // ── Completion progress ──
+  const completedCount = useMemo(() => {
+    if (!activeSession) return { done: 0, total: 0 };
+    let done = 0, total = 0;
+    activeSession.exercises.forEach((ex) => {
+      ex.sets.forEach((set) => {
+        total++;
+        if (set.completed) done++;
+      });
+    });
+    return { done, total };
+  }, [activeSession]);
+
   if (!activeSession) {
     return (
       <div className="p-4 h-full flex items-center justify-center">
@@ -93,13 +151,35 @@ export default function SetLogger({
     );
   }
 
+  const progressPct = completedCount.total > 0
+    ? Math.round((completedCount.done / completedCount.total) * 100)
+    : 0;
+
   return (
     <div className="p-4 space-y-6 pb-10">
+      {/* Session header */}
       <div className="mb-2">
-        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Sesión Activa</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+          Sesión Activa
+        </h2>
         <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">{activeSession.templateName}</p>
+
+        {/* Progress bar */}
+        <div className="mt-3 space-y-1">
+          <div className="flex justify-between text-[11px] text-zinc-500">
+            <span>{completedCount.done} / {completedCount.total} series completadas</span>
+            <span className="font-bold">{progressPct}%</span>
+          </div>
+          <div className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-brand-500 rounded-full transition-all duration-300"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
+        </div>
       </div>
 
+      {/* Exercise cards */}
       {activeSession.exercises.map((exercise) => (
         <Card key={exercise.id} className="space-y-4">
           <div className="mb-1">
@@ -112,7 +192,7 @@ export default function SetLogger({
           </div>
 
           <div className="space-y-3">
-            {exercise.sets.map((set) => {
+            {exercise.sets.map((set, setArrayIdx) => {
               const previousSet = previousSessionByExercise[exercise.exerciseId]?.[set.order - 1];
               const previousWeight = previousSet?.weight || '';
               const previousReps = previousSet?.reps || '';
@@ -123,22 +203,73 @@ export default function SetLogger({
               // Previous session best RM for comparison
               const prevBestRm = prevRmByExercise[exercise.exerciseId];
 
+              // Set type
+              const setTypeId = set.setType || 'normal';
+              const pickerKey = `${exercise.id}:${set.id}`;
+              const isPickerOpen = openTypePicker === pickerKey;
+
               return (
-                <div key={set.id} className="flex flex-col gap-3 p-3.5 bg-zinc-50 dark:bg-zinc-950 rounded-xl border border-zinc-200 dark:border-zinc-800/80 transition-all">
-                  {/* Set header */}
+                <div
+                  key={set.id}
+                  className={`flex flex-col gap-3 p-3.5 rounded-xl border transition-all ${
+                    set.completed
+                      ? 'bg-emerald-50 dark:bg-emerald-950/25 border-emerald-300 dark:border-emerald-800/60'
+                      : 'bg-zinc-50 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800/80'
+                  }`}
+                >
+                  {/* Set header: number + type badge + complete toggle */}
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm">
-                      {exerciseName}
-                      <span className="text-zinc-400 dark:text-zinc-500 font-normal text-xs ml-1.5">
-                        #{set.order} · obj. {exercise.targetReps} reps
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm">
+                        {exerciseName}
+                        <span className="text-zinc-400 dark:text-zinc-500 font-normal text-xs ml-1.5">
+                          #{set.order} · obj. {exercise.targetReps} reps
+                        </span>
                       </span>
-                    </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {/* Set type badge — tap to open inline picker */}
+                      <button
+                        onClick={() => setOpenTypePicker(isPickerOpen ? null : pickerKey)}
+                        className="flex items-center"
+                        title="Cambiar tipo de serie"
+                      >
+                        <SetTypeBadge typeId={setTypeId} />
+                      </button>
+
+                      {/* Complete toggle */}
+                      <button
+                        onClick={() => onSetFieldChange(exercise.id, set.id, 'completed', !set.completed)}
+                        className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all ${
+                          set.completed
+                            ? 'bg-emerald-500 border-emerald-500 text-white'
+                            : 'border-zinc-300 dark:border-zinc-700 text-transparent hover:border-brand-400'
+                        }`}
+                        aria-label="Marcar serie como completada"
+                      >
+                        <Check size={13} strokeWidth={3} />
+                      </button>
+                    </div>
                   </div>
+
+                  {/* Inline type picker */}
+                  {isPickerOpen && (
+                    <InlineTypePicker
+                      current={setTypeId}
+                      onChange={(newType) => {
+                        onSetFieldChange(exercise.id, set.id, 'setType', newType);
+                        setOpenTypePicker(null);
+                      }}
+                    />
+                  )}
 
                   {/* Inputs */}
                   <div className="grid grid-cols-3 gap-2">
                     <div className="flex flex-col gap-1">
-                      <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Peso ({unit})</label>
+                      <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
+                        Peso ({unit})
+                      </label>
                       <input
                         type="number"
                         step="0.5"
@@ -151,7 +282,9 @@ export default function SetLogger({
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Reps</label>
+                      <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
+                        Reps
+                      </label>
                       <input
                         type="number"
                         value={set.reps}
@@ -163,7 +296,9 @@ export default function SetLogger({
                       />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">RIR</label>
+                      <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
+                        RIR
+                      </label>
                       <input
                         type="text"
                         value={set.effort}

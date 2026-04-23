@@ -58,7 +58,7 @@ export default function LoginView() {
         {/* Logo / Title */}
         <div className="text-center space-y-1">
           <h1 className="text-4xl font-black tracking-tight bg-gradient-to-br from-brand-400 to-brand-600 bg-clip-text text-transparent">
-            GymLog
+            AnotoGym
           </h1>
           <p className="text-zinc-500 text-sm">
             {mode === 'login' ? 'Bienvenido de vuelta' : 'Crea tu cuenta gratuita'}

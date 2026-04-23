@@ -14,14 +14,17 @@ function GoogleIcon() {
 }
 
 export default function LoginView() {
-  const { loginWithEmail, registerWithEmail, loginWithGoogle } = useAuth();
+  const { loginWithEmail, registerWithEmail, loginWithGoogle, redirectError } = useAuth();
 
-  const [mode, setMode] = useState('login'); // 'login' | 'register'
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [mode, setMode]               = useState('login'); // 'login' | 'register'
+  const [email, setEmail]             = useState('');
+  const [password, setPassword]       = useState('');
   const [displayName, setDisplayName] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError]             = useState('');
+  const [loading, setLoading]         = useState(false);
+
+  // Mostrar el error del redirect de Google si existe
+  const displayError = error || redirectError;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,8 +45,8 @@ export default function LoginView() {
     setError('');
     setLoading(true);
     const result = await loginWithGoogle();
-    // En móvil, loginWithGoogle() redirige la página y no devuelve resultado aquí
-    // En desktop, sí devuelve el resultado y podemos mostrar el error
+    // En móvil, loginWithGoogle() hace redirect y nunca devuelve aquí
+    // En desktop, sí devuelve y podemos mostrar el error
     if (result && !result.ok) setError(result.message);
     setLoading(false);
   };
@@ -70,6 +73,24 @@ export default function LoginView() {
         {/* Card */}
         <div className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6 shadow-2xl space-y-5">
 
+          {/* Error global (incluye errores de redirect de Google) */}
+          {displayError && (
+            <div className="bg-red-950/60 border border-red-800/50 rounded-xl px-4 py-3 space-y-1">
+              <p className="text-red-400 text-xs font-medium">{displayError}</p>
+              {/* Ayuda contextual según el tipo de error */}
+              {displayError.includes('Dominio no autorizado') && (
+                <p className="text-red-300/70 text-[11px] leading-tight">
+                  En Firebase Console → Authentication → Settings → Authorized domains → añade tu IP local.
+                </p>
+              )}
+              {displayError.includes('otro método') && (
+                <p className="text-red-300/70 text-[11px] leading-tight">
+                  Si te registraste con Google, usa el botón "Continuar con Google". El email y contraseña de Gmail no funcionan aquí.
+                </p>
+              )}
+            </div>
+          )}
+
           {/* Google button */}
           <button
             type="button"
@@ -78,8 +99,17 @@ export default function LoginView() {
             className="w-full flex items-center justify-center gap-3 bg-white hover:bg-zinc-100 text-zinc-900 font-semibold text-sm py-3 px-4 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <GoogleIcon />
-            Continuar con Google
+            {loading ? 'Conectando...' : 'Continuar con Google'}
           </button>
+
+          {/* Info: Google vs email/password */}
+          <div className="bg-zinc-800/50 rounded-xl px-3 py-2.5 border border-zinc-700/40">
+            <p className="text-[11px] text-zinc-400 leading-relaxed">
+              <span className="font-semibold text-zinc-300">ℹ️ Importante:</span> Si te registraste con Google,
+              usa siempre el botón de arriba. El formulario de email es
+              solo para cuentas creadas con email + contraseña.
+            </p>
+          </div>
 
           {/* Divider */}
           <div className="flex items-center gap-3">
@@ -136,7 +166,7 @@ export default function LoginView() {
               />
             </div>
 
-            {error && (
+            {error && !redirectError && (
               <div className="bg-red-950/50 border border-red-800/50 rounded-xl px-4 py-3">
                 <p className="text-red-400 text-xs font-medium">{error}</p>
               </div>

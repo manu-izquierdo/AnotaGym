@@ -15,39 +15,38 @@ import { auth, db, googleProvider } from '../firebase';
 const AuthContext = createContext(null);
 
 /**
- * Detecta si el usuario está en un navegador móvil.
- * En móvil usamos signInWithRedirect en lugar de signInWithPopup
- * porque los navegadores móviles (especialmente Safari iOS) bloquean
- * las ventanas emergentes por política de seguridad.
+ * Detecta navegador móvil para elegir popup vs redirect.
+ * Safari iOS bloquea popups → usamos redirect.
  */
 function isMobileBrowser() {
   return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
 }
 
 /**
- * Traduce los códigos de error de Firebase al español.
+ * Traduce códigos de error Firebase al español.
  */
 function translateFirebaseError(code) {
   const messages = {
-    'auth/user-not-found':          'No existe ninguna cuenta con ese email',
-    'auth/wrong-password':          'Contraseña incorrecta',
-    'auth/email-already-in-use':    'Ya existe una cuenta con ese email',
-    'auth/weak-password':           'La contraseña debe tener al menos 6 caracteres',
-    'auth/invalid-email':           'El email no tiene un formato válido',
-    'auth/popup-closed-by-user':    'Cancelaste el inicio de sesión con Google',
-    'auth/popup-blocked':           'Tu navegador bloqueó la ventana emergente. Inténtalo de nuevo.',
-    'auth/network-request-failed':  'Sin conexión a internet',
-    'auth/too-many-requests':       'Demasiados intentos. Espera un momento e inténtalo de nuevo',
-    'auth/invalid-credential':      'Email o contraseña incorrectos',
-    'auth/cancelled-popup-request': 'Solo puede abrirse una ventana de Google a la vez',
+    'auth/user-not-found':              'No existe ninguna cuenta con ese email',
+    'auth/wrong-password':              'Contraseña incorrecta',
+    'auth/email-already-in-use':        'Ya existe una cuenta con ese email',
+    'auth/weak-password':               'La contraseña debe tener al menos 6 caracteres',
+    'auth/invalid-email':               'El email no tiene un formato válido',
+    'auth/popup-closed-by-user':        'Cancelaste el inicio de sesión con Google',
+    'auth/popup-blocked':               'Tu navegador bloqueó la ventana. Inténtalo de nuevo',
+    'auth/network-request-failed':      'Sin conexión a internet',
+    'auth/too-many-requests':           'Demasiados intentos. Espera e inténtalo de nuevo',
+    'auth/invalid-credential':          'Email o contraseña incorrectos',
+    'auth/cancelled-popup-request':     'Solo puede abrirse una ventana de Google a la vez',
+    'auth/unauthorized-domain':         'Dominio no autorizado. Añade esta IP a Firebase Console → Authentication → Authorized domains',
+    'auth/redirect-cancelled-by-user':  'Cancelaste el inicio de sesión con Google',
+    'auth/operation-not-allowed':       'Este método de inicio de sesión no está habilitado en Firebase',
+    'auth/account-exists-with-different-credential':
+      'Ya existe una cuenta con este email usando otro método (ej: email/contraseña)',
   };
-  return messages[code] || 'Error inesperado. Inténtalo de nuevo';
+  return messages[code] || `Error inesperado (${code || 'desconocido'}). Inténtalo de nuevo`;
 }
 
-/**
- * Crea o recupera el perfil del usuario en Firestore.
- * Si es la primera vez que entra, crea el documento con role: 'user'.
- */
 async function ensureUserProfile(firebaseUser) {
   const profileRef = doc(db, 'users', firebaseUser.uid, 'profile', 'data');
   const snap = await getDoc(profileRef);
@@ -69,13 +68,14 @@ async function ensureUserProfile(firebaseUser) {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser]   = useState(null);
-  const [userProfile, setUserProfile]   = useState(null);
-  const [loading, setLoading]           = useState(true);
-  // Estado específico para el flujo de redirect de Google
+  const [currentUser, setCurrentUser]         = useState(null);
+  const [userProfile, setUserProfile]         = useState(null);
+  const [loading, setLoading]                 = useState(true);
   const [redirectPending, setRedirectPending] = useState(false);
+  // Error del redirect (lo pasamos al LoginView para mostrarlo)
+  const [redirectError, setRedirectError]     = useState('');
 
-  // ── Escucha cambios de autenticación ──
+  // ── Listener de autenticación ──
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -93,27 +93,26 @@ export function AuthProvider({ children }) {
       }
       setLoading(false);
     });
-
     return unsubscribe;
   }, []);
 
-  // ── Maneja el resultado de signInWithRedirect (solo móvil) ──
-  // Cuando el usuario vuelve a la app tras autenticarse en Google,
-  // Firebase dispara getRedirectResult() con el resultado.
+  // ── Procesa el resultado del redirect de Google (solo móvil) ──
   useEffect(() => {
     setRedirectPending(true);
     getRedirectResult(auth)
       .then((result) => {
-        // result es null si no hay redirect pendiente (caso normal)
-        // Si hay resultado, onAuthStateChanged ya lo habrá manejado
         if (result?.user) {
-          console.log('Google redirect sign-in successful:', result.user.email);
+          // Login correcto — onAuthStateChanged ya actualizará el estado
+          setRedirectError('');
+          console.log('[AnotaGym] Google redirect OK:', result.user.email);
         }
+        // result === null → no había redirect pendiente (caso normal en desktop)
       })
       .catch((err) => {
-        // Solo loguear errores reales, no el caso "no redirect"
-        if (err.code && err.code !== 'auth/no-auth-event') {
-          console.error('Google redirect error:', err.code, err.message);
+        console.error('[AnotaGym] Google redirect error:', err.code, err.message);
+        // Mostramos el error traducido al usuario en el LoginView
+        if (err.code) {
+          setRedirectError(translateFirebaseError(err.code));
         }
       })
       .finally(() => {
@@ -135,9 +134,7 @@ export function AuthProvider({ children }) {
   async function registerWithEmail(email, password, displayName) {
     try {
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
-      if (displayName) {
-        await updateProfile(user, { displayName });
-      }
+      if (displayName) await updateProfile(user, { displayName });
       return { ok: true };
     } catch (err) {
       return { ok: false, message: translateFirebaseError(err.code) };
@@ -146,27 +143,27 @@ export function AuthProvider({ children }) {
 
   /**
    * Google Sign-In:
-   * - Desktop → signInWithPopup (más rápido, no recarga la página)
-   * - Móvil   → signInWithRedirect (única opción fiable en Safari iOS y Chrome Android)
+   * - Desktop  → signInWithPopup  (sin recarga de página)
+   * - Móvil    → signInWithRedirect (única opción fiable en Safari iOS)
    *
-   * En móvil esta función no devuelve { ok: true } inmediatamente —
-   * redirige a Google y cuando el usuario vuelve, onAuthStateChanged
-   * se encarga de actualizar el estado.
+   * REQUISITO: la IP/dominio desde donde accedes debe estar en
+   * Firebase Console → Authentication → Settings → Authorized domains
    */
   async function loginWithGoogle() {
+    setRedirectError('');
     try {
       if (isMobileBrowser()) {
-        // Redirige al usuario a la página de Google.
-        // Al volver, el useEffect con getRedirectResult() procesará el resultado.
+        // Inicia el redirect — la página se recarga al volver de Google
         await signInWithRedirect(auth, googleProvider);
-        // Este return nunca se ejecuta en móvil (la página se redirige)
+        // Este código no se ejecuta en móvil (redirect)
         return { ok: true };
       } else {
         await signInWithPopup(auth, googleProvider);
         return { ok: true };
       }
     } catch (err) {
-      return { ok: false, message: translateFirebaseError(err.code) };
+      const msg = translateFirebaseError(err.code);
+      return { ok: false, message: msg };
     }
   }
 
@@ -174,10 +171,6 @@ export function AuthProvider({ children }) {
     await signOut(auth);
   }
 
-  /**
-   * Refresca el perfil del usuario desde Firestore
-   * (útil después de que el admin cambie su propio rol en consola).
-   */
   async function refreshProfile() {
     if (!currentUser) return;
     const profileRef = doc(db, 'users', currentUser.uid, 'profile', 'data');
@@ -190,6 +183,7 @@ export function AuthProvider({ children }) {
     userProfile,
     loading: loading || redirectPending,
     isAdmin: userProfile?.role === 'admin',
+    redirectError,           // ← Error del redirect visible en el LoginView
     loginWithEmail,
     registerWithEmail,
     loginWithGoogle,

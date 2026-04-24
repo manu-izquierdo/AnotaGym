@@ -321,7 +321,10 @@ export default function TemplateEditor({
   // ── Render ──
 
   return (
-    <div className="fixed inset-0 bg-zinc-950 text-white z-50 p-4 overflow-y-auto">
+    <div 
+      className="fixed inset-0 bg-zinc-950 text-white z-50 p-4 overflow-y-auto"
+      style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))', paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+    >
       <header className="flex justify-between items-center mb-6">
         <button onClick={onCancel} className="text-zinc-400 p-2">
           Cancelar

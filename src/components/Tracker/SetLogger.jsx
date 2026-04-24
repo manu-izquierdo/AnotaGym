@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { Card, Button } from '../UI/Card';
-import { PlayCircle, Check } from 'lucide-react';
+import { PlayCircle, Check, BookOpen } from 'lucide-react';
 import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
 
 // ─── 1RM Estimation (Epley formula) ─────────────────────────────────────────
@@ -79,11 +79,13 @@ export default function SetLogger({
   exerciseLibrary,
   unit,
   onSetFieldChange,
+  onExerciseFieldChange,
   onFinishSession,
   onCancelSession,
 }) {
   // Track which set has the type-picker open: { exerciseId, setId }
   const [openTypePicker, setOpenTypePicker] = useState(null);
+  const [openNotes, setOpenNotes] = useState({});
 
   const getExerciseById = useCallback(
     (exerciseId) => exerciseLibrary.find((exercise) => exercise.id === exerciseId),
@@ -183,13 +185,34 @@ export default function SetLogger({
       {activeSession.exercises.map((exercise) => (
         <Card key={exercise.id} className="space-y-4">
           <div className="mb-1">
-            <h3 className="text-zinc-900 dark:text-zinc-100 font-bold text-lg">
-              {getExerciseById(exercise.exerciseId)?.name || 'Ejercicio desconocido'}
-            </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-zinc-900 dark:text-zinc-100 font-bold text-lg">
+                {getExerciseById(exercise.exerciseId)?.name || 'Ejercicio desconocido'}
+              </h3>
+              <button 
+                onClick={() => setOpenNotes(p => ({ ...p, [exercise.id]: !p[exercise.id] }))}
+                className={`p-1.5 rounded-lg transition-colors ${openNotes[exercise.id] || exercise.notes ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/20' : 'text-zinc-400 hover:text-brand-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
+                title="Añadir notas"
+              >
+                <BookOpen size={16} />
+              </button>
+            </div>
             <p className="text-sm text-zinc-500">
               Objetivo: {exercise.targetSets} sets · {exercise.targetReps} reps
             </p>
           </div>
+
+          {(openNotes[exercise.id] || exercise.notes) && (
+            <div className="animate-in fade-in slide-in-from-top-2">
+              <textarea
+                className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-sm resize-none focus:border-brand-500 outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 transition-all"
+                placeholder="Apunta sensaciones, técnica, progreso..."
+                value={exercise.notes || ''}
+                onChange={e => onExerciseFieldChange(exercise.id, 'notes', e.target.value)}
+                rows={2}
+              />
+            </div>
+          )}
 
           <div className="space-y-3">
             {exercise.sets.map((set, setArrayIdx) => {

@@ -86,6 +86,35 @@ function App() {
     }
   }, []); // Solo al montar
 
+  useEffect(() => {
+    // Interceptar enlaces compartidos
+    const params = new URLSearchParams(window.location.search);
+    const importData = params.get('importRoutine');
+    
+    if (importData && currentUser && !loading) {
+      try {
+        const decoded = JSON.parse(decodeURIComponent(atob(importData)));
+        if (decoded && decoded.name && decoded.exercises) {
+          if (window.confirm(`¿Alguien ha compartido contigo la rutina "${decoded.name}". ¿Quieres importarla a tu catálogo?`)) {
+            const newRoutine = {
+              ...decoded,
+              id: `template-${Date.now()}`,
+              exercises: decoded.exercises.map(ex => ({ ...ex, id: `${ex.exerciseId}-${crypto.randomUUID()}` }))
+            };
+            handleSaveTemplate(newRoutine);
+            alert('¡Rutina importada con éxito!');
+          }
+        }
+      } catch (e) {
+        console.error('Error importando rutina compartida', e);
+        alert('El enlace de la rutina es inválido o está corrupto.');
+      }
+      
+      // Limpiar URL para no importar infinitamente
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [currentUser, loading]); // Esperar a que el usuario cargue para tener workoutState disponible
+
   // ---- Returns condicionales DESPUÉS de todos los hooks ----
 
   if (!currentUser) {
@@ -153,6 +182,21 @@ function App() {
                   ),
                 }
               : exercise
+          ),
+        },
+      };
+    });
+  };
+
+  const handleExerciseFieldChange = (exerciseId, field, value) => {
+    setWorkoutState((prev) => {
+      if (!prev.activeSession) return prev;
+      return {
+        ...prev,
+        activeSession: {
+          ...prev.activeSession,
+          exercises: prev.activeSession.exercises.map((ex) =>
+            ex.id === exerciseId ? { ...ex, [field]: value } : ex
           ),
         },
       };
@@ -302,6 +346,7 @@ function App() {
               exerciseLibrary={exercises}
               unit={workoutState.preferences?.unit || 'kg'}
               onSetFieldChange={handleSetFieldChange}
+              onExerciseFieldChange={handleExerciseFieldChange}
               onFinishSession={handleFinishSession}
               onCancelSession={handleCancelSession}
             />

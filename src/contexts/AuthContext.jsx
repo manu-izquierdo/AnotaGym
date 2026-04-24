@@ -55,8 +55,8 @@ async function ensureUserProfile(firebaseUser) {
   if (!snap.exists()) {
     const profileData = {
       uid: firebaseUser.uid,
-      email: firebaseUser.email,
-      displayName: firebaseUser.displayName || firebaseUser.email.split('@')[0],
+      email: firebaseUser.email || null,
+      displayName: firebaseUser.displayName || (firebaseUser.email ? firebaseUser.email.split('@')[0] : 'Invitado'),
       photoURL: firebaseUser.photoURL || null,
       role: 'user',
       createdAt: serverTimestamp(),

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Card, Button, Input } from '../UI/Card';
 import { ACCENT_PALETTES, ACCENT_NAMES } from '../../App';
 import { Download, Upload, Dumbbell, Shield } from 'lucide-react';
+import { getMuscleImage } from '../../data/muscleImages';
 
 export default function SettingsView({
   exercises,
@@ -220,12 +221,21 @@ export default function SettingsView({
 
           <div className="space-y-2 max-h-56 overflow-y-auto pr-2">
             {safeExercises.map((exercise) => (
-              <div key={exercise.id} className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
-                <div>
+              <div key={exercise.id} className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-2 last:border-0">
+                <img 
+                  src={exercise.imageUrl || getMuscleImage(exercise.muscleGroup)} 
+                  alt={exercise.muscleGroup}
+                  className="w-10 h-10 rounded-md object-cover bg-zinc-900 border border-zinc-700/50 flex-shrink-0"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = getMuscleImage(exercise.muscleGroup);
+                  }}
+                />
+                <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-200">{exercise.name}</p>
+                    <p className="text-sm font-medium text-zinc-900 dark:text-zinc-200 truncate">{exercise.name}</p>
                     {exercise._source === 'global' && (
-                      <span className="text-[9px] font-bold uppercase tracking-wider text-brand-500 bg-brand-50 dark:bg-brand-950/40 px-1.5 py-0.5 rounded-full">Global</span>
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-brand-500 bg-brand-50 dark:bg-brand-950/40 px-1.5 py-0.5 rounded-full flex-shrink-0">Global</span>
                     )}
                   </div>
                   <p className="text-xs text-zinc-500">{exercise.muscleGroup}</p>

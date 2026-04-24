@@ -11,6 +11,8 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { defaultExerciseLibrary } from '../data/exerciseLibrary';
+import { extendedExerciseLibrary } from '../data/extendedLibrary';
+import { generateUUID } from '../utils/uuid';
 
 const DEFAULT_WORKOUT_STATE = {
   routineTemplates: [],
@@ -122,7 +124,7 @@ export default function useFirestoreData(uid, isAdmin) {
    */
   const addExercise = useCallback(async (exerciseData) => {
     const exercise = {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       name: exerciseData.name.trim(),
       muscleGroup: exerciseData.muscleGroup.trim(),
       equipment: exerciseData.equipment || 'Custom',
@@ -181,7 +183,7 @@ export default function useFirestoreData(uid, isAdmin) {
       ...globalExercises.map((e) => e.id),
       ...privateExercises.map((e) => e.id),
     ]);
-    const missing = defaultExerciseLibrary.filter((e) => !allIds.has(e.id));
+    const missing = [...defaultExerciseLibrary, ...extendedExerciseLibrary].filter((e) => !allIds.has(e.id));
 
     await Promise.all(
       missing.map((exercise) => {
@@ -195,11 +197,27 @@ export default function useFirestoreData(uid, isAdmin) {
   }, [uid, isAdmin, globalExercises, privateExercises]);
 
   // Fusión de ejercicios: globales primero, luego privados (sin duplicados)
-  const globalIds = new Set(globalExercises.map((e) => e.id));
-  const exercises = [
+  const allExercisesRaw = [
+    ...defaultExerciseLibrary,
+    ...extendedExerciseLibrary,
     ...globalExercises,
-    ...privateExercises.filter((e) => !globalIds.has(e.id)),
+    ...privateExercises,
   ];
+
+  // Eliminar duplicados por ID (prevalecen los que tengan imagen o los últimos de la lista)
+  const exercisesMap = new Map();
+  allExercisesRaw.forEach(ex => {
+    const existing = exercisesMap.get(ex.id);
+    // Si no existe, lo añadimos. 
+    // Si ya existe, solo lo sobreescribimos si el nuevo tiene imagen y el viejo no, o si el nuevo es de una fuente más "fresca" (Firestore)
+    if (!existing || (!existing.imageUrl && ex.imageUrl) || ex._source === 'global' || ex._source === 'private') {
+      // Combinar propiedades para no perder la imageUrl si la tenemos localmente
+      exercisesMap.set(ex.id, { ...existing, ...ex, imageUrl: ex.imageUrl || existing?.imageUrl });
+    }
+  });
+  const exercises = Array.from(exercisesMap.values()).sort((a, b) => 
+    (a.name || '').localeCompare(b.name || '')
+  );
 
   // ---- Export / Import ----
 

@@ -40,6 +40,8 @@ A diferencia de apps como Hevy, Caliber o Strong — AnotaGym es completamente *
 | 💾 **Export/Import JSON** | Copia de seguridad completa de tus datos |
 | 🎨 **Temas y colores** | Modo oscuro/claro + 8 paletas de color de acento |
 | 👑 **Rol admin** | Catálogo global de ejercicios gestionado por el administrador |
+| 📚 **Base de Datos Masiva** | 100 ejercicios base + 1300 ejercicios adicionales open-source con imágenes demostrativas de alta calidad (Cero configuración, servidas desde GitHub CDN). |
+| 🔍 **Buscador Inteligente** | Filtrado en tiempo real en el creador de rutinas. |
 | 🛡️ **Seguridad Anti-bots** | Firebase App Check con reCAPTCHA v3 |
 | 🧹 **Mantenimiento auto** | Script en GitHub Actions para limpieza de invitados |
 
@@ -181,7 +183,7 @@ anotagym/
 │   ├── contexts/
 │   │   └── AuthContext.jsx     # Context de autenticación Firebase
 │   ├── data/
-│   │   └── exerciseLibrary.js  # Catálogo de ejercicios por defecto
+│   │   ├── exerciseLibrary.js  # Catálogo de ejercicios por defecto (Extensive Exercise Library: 100 base exercises + 1300 extended open-source exercises with high-quality demonstration images (Zero-config GitHub CDN). Smart Exercise Search: Real-time filtering in the template editor.)
 │   ├── hooks/
 │   │   ├── useFirestoreData.js # Hook principal: sync Firestore ↔ estado
 │   │   └── useLocalStorage.js  # Hook auxiliar de localStorage

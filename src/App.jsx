@@ -10,6 +10,7 @@ import SettingsView from './components/Profile/SettingsView';
 import RestTimerPill from './components/Tracker/RestTimerPill';
 import { useAuth } from './contexts/AuthContext';
 import useFirestoreData from './hooks/useFirestoreData';
+import { generateUUID } from './utils/uuid';
 
 // RGB triplets for each accent palette (no # prefix — needed for Tailwind CSS var opacity)
 export const ACCENT_PALETTES = {
@@ -99,7 +100,7 @@ function App() {
             const newRoutine = {
               ...decoded,
               id: `template-${Date.now()}`,
-              exercises: decoded.exercises.map(ex => ({ ...ex, id: `${ex.exerciseId}-${crypto.randomUUID()}` }))
+              exercises: decoded.exercises.map(ex => ({ ...ex, id: `${ex.exerciseId}-${generateUUID()}` }))
             };
             handleSaveTemplate(newRoutine);
             alert('¡Rutina importada con éxito!');
@@ -229,7 +230,7 @@ function App() {
 
       const completedSession = {
         ...prev.activeSession,
-        id: crypto.randomUUID(),
+        id: generateUUID(),
         finishedAt: new Date().toISOString(),
         exercises: cleanedExercises,
       };

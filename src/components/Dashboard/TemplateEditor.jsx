@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from 'react';
+import { generateUUID } from '../../utils/uuid';
+import { getMuscleImage } from '../../data/muscleImages';
 
 const MAX_EXERCISES_PER_TEMPLATE = 15;
 const MIN_SETS_PER_EXERCISE = 1;
@@ -25,7 +27,7 @@ const DEFAULT_SET_TYPE = 'normal';
 const createDraftFromTemplate = (template) => {
   if (!template) {
     return {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       name: 'Nueva Rutina',
       focus: 'Upper',
       exercises: [],
@@ -123,13 +125,14 @@ export default function TemplateEditor({
     const filtered = exerciseLibrary.filter((exercise) => {
       const groupOk = selectedGroupFilter === 'all' || exercise.muscleGroup === selectedGroupFilter;
       const equipOk = selectedEquipmentFilter === 'all' || exercise.equipment === selectedEquipmentFilter;
-      const searchOk = exercise.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const searchOk = (exercise.name || '').toLowerCase().includes(searchTerm.toLowerCase());
       return groupOk && equipOk && searchOk;
     });
 
     return filtered.reduce((acc, currentExercise) => {
-      if (!acc[currentExercise.muscleGroup]) acc[currentExercise.muscleGroup] = [];
-      acc[currentExercise.muscleGroup].push(currentExercise);
+      const group = currentExercise.muscleGroup || 'Otro';
+      if (!acc[group]) acc[group] = [];
+      acc[group].push(currentExercise);
       return acc;
     }, {});
   }, [exerciseLibrary, searchTerm, selectedGroupFilter, selectedEquipmentFilter]);
@@ -523,10 +526,21 @@ export default function TemplateEditor({
                       <button
                         key={exercise.id}
                         onClick={() => handleAddExercise(exercise.id)}
-                        className="text-left bg-zinc-800 p-3 rounded-xl border border-zinc-700 hover:border-brand-600 hover:bg-zinc-750 active:bg-zinc-700 transition-all"
+                        className="text-left bg-zinc-800 p-2.5 rounded-xl border border-zinc-700 hover:border-brand-600 hover:bg-zinc-750 active:bg-zinc-700 transition-all flex items-center gap-3"
                       >
-                        <span className="block text-sm text-zinc-100">{exercise.name}</span>
-                        <span className="text-[10px] text-zinc-400">{exercise.equipment || 'Otro'}</span>
+                        <img 
+                          src={exercise.imageUrl || getMuscleImage(group)} 
+                          alt={group}
+                          className="w-10 h-10 rounded-lg object-cover bg-zinc-900 border border-zinc-700/50"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = getMuscleImage(group);
+                          }}
+                        />
+                        <div>
+                          <span className="block text-sm text-zinc-100 font-semibold">{exercise.name}</span>
+                          <span className="text-[10px] text-zinc-400">{exercise.equipment || 'Otro'}</span>
+                        </div>
                       </button>
                     ))}
                   </div>

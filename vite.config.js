@@ -7,8 +7,9 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+      includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
+        lang: 'es',
         name: 'AnotaGym: Tu Agenda para el Gym',
         short_name: 'AnotaGym',
         description: 'Tu agenda inteligente para el gimnasio. Registra rutinas, sigue tu progreso y sincroniza en todos tus dispositivos.',
@@ -28,13 +29,25 @@ export default defineConfig({
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'pwa-maskable-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable'
+            purpose: 'maskable'
           }
         ]
       }
     })
-  ]
+  ],
+  build: {
+    rollupOptions: {
+      output: {
+        // Chunks separados: el catálogo de ejercicios y firebase casi nunca
+        // cambian entre releases → el navegador los mantiene en caché
+        manualChunks: {
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/app-check'],
+          exercises: ['./src/data/extendedLibrary.js'],
+        },
+      },
+    },
+  },
 })

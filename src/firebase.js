@@ -1,6 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore';
+import {
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+} from 'firebase/firestore';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 const firebaseConfig = {
@@ -24,19 +28,16 @@ if (import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
 }
 
 export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const googleProvider = new GoogleAuthProvider();
 
-// Activar persistencia offline — los datos se guardan en IndexedDB
-// y se sincronizan al reconectar. Crítico para usar en el gym sin cobertura.
-enableIndexedDbPersistence(db).catch((err) => {
-  if (err.code === 'failed-precondition') {
-    // Múltiples pestañas abiertas — la persistencia solo funciona en una
-    console.warn('Offline persistence disabled: multiple tabs open');
-  } else if (err.code === 'unimplemented') {
-    // Navegador no soporta IndexedDB
-    console.warn('Offline persistence not available in this browser');
-  }
+// Persistencia offline en IndexedDB con soporte multi-pestaña:
+// los datos se guardan localmente y se sincronizan al reconectar.
+// Crítico para usar en el gym sin cobertura.
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager(),
+  }),
 });
+
+export const googleProvider = new GoogleAuthProvider();
 
 export default app;

@@ -10,6 +10,8 @@
 [![React](https://img.shields.io/badge/React-18-61dafb)](https://reactjs.org)
 [![Vite](https://img.shields.io/badge/Vite-5-646cff)](https://vitejs.dev)
 
+**🔗 App en producción / Live app: [anotagym.vercel.app](https://anotagym.vercel.app)**
+
 > **Español** · [English below ↓](#english-version)
 
 </div>
@@ -40,7 +42,9 @@ A diferencia de apps como Hevy, Caliber o Strong — AnotaGym es completamente *
 | 💾 **Export/Import JSON** | Copia de seguridad completa de tus datos |
 | 🎨 **Temas y colores** | Modo oscuro/claro + 8 paletas de color de acento |
 | 👑 **Rol admin** | Catálogo global de ejercicios gestionado por el administrador |
-| 📚 **Base de Datos Masiva** | 100 ejercicios base + 1300 ejercicios adicionales open-source con imágenes demostrativas de alta calidad (Cero configuración, servidas desde GitHub CDN). |
+| 📚 **Base de Datos Masiva** | 100 ejercicios base en español + 870+ ejercicios open-source con imágenes demostrativas servidas desde CDN global (jsDelivr) — cero configuración |
+| ⏱️ **Timer de descanso** | Timer automático al completar una serie, con feedback háptico (desactivable) |
+| 🔗 **Compartir rutinas** | Genera un enlace para que cualquiera importe tu rutina con un toque |
 | 🔍 **Buscador Inteligente** | Filtrado en tiempo real en el creador de rutinas. |
 | 🛡️ **Seguridad Anti-bots** | Firebase App Check con reCAPTCHA v3 |
 | 🧹 **Mantenimiento auto** | Script en GitHub Actions para limpieza de invitados |
@@ -69,8 +73,8 @@ Deploy:     Firebase Hosting / Vercel
 
 #### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/TU_USUARIO/anotagym.git
-cd anotagym
+git clone https://github.com/manu-izquierdo/AnotaGym.git
+cd AnotaGym
 ```
 
 #### 2. Instalar dependencias
@@ -183,10 +187,11 @@ anotagym/
 │   ├── contexts/
 │   │   └── AuthContext.jsx     # Context de autenticación Firebase
 │   ├── data/
-│   │   ├── exerciseLibrary.js  # Catálogo de ejercicios por defecto (Extensive Exercise Library: 100 base exercises + 1300 extended open-source exercises with high-quality demonstration images (Zero-config GitHub CDN). Smart Exercise Search: Real-time filtering in the template editor.)
+│   │   ├── exerciseLibrary.js  # 100 ejercicios base en español
+│   │   ├── extendedLibrary.js  # 870+ ejercicios open-source (imágenes vía jsDelivr CDN)
+│   │   └── muscleImages.js     # Imágenes de cabecera por grupo muscular
 │   ├── hooks/
-│   │   ├── useFirestoreData.js # Hook principal: sync Firestore ↔ estado
-│   │   └── useLocalStorage.js  # Hook auxiliar de localStorage
+│   │   └── useFirestoreData.js # Hook principal: sync Firestore ↔ estado
 │   ├── utils/                  # Utilidades (helpers)
 │   ├── firebase.js             # Inicialización Firebase
 │   ├── App.jsx                 # Componente raíz, manejo de estado global
@@ -289,16 +294,16 @@ Una vez tengas el dominio, en Vercel o Firebase Hosting puedes conectarlo gratis
 - [x] Modo Invitado (Anonymous Auth)
 - [x] Firebase App Check (reCAPTCHA)
 - [x] Script automático GitHub Actions para limpieza de invitados
-- [ ] Timer de descanso entre series
+- [x] Timer de descanso entre series (con feedback háptico)
+- [x] Compartir rutinas por enlace
 - [ ] Notas por ejercicio en la sesión
 - [ ] Estadísticas por ejercicio (curva de progresión)
 - [ ] Quick Log (sesión libre sin plantilla)
 - [ ] Notificaciones push
-- [ ] Compartir entrenamientos
 
 ### 📄 Licencia
 
-MIT © 2024 — Manu Izquierdo
+MIT © 2024-2026 — Manu Izquierdo · Ver [LICENSE](LICENSE)
 
 ---
 
@@ -350,8 +355,8 @@ Deploy:     Firebase Hosting / Vercel
 
 #### 1. Clone the repo
 ```bash
-git clone https://github.com/YOUR_USERNAME/anotagym.git
-cd anotagym
+git clone https://github.com/manu-izquierdo/AnotaGym.git
+cd AnotaGym
 ```
 
 #### 2. Install dependencies
@@ -434,13 +439,13 @@ firebase deploy
 - [x] Guest Mode (Anonymous Auth)
 - [x] Firebase App Check (reCAPTCHA)
 - [x] Automated guest cleanup via GitHub Actions
-- [ ] Rest timer between sets
+- [x] Rest timer between sets (with haptic feedback)
+- [x] Share routines via link
 - [ ] Per-exercise notes in session
 - [ ] Exercise progression chart
 - [ ] Free-form Quick Log session
 - [ ] Push notifications
-- [ ] Share workouts
 
 ### 📄 License
 
-MIT © 2024 — Manu Izquierdo
+MIT © 2024-2026 — Manu Izquierdo · See [LICENSE](LICENSE)

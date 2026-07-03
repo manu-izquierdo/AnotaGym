@@ -1,0 +1,66 @@
+rules_version = '2';
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Reglas de seguridad de Firestore — AnotaGym
+//
+// CÓMO DESPLEGARLAS (elige una):
+//   A) Firebase Console → Firestore Database → Reglas → pegar este archivo → Publicar
+//   B) CLI: npm i -g firebase-tools && firebase deploy --only firestore:rules
+//
+// Principios:
+//   1. Cada usuario solo puede leer/escribir SUS datos (/users/{su uid}/...)
+//   2. Nadie puede auto-asignarse el rol admin (el campo role es inmutable
+//      desde el cliente; se concede a mano en la consola de Firebase)
+//   3. El catálogo global lo lee cualquier usuario autenticado, pero solo
+//      lo escriben los admins
+// ═══════════════════════════════════════════════════════════════════════════
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)/profile/data).data.role == 'admin';
+    }
+
+    // ── Perfil del usuario ──────────────────────────────────────────────────
+    // El cliente crea su perfil al registrarse, pero SIEMPRE con role 'user'
+    // y nunca puede cambiar su propio rol después (anti escalada de
+    // privilegios). El rol admin se asigna editando el doc en la consola.
+    match /users/{uid}/profile/data {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && request.resource.data.role == 'user';
+      allow update: if isOwner(uid) && request.resource.data.role == resource.data.role;
+      allow delete: if false;
+    }
+
+    // ── Datos de entrenamiento del usuario ─────────────────────────────────
+    match /users/{uid}/workoutData/{docId} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // ── Ejercicios privados del usuario ─────────────────────────────────────
+    match /users/{uid}/privateExercises/{exerciseId} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // ── Catálogo global de ejercicios ───────────────────────────────────────
+    match /globalExercises/{exerciseId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Todo lo demás, denegado por defecto
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

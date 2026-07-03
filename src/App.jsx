@@ -56,6 +56,7 @@ function App() {
     exercises,
     loading,
     addExercise,
+    saveGlobalExercise,
     deleteExercise,
     restoreDefaultExercises,
     exportData,
@@ -82,10 +83,12 @@ function App() {
   }, [workoutState.preferences?.accentColor]);
 
   useEffect(() => {
-    if (workoutState.activeSession) {
+    // Al terminar de cargar los datos remotos: si había una sesión a medias,
+    // llevar al usuario directamente al tracker (al montar aún no hay datos)
+    if (!loading && workoutState.activeSession) {
       setActiveTab('tracker');
     }
-  }, []); // Solo al montar
+  }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // Interceptar enlaces compartidos
@@ -319,6 +322,7 @@ function App() {
     displayName: userProfile?.displayName || currentUser.displayName || currentUser.email,
     photoURL: workoutState.preferences?.profilePicture || currentUser.photoURL || null,
     role: userProfile?.role || 'user',
+    isAnonymous: currentUser.isAnonymous,
   };
 
   return (
@@ -382,6 +386,7 @@ function App() {
             onSavePreferences={handleSavePreferences}
             onDeleteExercise={handleDeleteExercise}
             onCreateExercise={handleCreateCustomExercise}
+            onSaveGlobalExercise={saveGlobalExercise}
             onRestoreExercises={handleRestoreDefaultExercises}
             onExportData={exportData}
             onImportData={importData}

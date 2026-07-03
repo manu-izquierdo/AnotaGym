@@ -1,0 +1,42 @@
+# CI — comprueba que la app compila en cada push/PR a main.
+#
+# El deploy real lo hace Vercel automáticamente al hacer push a main
+# (con sus propias variables de entorno configuradas en vercel.com).
+# Este workflow no necesita secrets: las credenciales de Firebase solo
+# se leen en runtime (src/firebase.js), no durante el build.
+
+name: 🧪 CI Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build
+        run: npm run build
+
+      - name: 📤 Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7

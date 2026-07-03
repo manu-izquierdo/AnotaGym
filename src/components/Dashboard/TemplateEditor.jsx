@@ -123,6 +123,7 @@ export default function TemplateEditor({
 
   const groupedExercises = useMemo(() => {
     const filtered = exerciseLibrary.filter((exercise) => {
+      if (exercise.hidden) return false; // ocultados por admin o por el usuario
       const groupOk = selectedGroupFilter === 'all' || exercise.muscleGroup === selectedGroupFilter;
       const equipOk = selectedEquipmentFilter === 'all' || exercise.equipment === selectedEquipmentFilter;
       const searchOk = (exercise.name || '').toLowerCase().includes(searchTerm.toLowerCase());
@@ -200,7 +201,7 @@ export default function TemplateEditor({
     setShowSelector(false);
   };
 
-  const submitNewExercise = () => {
+  const submitNewExercise = async () => {
     const normalizedName = newExName.trim();
 
     if (!normalizedName) {
@@ -216,7 +217,9 @@ export default function TemplateEditor({
       return;
     }
 
-    const newId = onCreateExercise({
+    // onCreateExercise escribe en Firestore y devuelve el id — hay que esperarlo,
+    // si no, la rutina guarda una Promise como exerciseId y sale "Desconocido"
+    const newId = await onCreateExercise({
       name: normalizedName,
       muscleGroup: newExGroup,
       equipment: 'Custom',
@@ -528,9 +531,10 @@ export default function TemplateEditor({
                         onClick={() => handleAddExercise(exercise.id)}
                         className="text-left bg-zinc-800 p-2.5 rounded-xl border border-zinc-700 hover:border-brand-600 hover:bg-zinc-750 active:bg-zinc-700 transition-all flex items-center gap-3"
                       >
-                        <img 
-                          src={exercise.imageUrl || getMuscleImage(group)} 
+                        <img
+                          src={exercise.imageUrl || getMuscleImage(group)}
                           alt={group}
+                          loading="lazy"
                           className="w-10 h-10 rounded-lg object-cover bg-zinc-900 border border-zinc-700/50"
                           onError={(e) => {
                             e.target.onerror = null;

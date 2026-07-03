@@ -128,6 +128,7 @@ export default function useFirestoreData(uid, isAdmin) {
       name: exerciseData.name.trim(),
       muscleGroup: exerciseData.muscleGroup.trim(),
       equipment: exerciseData.equipment || 'Custom',
+      ...(exerciseData.imageUrl ? { imageUrl: exerciseData.imageUrl.trim() } : {}),
     };
 
     if (isAdmin) {
@@ -142,17 +143,49 @@ export default function useFirestoreData(uid, isAdmin) {
   }, [uid, isAdmin]);
 
   /**
+   * (Solo admin) Crea o edita un ejercicio en /globalExercises.
+   * Si el id coincide con uno del catálogo local (JS), el documento actúa de
+   * override: el merge de abajo da prioridad a Firestore, así el admin puede
+   * corregir nombre/grupo/equipo/foto de cualquier ejercicio para todos.
+   */
+  const saveGlobalExercise = useCallback(async (exercise) => {
+    if (!isAdmin) throw new Error('Solo un admin puede editar el catálogo global');
+    // Quitar campos internos del cliente (_source, _bundled) antes de escribir
+    const { _source, _bundled, ...data } = exercise;
+    const id = data.id || generateUUID();
+    await setDoc(doc(db, 'globalExercises', id), { ...data, id }, { merge: true });
+    return id;
+  }, [isAdmin]);
+
+  /**
    * Elimina un ejercicio. Si es global y admin, lo borra de /globalExercises.
    * Si es privado, lo borra de /users/{uid}/privateExercises.
    * También limpia referencias en rutinas y sesiones completadas.
    */
   const deleteExercise = useCallback(async (exerciseId) => {
     const isGlobal = globalExercises.some((e) => e.id === exerciseId);
+    const isPrivate = privateExercises.some((e) => e.id === exerciseId);
 
     if (isGlobal && isAdmin) {
       await deleteDoc(doc(db, 'globalExercises', exerciseId));
-    } else {
+    } else if (isPrivate) {
       await deleteDoc(doc(db, 'users', uid, 'privateExercises', exerciseId));
+    } else if (isAdmin) {
+      // Ejercicio del catálogo local (JS): no se puede borrar del bundle,
+      // se marca oculto en Firestore y las listas lo filtran para todos.
+      // No se limpian referencias: el historial de los usuarios sigue intacto.
+      await setDoc(doc(db, 'globalExercises', exerciseId), { id: exerciseId, hidden: true }, { merge: true });
+      return;
+    } else {
+      // Usuario normal ocultando un ejercicio del catálogo: lista personal
+      setWorkoutState((prev) => ({
+        ...prev,
+        preferences: {
+          ...prev.preferences,
+          hiddenExercises: [...new Set([...(prev.preferences?.hiddenExercises || []), exerciseId])],
+        },
+      }));
+      return;
     }
 
     // Limpiar referencias en el estado de entrenamiento
@@ -173,51 +206,53 @@ export default function useFirestoreData(uid, isAdmin) {
         exercises: s.exercises.filter((e) => e.exerciseId !== exerciseId),
       })),
     }));
-  }, [uid, isAdmin, globalExercises, setWorkoutState]);
+  }, [uid, isAdmin, globalExercises, privateExercises, setWorkoutState]);
 
   /**
-   * Restaura los ejercicios por defecto (solo los que faltan).
+   * Restaura el catálogo por defecto: quita los ocultados.
+   * Admin → borra los tombstones {hidden:true} de /globalExercises (para todos).
+   * Usuario → vacía su lista personal de ocultos.
+   * (El catálogo base vive en el bundle JS, no hace falta copiarlo a Firestore.)
    */
   const restoreDefaultExercises = useCallback(async () => {
-    const allIds = new Set([
-      ...globalExercises.map((e) => e.id),
-      ...privateExercises.map((e) => e.id),
-    ]);
-    const missing = [...defaultExerciseLibrary, ...extendedExerciseLibrary].filter((e) => !allIds.has(e.id));
-
-    await Promise.all(
-      missing.map((exercise) => {
-        if (isAdmin) {
-          return setDoc(doc(db, 'globalExercises', exercise.id), exercise);
-        } else {
-          return setDoc(doc(db, 'users', uid, 'privateExercises', exercise.id), exercise);
-        }
-      })
-    );
-  }, [uid, isAdmin, globalExercises, privateExercises]);
-
-  // Fusión de ejercicios: globales primero, luego privados (sin duplicados)
-  const allExercisesRaw = [
-    ...defaultExerciseLibrary,
-    ...extendedExerciseLibrary,
-    ...globalExercises,
-    ...privateExercises,
-  ];
-
-  // Eliminar duplicados por ID (prevalecen los que tengan imagen o los últimos de la lista)
-  const exercisesMap = new Map();
-  allExercisesRaw.forEach(ex => {
-    const existing = exercisesMap.get(ex.id);
-    // Si no existe, lo añadimos. 
-    // Si ya existe, solo lo sobreescribimos si el nuevo tiene imagen y el viejo no, o si el nuevo es de una fuente más "fresca" (Firestore)
-    if (!existing || (!existing.imageUrl && ex.imageUrl) || ex._source === 'global' || ex._source === 'private') {
-      // Combinar propiedades para no perder la imageUrl si la tenemos localmente
-      exercisesMap.set(ex.id, { ...existing, ...ex, imageUrl: ex.imageUrl || existing?.imageUrl });
+    if (isAdmin) {
+      const tombstones = globalExercises.filter((e) => e.hidden);
+      await Promise.all(tombstones.map((e) => deleteDoc(doc(db, 'globalExercises', e.id))));
     }
+    setWorkoutState((prev) => ({
+      ...prev,
+      preferences: { ...prev.preferences, hiddenExercises: [] },
+    }));
+  }, [isAdmin, globalExercises, setWorkoutState]);
+
+  // ---- Fusión de catálogos ----
+  // Catálogo local (JS) + globales (Firestore, prevalecen: el admin puede
+  // corregir cualquier entrada con un doc del mismo id) + privados del usuario.
+  const hiddenByUser = new Set(workoutState.preferences?.hiddenExercises || []);
+  const bundledIds = new Set();
+  const exercisesMap = new Map();
+
+  [...defaultExerciseLibrary, ...extendedExerciseLibrary].forEach((ex) => {
+    bundledIds.add(ex.id);
+    exercisesMap.set(ex.id, { ...ex, _bundled: true });
   });
-  const exercises = Array.from(exercisesMap.values()).sort((a, b) => 
-    (a.name || '').localeCompare(b.name || '')
-  );
+  [...globalExercises, ...privateExercises].forEach((ex) => {
+    const existing = exercisesMap.get(ex.id);
+    // Firestore pisa al bundle, pero conservamos la imageUrl local si el doc no trae una
+    exercisesMap.set(ex.id, {
+      ...existing,
+      ...ex,
+      imageUrl: ex.imageUrl || existing?.imageUrl,
+      _bundled: bundledIds.has(ex.id),
+    });
+  });
+
+  // `hidden` unifica el tombstone global y la lista personal del usuario.
+  // OJO: los ocultos NO se eliminan de la lista — siguen resolviendo nombre e
+  // imagen en historial y sesiones; los selectores/listas filtran !ex.hidden.
+  const exercises = Array.from(exercisesMap.values())
+    .map((ex) => (hiddenByUser.has(ex.id) ? { ...ex, hidden: true } : ex))
+    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
   // ---- Export / Import ----
 
@@ -268,6 +303,7 @@ export default function useFirestoreData(uid, isAdmin) {
     privateExercises,
     loading,
     addExercise,
+    saveGlobalExercise,
     deleteExercise,
     restoreDefaultExercises,
     exportData,

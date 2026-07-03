@@ -18,21 +18,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Ab_Crunch_Machine",
     "name": "Ab Crunch Machine",
     "muscleGroup": "Core",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Ab_Crunch_Machine/0.jpg"
   },
   {
     "id": "gh_Ab_Roller",
     "name": "Ab Roller",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Ab_Roller/0.jpg"
   },
   {
     "id": "gh_Adductor",
     "name": "Adductor",
     "muscleGroup": "Piernas",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Adductor/0.jpg"
   },
   {
@@ -46,7 +46,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Advanced_Kettlebell_Windmill",
     "name": "Advanced Kettlebell Windmill",
     "muscleGroup": "Core",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Advanced_Kettlebell_Windmill/0.jpg"
   },
   {
@@ -109,35 +109,35 @@ export const extendedExerciseLibrary = [
     "id": "gh_Alternating_Floor_Press",
     "name": "Alternating Floor Press",
     "muscleGroup": "Pectoral",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Alternating_Floor_Press/0.jpg"
   },
   {
     "id": "gh_Alternating_Hang_Clean",
     "name": "Alternating Hang Clean",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Alternating_Hang_Clean/0.jpg"
   },
   {
     "id": "gh_Alternating_Kettlebell_Press",
     "name": "Alternating Kettlebell Press",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Alternating_Kettlebell_Press/0.jpg"
   },
   {
     "id": "gh_Alternating_Kettlebell_Row",
     "name": "Alternating Kettlebell Row",
     "muscleGroup": "Espalda",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Alternating_Kettlebell_Row/0.jpg"
   },
   {
     "id": "gh_Alternating_Renegade_Row",
     "name": "Alternating Renegade Row",
     "muscleGroup": "Espalda",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Alternating_Renegade_Row/0.jpg"
   },
   {
@@ -158,7 +158,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Anterior_Tibialis_SMR",
     "name": "Anterior Tibialis-SMR",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Anterior_Tibialis-SMR/0.jpg"
   },
   {
@@ -193,98 +193,98 @@ export const extendedExerciseLibrary = [
     "id": "gh_Atlas_Stone_Trainer",
     "name": "Atlas Stone Trainer",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Atlas_Stone_Trainer/0.jpg"
   },
   {
     "id": "gh_Atlas_Stones",
     "name": "Atlas Stones",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Atlas_Stones/0.jpg"
   },
   {
     "id": "gh_Axle_Deadlift",
     "name": "Axle Deadlift",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Axle_Deadlift/0.jpg"
   },
   {
     "id": "gh_Back_Flyes___With_Bands",
     "name": "Back Flyes - With Bands",
     "muscleGroup": "Hombros",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Back_Flyes_-_With_Bands/0.jpg"
   },
   {
     "id": "gh_Backward_Drag",
     "name": "Backward Drag",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Backward_Drag/0.jpg"
   },
   {
     "id": "gh_Backward_Medicine_Ball_Throw",
     "name": "Backward Medicine Ball Throw",
     "muscleGroup": "Hombros",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Backward_Medicine_Ball_Throw/0.jpg"
   },
   {
     "id": "gh_Balance_Board",
     "name": "Balance Board",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Balance_Board/0.jpg"
   },
   {
     "id": "gh_Ball_Leg_Curl",
     "name": "Ball Leg Curl",
     "muscleGroup": "Piernas",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Ball_Leg_Curl/0.jpg"
   },
   {
     "id": "gh_Band_Assisted_Pull_Up",
     "name": "Band Assisted Pull-Up",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Band_Assisted_Pull-Up/0.jpg"
   },
   {
     "id": "gh_Band_Good_Morning",
     "name": "Band Good Morning",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Band_Good_Morning/0.jpg"
   },
   {
     "id": "gh_Band_Good_Morning_Pull_Through",
     "name": "Band Good Morning (Pull Through)",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Band_Good_Morning_Pull_Through/0.jpg"
   },
   {
     "id": "gh_Band_Hip_Adductions",
     "name": "Band Hip Adductions",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Band_Hip_Adductions/0.jpg"
   },
   {
     "id": "gh_Band_Pull_Apart",
     "name": "Band Pull Apart",
     "muscleGroup": "Hombros",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Band_Pull_Apart/0.jpg"
   },
   {
     "id": "gh_Band_Skull_Crusher",
     "name": "Band Skull Crusher",
     "muscleGroup": "Brazos",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Band_Skull_Crusher/0.jpg"
   },
   {
@@ -473,21 +473,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Battling_Ropes",
     "name": "Battling Ropes",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Battling_Ropes/0.jpg"
   },
   {
     "id": "gh_Bear_Crawl_Sled_Drags",
     "name": "Bear Crawl Sled Drags",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bear_Crawl_Sled_Drags/0.jpg"
   },
   {
     "id": "gh_Behind_Head_Chest_Stretch",
     "name": "Behind Head Chest Stretch",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Behind_Head_Chest_Stretch/0.jpg"
   },
   {
@@ -515,7 +515,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Bench_Press___With_Bands",
     "name": "Bench Press - With Bands",
     "muscleGroup": "Pectoral",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bench_Press_-_With_Bands/0.jpg"
   },
   {
@@ -529,7 +529,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Bench_Sprint",
     "name": "Bench Sprint",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bench_Sprint/0.jpg"
   },
   {
@@ -606,21 +606,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Bent_Press",
     "name": "Bent Press",
     "muscleGroup": "Core",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bent_Press/0.jpg"
   },
   {
     "id": "gh_Bicycling",
     "name": "Bicycling",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bicycling/0.jpg"
   },
   {
     "id": "gh_Bicycling_Stationary",
     "name": "Bicycling, Stationary",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bicycling_Stationary/0.jpg"
   },
   {
@@ -648,14 +648,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Bodyweight_Flyes",
     "name": "Bodyweight Flyes",
     "muscleGroup": "Pectoral",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bodyweight_Flyes/0.jpg"
   },
   {
     "id": "gh_Bodyweight_Mid_Row",
     "name": "Bodyweight Mid Row",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bodyweight_Mid_Row/0.jpg"
   },
   {
@@ -683,7 +683,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Bottoms_Up_Clean_From_The_Hang_Position",
     "name": "Bottoms-Up Clean From The Hang Position",
     "muscleGroup": "Brazos",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bottoms-Up_Clean_From_The_Hang_Position/0.jpg"
   },
   {
@@ -697,14 +697,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Box_Jump_Multiple_Response",
     "name": "Box Jump (Multiple Response)",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Box_Jump_Multiple_Response/0.jpg"
   },
   {
     "id": "gh_Box_Skip",
     "name": "Box Skip",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Box_Skip/0.jpg"
   },
   {
@@ -732,7 +732,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Brachialis_SMR",
     "name": "Brachialis-SMR",
     "muscleGroup": "Brazos",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Brachialis-SMR/0.jpg"
   },
   {
@@ -760,7 +760,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Butterfly",
     "name": "Butterfly",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Butterfly/0.jpg"
   },
   {
@@ -935,21 +935,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Calf_Machine_Shoulder_Shrug",
     "name": "Calf-Machine Shoulder Shrug",
     "muscleGroup": "Espalda",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Calf-Machine_Shoulder_Shrug/0.jpg"
   },
   {
     "id": "gh_Calf_Press",
     "name": "Calf Press",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Calf_Press/0.jpg"
   },
   {
     "id": "gh_Calf_Press_On_The_Leg_Press_Machine",
     "name": "Calf Press On The Leg Press Machine",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Calf_Press_On_The_Leg_Press_Machine/0.jpg"
   },
   {
@@ -963,7 +963,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Calf_Raises___With_Bands",
     "name": "Calf Raises - With Bands",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Calf_Raises_-_With_Bands/0.jpg"
   },
   {
@@ -984,14 +984,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Calves_SMR",
     "name": "Calves-SMR",
     "muscleGroup": "Piernas",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Calves-SMR/0.jpg"
   },
   {
     "id": "gh_Car_Deadlift",
     "name": "Car Deadlift",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Car_Deadlift/0.jpg"
   },
   {
@@ -1019,28 +1019,28 @@ export const extendedExerciseLibrary = [
     "id": "gh_Catch_and_Overhead_Throw",
     "name": "Catch and Overhead Throw",
     "muscleGroup": "Espalda",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Catch_and_Overhead_Throw/0.jpg"
   },
   {
     "id": "gh_Chain_Handle_Extension",
     "name": "Chain Handle Extension",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chain_Handle_Extension/0.jpg"
   },
   {
     "id": "gh_Chain_Press",
     "name": "Chain Press",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chain_Press/0.jpg"
   },
   {
     "id": "gh_Chair_Leg_Extended_Stretch",
     "name": "Chair Leg Extended Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chair_Leg_Extended_Stretch/0.jpg"
   },
   {
@@ -1054,56 +1054,56 @@ export const extendedExerciseLibrary = [
     "id": "gh_Chair_Squat",
     "name": "Chair Squat",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chair_Squat/0.jpg"
   },
   {
     "id": "gh_Chair_Upper_Body_Stretch",
     "name": "Chair Upper Body Stretch",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chair_Upper_Body_Stretch/0.jpg"
   },
   {
     "id": "gh_Chest_And_Front_Of_Shoulder_Stretch",
     "name": "Chest And Front Of Shoulder Stretch",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chest_And_Front_Of_Shoulder_Stretch/0.jpg"
   },
   {
     "id": "gh_Chest_Push_from_3_point_stance",
     "name": "Chest Push from 3 point stance",
     "muscleGroup": "Pectoral",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chest_Push_from_3_point_stance/0.jpg"
   },
   {
     "id": "gh_Chest_Push_multiple_response",
     "name": "Chest Push (multiple response)",
     "muscleGroup": "Pectoral",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chest_Push_multiple_response/0.jpg"
   },
   {
     "id": "gh_Chest_Push_single_response",
     "name": "Chest Push (single response)",
     "muscleGroup": "Pectoral",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chest_Push_single_response/0.jpg"
   },
   {
     "id": "gh_Chest_Push_with_Run_Release",
     "name": "Chest Push with Run Release",
     "muscleGroup": "Pectoral",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chest_Push_with_Run_Release/0.jpg"
   },
   {
     "id": "gh_Chest_Stretch_on_Stability_Ball",
     "name": "Chest Stretch on Stability Ball",
     "muscleGroup": "Pectoral",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Chest_Stretch_on_Stability_Ball/0.jpg"
   },
   {
@@ -1131,7 +1131,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Circus_Bell",
     "name": "Circus Bell",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Circus_Bell/0.jpg"
   },
   {
@@ -1208,14 +1208,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Close_Grip_EZ_Bar_Curl_with_Band",
     "name": "Close-Grip EZ-Bar Curl with Band",
     "muscleGroup": "Brazos",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Close-Grip_EZ-Bar_Curl_with_Band/0.jpg"
   },
   {
     "id": "gh_Close_Grip_EZ_Bar_Press",
     "name": "Close-Grip EZ-Bar Press",
     "muscleGroup": "Brazos",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Close-Grip_EZ-Bar_Press/0.jpg"
   },
   {
@@ -1257,7 +1257,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Conans_Wheel",
     "name": "Conan's Wheel",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Conans_Wheel/0.jpg"
   },
   {
@@ -1285,7 +1285,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Cross_Over___With_Bands",
     "name": "Cross Over - With Bands",
     "muscleGroup": "Pectoral",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Cross_Over_-_With_Bands/0.jpg"
   },
   {
@@ -1299,7 +1299,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Crucifix",
     "name": "Crucifix",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Crucifix/0.jpg"
   },
   {
@@ -1432,7 +1432,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Decline_Smith_Press",
     "name": "Decline Smith Press",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Decline_Smith_Press/0.jpg"
   },
   {
@@ -1446,21 +1446,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Depth_Jump_Leap",
     "name": "Depth Jump Leap",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Depth_Jump_Leap/0.jpg"
   },
   {
     "id": "gh_Dip_Machine",
     "name": "Dip Machine",
     "muscleGroup": "Brazos",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Dip_Machine/0.jpg"
   },
   {
     "id": "gh_Dips___Chest_Version",
     "name": "Dips - Chest Version",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Dips_-_Chest_Version/0.jpg"
   },
   {
@@ -1474,42 +1474,42 @@ export const extendedExerciseLibrary = [
     "id": "gh_Donkey_Calf_Raises",
     "name": "Donkey Calf Raises",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Donkey_Calf_Raises/0.jpg"
   },
   {
     "id": "gh_Double_Kettlebell_Alternating_Hang_Clean",
     "name": "Double Kettlebell Alternating Hang Clean",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Double_Kettlebell_Alternating_Hang_Clean/0.jpg"
   },
   {
     "id": "gh_Double_Kettlebell_Jerk",
     "name": "Double Kettlebell Jerk",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Double_Kettlebell_Jerk/0.jpg"
   },
   {
     "id": "gh_Double_Kettlebell_Push_Press",
     "name": "Double Kettlebell Push Press",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Double_Kettlebell_Push_Press/0.jpg"
   },
   {
     "id": "gh_Double_Kettlebell_Snatch",
     "name": "Double Kettlebell Snatch",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Double_Kettlebell_Snatch/0.jpg"
   },
   {
     "id": "gh_Double_Kettlebell_Windmill",
     "name": "Double Kettlebell Windmill",
     "muscleGroup": "Core",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Double_Kettlebell_Windmill/0.jpg"
   },
   {
@@ -1523,7 +1523,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Downward_Facing_Balance",
     "name": "Downward Facing Balance",
     "muscleGroup": "Piernas",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Downward_Facing_Balance/0.jpg"
   },
   {
@@ -1537,7 +1537,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Drop_Push",
     "name": "Drop Push",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Drop_Push/0.jpg"
   },
   {
@@ -1768,14 +1768,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_EZ_Bar_Curl",
     "name": "EZ-Bar Curl",
     "muscleGroup": "Brazos",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/EZ-Bar_Curl/0.jpg"
   },
   {
     "id": "gh_EZ_Bar_Skullcrusher",
     "name": "EZ-Bar Skullcrusher",
     "muscleGroup": "Brazos",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/EZ-Bar_Skullcrusher/0.jpg"
   },
   {
@@ -1817,28 +1817,28 @@ export const extendedExerciseLibrary = [
     "id": "gh_Elliptical_Trainer",
     "name": "Elliptical Trainer",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Elliptical_Trainer/0.jpg"
   },
   {
     "id": "gh_Exercise_Ball_Crunch",
     "name": "Exercise Ball Crunch",
     "muscleGroup": "Core",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Exercise_Ball_Crunch/0.jpg"
   },
   {
     "id": "gh_Exercise_Ball_Pull_In",
     "name": "Exercise Ball Pull-In",
     "muscleGroup": "Core",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Exercise_Ball_Pull-In/0.jpg"
   },
   {
     "id": "gh_Extended_Range_One_Arm_Kettlebell_Floor_Press",
     "name": "Extended Range One-Arm Kettlebell Floor Press",
     "muscleGroup": "Pectoral",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Extended_Range_One-Arm_Kettlebell_Floor_Press/0.jpg"
   },
   {
@@ -1852,7 +1852,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_External_Rotation_with_Band",
     "name": "External Rotation with Band",
     "muscleGroup": "Hombros",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/External_Rotation_with_Band/0.jpg"
   },
   {
@@ -1873,7 +1873,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Farmers_Walk",
     "name": "Farmer's Walk",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Farmers_Walk/0.jpg"
   },
   {
@@ -1950,14 +1950,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Foot_SMR",
     "name": "Foot-SMR",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Foot-SMR/0.jpg"
   },
   {
     "id": "gh_Forward_Drag_with_Press",
     "name": "Forward Drag with Press",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Forward_Drag_with_Press/0.jpg"
   },
   {
@@ -2006,7 +2006,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Front_Box_Jump",
     "name": "Front Box Jump",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Front_Box_Jump/0.jpg"
   },
   {
@@ -2020,7 +2020,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Front_Cone_Hops_or_hurdle_hops",
     "name": "Front Cone Hops (or hurdle hops)",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Front_Cone_Hops_or_hurdle_hops/0.jpg"
   },
   {
@@ -2048,7 +2048,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Front_Plate_Raise",
     "name": "Front Plate Raise",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Front_Plate_Raise/0.jpg"
   },
   {
@@ -2069,7 +2069,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Front_Squats_With_Two_Kettlebells",
     "name": "Front Squats With Two Kettlebells",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Front_Squats_With_Two_Kettlebells/0.jpg"
   },
   {
@@ -2090,14 +2090,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Gironda_Sternum_Chins",
     "name": "Gironda Sternum Chins",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Gironda_Sternum_Chins/0.jpg"
   },
   {
     "id": "gh_Glute_Ham_Raise",
     "name": "Glute Ham Raise",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Glute_Ham_Raise/0.jpg"
   },
   {
@@ -2111,7 +2111,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Goblet_Squat",
     "name": "Goblet Squat",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Goblet_Squat/0.jpg"
   },
   {
@@ -2153,7 +2153,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Hack_Squat",
     "name": "Hack Squat",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hack_Squat/0.jpg"
   },
   {
@@ -2174,7 +2174,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Hamstring_SMR",
     "name": "Hamstring-SMR",
     "muscleGroup": "Piernas",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hamstring-SMR/0.jpg"
   },
   {
@@ -2251,7 +2251,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Heavy_Bag_Thrust",
     "name": "Heavy Bag Thrust",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Heavy_Bag_Thrust/0.jpg"
   },
   {
@@ -2272,28 +2272,28 @@ export const extendedExerciseLibrary = [
     "id": "gh_Hip_Extension_with_Bands",
     "name": "Hip Extension with Bands",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hip_Extension_with_Bands/0.jpg"
   },
   {
     "id": "gh_Hip_Flexion_with_Band",
     "name": "Hip Flexion with Band",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hip_Flexion_with_Band/0.jpg"
   },
   {
     "id": "gh_Hip_Lift_with_Band",
     "name": "Hip Lift with Band",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hip_Lift_with_Band/0.jpg"
   },
   {
     "id": "gh_Hug_A_Ball",
     "name": "Hug A Ball",
     "muscleGroup": "Core",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hug_A_Ball/0.jpg"
   },
   {
@@ -2307,14 +2307,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Hurdle_Hops",
     "name": "Hurdle Hops",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hurdle_Hops/0.jpg"
   },
   {
     "id": "gh_Hyperextensions_Back_Extensions",
     "name": "Hyperextensions (Back Extensions)",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hyperextensions_Back_Extensions/0.jpg"
   },
   {
@@ -2328,14 +2328,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_IT_Band_and_Glute_Stretch",
     "name": "IT Band and Glute Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/IT_Band_and_Glute_Stretch/0.jpg"
   },
   {
     "id": "gh_Iliotibial_Tract_SMR",
     "name": "Iliotibial Tract-SMR",
     "muscleGroup": "Piernas",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Iliotibial_Tract-SMR/0.jpg"
   },
   {
@@ -2440,7 +2440,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Incline_Push_Up_Depth_Jump",
     "name": "Incline Push-Up Depth Jump",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Incline_Push-Up_Depth_Jump/0.jpg"
   },
   {
@@ -2468,21 +2468,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Intermediate_Groin_Stretch",
     "name": "Intermediate Groin Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Intermediate_Groin_Stretch/0.jpg"
   },
   {
     "id": "gh_Intermediate_Hip_Flexor_and_Quad_Stretch",
     "name": "Intermediate Hip Flexor and Quad Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Intermediate_Hip_Flexor_and_Quad_Stretch/0.jpg"
   },
   {
     "id": "gh_Internal_Rotation_with_Band",
     "name": "Internal Rotation with Band",
     "muscleGroup": "Hombros",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Internal_Rotation_with_Band/0.jpg"
   },
   {
@@ -2496,7 +2496,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Inverted_Row_with_Straps",
     "name": "Inverted Row with Straps",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Inverted_Row_with_Straps/0.jpg"
   },
   {
@@ -2587,126 +2587,126 @@ export const extendedExerciseLibrary = [
     "id": "gh_Jogging_Treadmill",
     "name": "Jogging, Treadmill",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Jogging_Treadmill/0.jpg"
   },
   {
     "id": "gh_Keg_Load",
     "name": "Keg Load",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Keg_Load/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Arnold_Press",
     "name": "Kettlebell Arnold Press",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Arnold_Press/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Dead_Clean",
     "name": "Kettlebell Dead Clean",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Dead_Clean/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Figure_8",
     "name": "Kettlebell Figure 8",
     "muscleGroup": "Core",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Figure_8/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Hang_Clean",
     "name": "Kettlebell Hang Clean",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Hang_Clean/0.jpg"
   },
   {
     "id": "gh_Kettlebell_One_Legged_Deadlift",
     "name": "Kettlebell One-Legged Deadlift",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_One-Legged_Deadlift/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Pass_Between_The_Legs",
     "name": "Kettlebell Pass Between The Legs",
     "muscleGroup": "Core",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Pass_Between_The_Legs/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Pirate_Ships",
     "name": "Kettlebell Pirate Ships",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Pirate_Ships/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Pistol_Squat",
     "name": "Kettlebell Pistol Squat",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Pistol_Squat/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Seated_Press",
     "name": "Kettlebell Seated Press",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Seated_Press/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Seesaw_Press",
     "name": "Kettlebell Seesaw Press",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Seesaw_Press/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Sumo_High_Pull",
     "name": "Kettlebell Sumo High Pull",
     "muscleGroup": "Espalda",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Sumo_High_Pull/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Thruster",
     "name": "Kettlebell Thruster",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Thruster/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Turkish_Get_Up_Lunge_style",
     "name": "Kettlebell Turkish Get-Up (Lunge style)",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Turkish_Get-Up_Lunge_style/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Turkish_Get_Up_Squat_style",
     "name": "Kettlebell Turkish Get-Up (Squat style)",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Turkish_Get-Up_Squat_style/0.jpg"
   },
   {
     "id": "gh_Kettlebell_Windmill",
     "name": "Kettlebell Windmill",
     "muscleGroup": "Core",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kettlebell_Windmill/0.jpg"
   },
   {
     "id": "gh_Kipping_Muscle_Up",
     "name": "Kipping Muscle Up",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kipping_Muscle_Up/0.jpg"
   },
   {
@@ -2727,7 +2727,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Knee_Hip_Raise_On_Parallel_Bars",
     "name": "Knee/Hip Raise On Parallel Bars",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Knee_Hip_Raise_On_Parallel_Bars/0.jpg"
   },
   {
@@ -2825,35 +2825,35 @@ export const extendedExerciseLibrary = [
     "id": "gh_Lateral_Box_Jump",
     "name": "Lateral Box Jump",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lateral_Box_Jump/0.jpg"
   },
   {
     "id": "gh_Lateral_Cone_Hops",
     "name": "Lateral Cone Hops",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lateral_Cone_Hops/0.jpg"
   },
   {
     "id": "gh_Lateral_Raise___With_Bands",
     "name": "Lateral Raise - With Bands",
     "muscleGroup": "Hombros",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lateral_Raise_-_With_Bands/0.jpg"
   },
   {
     "id": "gh_Latissimus_Dorsi_SMR",
     "name": "Latissimus Dorsi-SMR",
     "muscleGroup": "Espalda",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Latissimus_Dorsi-SMR/0.jpg"
   },
   {
     "id": "gh_Leg_Over_Floor_Press",
     "name": "Leg-Over Floor Press",
     "muscleGroup": "Pectoral",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leg-Over_Floor_Press/0.jpg"
   },
   {
@@ -2867,7 +2867,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Leg_Extensions",
     "name": "Leg Extensions",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leg_Extensions/0.jpg"
   },
   {
@@ -2881,7 +2881,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Leg_Press",
     "name": "Leg Press",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leg_Press/0.jpg"
   },
   {
@@ -2895,56 +2895,56 @@ export const extendedExerciseLibrary = [
     "id": "gh_Leverage_Chest_Press",
     "name": "Leverage Chest Press",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leverage_Chest_Press/0.jpg"
   },
   {
     "id": "gh_Leverage_Deadlift",
     "name": "Leverage Deadlift",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leverage_Deadlift/0.jpg"
   },
   {
     "id": "gh_Leverage_Decline_Chest_Press",
     "name": "Leverage Decline Chest Press",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leverage_Decline_Chest_Press/0.jpg"
   },
   {
     "id": "gh_Leverage_High_Row",
     "name": "Leverage High Row",
     "muscleGroup": "Espalda",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leverage_High_Row/0.jpg"
   },
   {
     "id": "gh_Leverage_Incline_Chest_Press",
     "name": "Leverage Incline Chest Press",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leverage_Incline_Chest_Press/0.jpg"
   },
   {
     "id": "gh_Leverage_Iso_Row",
     "name": "Leverage Iso Row",
     "muscleGroup": "Espalda",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leverage_Iso_Row/0.jpg"
   },
   {
     "id": "gh_Leverage_Shoulder_Press",
     "name": "Leverage Shoulder Press",
     "muscleGroup": "Hombros",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leverage_Shoulder_Press/0.jpg"
   },
   {
     "id": "gh_Leverage_Shrug",
     "name": "Leverage Shrug",
     "muscleGroup": "Espalda",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Leverage_Shrug/0.jpg"
   },
   {
@@ -2965,21 +2965,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Linear_Depth_Jump",
     "name": "Linear Depth Jump",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Linear_Depth_Jump/0.jpg"
   },
   {
     "id": "gh_Log_Lift",
     "name": "Log Lift",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Log_Lift/0.jpg"
   },
   {
     "id": "gh_London_Bridges",
     "name": "London Bridges",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/London_Bridges/0.jpg"
   },
   {
@@ -3014,7 +3014,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Lower_Back_SMR",
     "name": "Lower Back-SMR",
     "muscleGroup": "Core",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lower_Back-SMR/0.jpg"
   },
   {
@@ -3028,21 +3028,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Lunge_Pass_Through",
     "name": "Lunge Pass Through",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lunge_Pass_Through/0.jpg"
   },
   {
     "id": "gh_Lunge_Sprint",
     "name": "Lunge Sprint",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lunge_Sprint/0.jpg"
   },
   {
     "id": "gh_Lying_Bent_Leg_Groin",
     "name": "Lying Bent Leg Groin",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_Bent_Leg_Groin/0.jpg"
   },
   {
@@ -3077,7 +3077,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Lying_Close_Grip_Barbell_Triceps_Press_To_Chin",
     "name": "Lying Close-Grip Barbell Triceps Press To Chin",
     "muscleGroup": "Brazos",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_Close-Grip_Barbell_Triceps_Press_To_Chin/0.jpg"
   },
   {
@@ -3098,14 +3098,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Lying_Face_Down_Plate_Neck_Resistance",
     "name": "Lying Face Down Plate Neck Resistance",
     "muscleGroup": "Cuello",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_Face_Down_Plate_Neck_Resistance/0.jpg"
   },
   {
     "id": "gh_Lying_Face_Up_Plate_Neck_Resistance",
     "name": "Lying Face Up Plate Neck Resistance",
     "muscleGroup": "Cuello",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_Face_Up_Plate_Neck_Resistance/0.jpg"
   },
   {
@@ -3119,7 +3119,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Lying_Hamstring",
     "name": "Lying Hamstring",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_Hamstring/0.jpg"
   },
   {
@@ -3133,14 +3133,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Lying_Leg_Curls",
     "name": "Lying Leg Curls",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_Leg_Curls/0.jpg"
   },
   {
     "id": "gh_Lying_Machine_Squat",
     "name": "Lying Machine Squat",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_Machine_Squat/0.jpg"
   },
   {
@@ -3175,70 +3175,70 @@ export const extendedExerciseLibrary = [
     "id": "gh_Lying_T_Bar_Row",
     "name": "Lying T-Bar Row",
     "muscleGroup": "Espalda",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_T-Bar_Row/0.jpg"
   },
   {
     "id": "gh_Lying_Triceps_Press",
     "name": "Lying Triceps Press",
     "muscleGroup": "Brazos",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Lying_Triceps_Press/0.jpg"
   },
   {
     "id": "gh_Machine_Bench_Press",
     "name": "Machine Bench Press",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Machine_Bench_Press/0.jpg"
   },
   {
     "id": "gh_Machine_Bicep_Curl",
     "name": "Machine Bicep Curl",
     "muscleGroup": "Brazos",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Machine_Bicep_Curl/0.jpg"
   },
   {
     "id": "gh_Machine_Preacher_Curls",
     "name": "Machine Preacher Curls",
     "muscleGroup": "Brazos",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Machine_Preacher_Curls/0.jpg"
   },
   {
     "id": "gh_Machine_Shoulder_Military_Press",
     "name": "Machine Shoulder (Military) Press",
     "muscleGroup": "Hombros",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Machine_Shoulder_Military_Press/0.jpg"
   },
   {
     "id": "gh_Machine_Triceps_Extension",
     "name": "Machine Triceps Extension",
     "muscleGroup": "Brazos",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Machine_Triceps_Extension/0.jpg"
   },
   {
     "id": "gh_Medicine_Ball_Chest_Pass",
     "name": "Medicine Ball Chest Pass",
     "muscleGroup": "Pectoral",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Medicine_Ball_Chest_Pass/0.jpg"
   },
   {
     "id": "gh_Medicine_Ball_Full_Twist",
     "name": "Medicine Ball Full Twist",
     "muscleGroup": "Core",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Medicine_Ball_Full_Twist/0.jpg"
   },
   {
     "id": "gh_Medicine_Ball_Scoop_Throw",
     "name": "Medicine Ball Scoop Throw",
     "muscleGroup": "Hombros",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Medicine_Ball_Scoop_Throw/0.jpg"
   },
   {
@@ -3259,14 +3259,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Mixed_Grip_Chin",
     "name": "Mixed Grip Chin",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Mixed_Grip_Chin/0.jpg"
   },
   {
     "id": "gh_Monster_Walk",
     "name": "Monster Walk",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Monster_Walk/0.jpg"
   },
   {
@@ -3294,21 +3294,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Muscle_Up",
     "name": "Muscle Up",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Muscle_Up/0.jpg"
   },
   {
     "id": "gh_Narrow_Stance_Hack_Squats",
     "name": "Narrow Stance Hack Squats",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Narrow_Stance_Hack_Squats/0.jpg"
   },
   {
     "id": "gh_Narrow_Stance_Leg_Press",
     "name": "Narrow Stance Leg Press",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Narrow_Stance_Leg_Press/0.jpg"
   },
   {
@@ -3329,7 +3329,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Neck_SMR",
     "name": "Neck-SMR",
     "muscleGroup": "Cuello",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Neck-SMR/0.jpg"
   },
   {
@@ -3364,7 +3364,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_On_Your_Back_Quad_Stretch",
     "name": "On-Your-Back Quad Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/On-Your-Back_Quad_Stretch/0.jpg"
   },
   {
@@ -3406,84 +3406,84 @@ export const extendedExerciseLibrary = [
     "id": "gh_One_Arm_Kettlebell_Clean",
     "name": "One-Arm Kettlebell Clean",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Clean/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Clean_and_Jerk",
     "name": "One-Arm Kettlebell Clean and Jerk",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Clean_and_Jerk/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Floor_Press",
     "name": "One-Arm Kettlebell Floor Press",
     "muscleGroup": "Pectoral",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Floor_Press/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Jerk",
     "name": "One-Arm Kettlebell Jerk",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Jerk/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Military_Press_To_The_Side",
     "name": "One-Arm Kettlebell Military Press To The Side",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Military_Press_To_The_Side/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Para_Press",
     "name": "One-Arm Kettlebell Para Press",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Para_Press/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Push_Press",
     "name": "One-Arm Kettlebell Push Press",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Push_Press/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Row",
     "name": "One-Arm Kettlebell Row",
     "muscleGroup": "Espalda",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Row/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Snatch",
     "name": "One-Arm Kettlebell Snatch",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Snatch/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Split_Jerk",
     "name": "One-Arm Kettlebell Split Jerk",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Split_Jerk/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Split_Snatch",
     "name": "One-Arm Kettlebell Split Snatch",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Split_Snatch/0.jpg"
   },
   {
     "id": "gh_One_Arm_Kettlebell_Swings",
     "name": "One-Arm Kettlebell Swings",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Kettlebell_Swings/0.jpg"
   },
   {
@@ -3497,21 +3497,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_One_Arm_Medicine_Ball_Slam",
     "name": "One-Arm Medicine Ball Slam",
     "muscleGroup": "Core",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Medicine_Ball_Slam/0.jpg"
   },
   {
     "id": "gh_One_Arm_Open_Palm_Kettlebell_Clean",
     "name": "One-Arm Open Palm Kettlebell Clean",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Open_Palm_Kettlebell_Clean/0.jpg"
   },
   {
     "id": "gh_One_Arm_Overhead_Kettlebell_Squats",
     "name": "One-Arm Overhead Kettlebell Squats",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Overhead_Kettlebell_Squats/0.jpg"
   },
   {
@@ -3546,7 +3546,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_One_Arm_Chin_Up",
     "name": "One Arm Chin-Up",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One_Arm_Chin-Up/0.jpg"
   },
   {
@@ -3602,7 +3602,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_One_Handed_Hang",
     "name": "One Handed Hang",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One_Handed_Hang/0.jpg"
   },
   {
@@ -3623,14 +3623,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Open_Palm_Kettlebell_Clean",
     "name": "Open Palm Kettlebell Clean",
     "muscleGroup": "Piernas",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Open_Palm_Kettlebell_Clean/0.jpg"
   },
   {
     "id": "gh_Otis_Up",
     "name": "Otis-Up",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Otis-Up/0.jpg"
   },
   {
@@ -3644,14 +3644,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Overhead_Lat",
     "name": "Overhead Lat",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Overhead_Lat/0.jpg"
   },
   {
     "id": "gh_Overhead_Slam",
     "name": "Overhead Slam",
     "muscleGroup": "Espalda",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Overhead_Slam/0.jpg"
   },
   {
@@ -3721,7 +3721,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Parallel_Bar_Dip",
     "name": "Parallel Bar Dip",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Parallel_Bar_Dip/0.jpg"
   },
   {
@@ -3735,21 +3735,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Peroneals_SMR",
     "name": "Peroneals-SMR",
     "muscleGroup": "Piernas",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Peroneals-SMR/0.jpg"
   },
   {
     "id": "gh_Peroneals_Stretch",
     "name": "Peroneals Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Peroneals_Stretch/0.jpg"
   },
   {
     "id": "gh_Physioball_Hip_Bridge",
     "name": "Physioball Hip Bridge",
     "muscleGroup": "Piernas",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Physioball_Hip_Bridge/0.jpg"
   },
   {
@@ -3763,7 +3763,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Piriformis_SMR",
     "name": "Piriformis-SMR",
     "muscleGroup": "Piernas",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Piriformis-SMR/0.jpg"
   },
   {
@@ -3777,21 +3777,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Plate_Pinch",
     "name": "Plate Pinch",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Plate_Pinch/0.jpg"
   },
   {
     "id": "gh_Plate_Twist",
     "name": "Plate Twist",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Plate_Twist/0.jpg"
   },
   {
     "id": "gh_Platform_Hamstring_Slides",
     "name": "Platform Hamstring Slides",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Platform_Hamstring_Slides/0.jpg"
   },
   {
@@ -3805,7 +3805,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Plyo_Kettlebell_Pushups",
     "name": "Plyo Kettlebell Pushups",
     "muscleGroup": "Pectoral",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Plyo_Kettlebell_Pushups/0.jpg"
   },
   {
@@ -3819,7 +3819,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Posterior_Tibialis_Stretch",
     "name": "Posterior Tibialis Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Posterior_Tibialis_Stretch/0.jpg"
   },
   {
@@ -3868,7 +3868,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Power_Stairs",
     "name": "Power Stairs",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Power_Stairs/0.jpg"
   },
   {
@@ -3903,7 +3903,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Prowler_Sprint",
     "name": "Prowler Sprint",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Prowler_Sprint/0.jpg"
   },
   {
@@ -3945,7 +3945,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Push_Ups_With_Feet_On_An_Exercise_Ball",
     "name": "Push-Ups With Feet On An Exercise Ball",
     "muscleGroup": "Pectoral",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Push-Ups_With_Feet_On_An_Exercise_Ball/0.jpg"
   },
   {
@@ -3987,28 +3987,28 @@ export const extendedExerciseLibrary = [
     "id": "gh_Pyramid",
     "name": "Pyramid",
     "muscleGroup": "Core",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Pyramid/0.jpg"
   },
   {
     "id": "gh_Quad_Stretch",
     "name": "Quad Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Quad_Stretch/0.jpg"
   },
   {
     "id": "gh_Quadriceps_SMR",
     "name": "Quadriceps-SMR",
     "muscleGroup": "Piernas",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Quadriceps-SMR/0.jpg"
   },
   {
     "id": "gh_Quick_Leap",
     "name": "Quick Leap",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Quick_Leap/0.jpg"
   },
   {
@@ -4043,14 +4043,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Recumbent_Bike",
     "name": "Recumbent Bike",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Recumbent_Bike/0.jpg"
   },
   {
     "id": "gh_Return_Push_from_Stance",
     "name": "Return Push from Stance",
     "muscleGroup": "Hombros",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Return_Push_from_Stance/0.jpg"
   },
   {
@@ -4099,7 +4099,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Reverse_Barbell_Preacher_Curls",
     "name": "Reverse Barbell Preacher Curls",
     "muscleGroup": "Brazos",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Reverse_Barbell_Preacher_Curls/0.jpg"
   },
   {
@@ -4148,21 +4148,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Reverse_Hyperextension",
     "name": "Reverse Hyperextension",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Reverse_Hyperextension/0.jpg"
   },
   {
     "id": "gh_Reverse_Machine_Flyes",
     "name": "Reverse Machine Flyes",
     "muscleGroup": "Hombros",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Reverse_Machine_Flyes/0.jpg"
   },
   {
     "id": "gh_Reverse_Plate_Curls",
     "name": "Reverse Plate Curls",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Reverse_Plate_Curls/0.jpg"
   },
   {
@@ -4176,28 +4176,28 @@ export const extendedExerciseLibrary = [
     "id": "gh_Rhomboids_SMR",
     "name": "Rhomboids-SMR",
     "muscleGroup": "Espalda",
-    "equipment": "foam roll",
+    "equipment": "Foam roller",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Rhomboids-SMR/0.jpg"
   },
   {
     "id": "gh_Rickshaw_Carry",
     "name": "Rickshaw Carry",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Rickshaw_Carry/0.jpg"
   },
   {
     "id": "gh_Rickshaw_Deadlift",
     "name": "Rickshaw Deadlift",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Rickshaw_Deadlift/0.jpg"
   },
   {
     "id": "gh_Ring_Dips",
     "name": "Ring Dips",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Ring_Dips/0.jpg"
   },
   {
@@ -4218,7 +4218,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Rocky_Pull_Ups_Pulldowns",
     "name": "Rocky Pull-Ups/Pulldowns",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Rocky_Pull-Ups_Pulldowns/0.jpg"
   },
   {
@@ -4239,7 +4239,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Rope_Climb",
     "name": "Rope Climb",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Rope_Climb/0.jpg"
   },
   {
@@ -4253,7 +4253,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Rope_Jumping",
     "name": "Rope Jumping",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Rope_Jumping/0.jpg"
   },
   {
@@ -4267,14 +4267,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Round_The_World_Shoulder_Stretch",
     "name": "Round The World Shoulder Stretch",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Round_The_World_Shoulder_Stretch/0.jpg"
   },
   {
     "id": "gh_Rowing_Stationary",
     "name": "Rowing, Stationary",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Rowing_Stationary/0.jpg"
   },
   {
@@ -4288,7 +4288,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Running_Treadmill",
     "name": "Running, Treadmill",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Running_Treadmill/0.jpg"
   },
   {
@@ -4302,7 +4302,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Sandbag_Load",
     "name": "Sandbag Load",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Sandbag_Load/0.jpg"
   },
   {
@@ -4330,7 +4330,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Seated_Band_Hamstring_Curl",
     "name": "Seated Band Hamstring Curl",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Seated_Band_Hamstring_Curl/0.jpg"
   },
   {
@@ -4393,7 +4393,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Seated_Calf_Raise",
     "name": "Seated Calf Raise",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Seated_Calf_Raise/0.jpg"
   },
   {
@@ -4491,21 +4491,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Seated_Hamstring_and_Calf_Stretch",
     "name": "Seated Hamstring and Calf Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Seated_Hamstring_and_Calf_Stretch/0.jpg"
   },
   {
     "id": "gh_Seated_Head_Harness_Neck_Resistance",
     "name": "Seated Head Harness Neck Resistance",
     "muscleGroup": "Cuello",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Seated_Head_Harness_Neck_Resistance/0.jpg"
   },
   {
     "id": "gh_Seated_Leg_Curl",
     "name": "Seated Leg Curl",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Seated_Leg_Curl/0.jpg"
   },
   {
@@ -4603,7 +4603,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Shoulder_Press___With_Bands",
     "name": "Shoulder Press - With Bands",
     "muscleGroup": "Hombros",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Shoulder_Press_-_With_Bands/0.jpg"
   },
   {
@@ -4638,7 +4638,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Side_Hop_Sprint",
     "name": "Side Hop-Sprint",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Side_Hop-Sprint/0.jpg"
   },
   {
@@ -4694,7 +4694,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Side_To_Side_Chins",
     "name": "Side To Side Chins",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Side_To_Side_Chins/0.jpg"
   },
   {
@@ -4708,7 +4708,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Side_to_Side_Box_Shuffle",
     "name": "Side to Side Box Shuffle",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Side_to_Side_Box_Shuffle/0.jpg"
   },
   {
@@ -4736,42 +4736,42 @@ export const extendedExerciseLibrary = [
     "id": "gh_Single_Cone_Sprint_Drill",
     "name": "Single-Cone Sprint Drill",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Single-Cone_Sprint_Drill/0.jpg"
   },
   {
     "id": "gh_Single_Leg_High_Box_Squat",
     "name": "Single-Leg High Box Squat",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Single-Leg_High_Box_Squat/0.jpg"
   },
   {
     "id": "gh_Single_Leg_Hop_Progression",
     "name": "Single-Leg Hop Progression",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Single-Leg_Hop_Progression/0.jpg"
   },
   {
     "id": "gh_Single_Leg_Lateral_Hop",
     "name": "Single-Leg Lateral Hop",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Single-Leg_Lateral_Hop/0.jpg"
   },
   {
     "id": "gh_Single_Leg_Leg_Extension",
     "name": "Single-Leg Leg Extension",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Single-Leg_Leg_Extension/0.jpg"
   },
   {
     "id": "gh_Single_Leg_Stride_Jump",
     "name": "Single-Leg Stride Jump",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Single-Leg_Stride_Jump/0.jpg"
   },
   {
@@ -4799,7 +4799,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Single_Leg_Push_off",
     "name": "Single Leg Push-off",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Single_Leg_Push-off/0.jpg"
   },
   {
@@ -4820,56 +4820,56 @@ export const extendedExerciseLibrary = [
     "id": "gh_Skating",
     "name": "Skating",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Skating/0.jpg"
   },
   {
     "id": "gh_Sled_Drag___Harness",
     "name": "Sled Drag - Harness",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Sled_Drag_-_Harness/0.jpg"
   },
   {
     "id": "gh_Sled_Overhead_Backward_Walk",
     "name": "Sled Overhead Backward Walk",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Sled_Overhead_Backward_Walk/0.jpg"
   },
   {
     "id": "gh_Sled_Overhead_Triceps_Extension",
     "name": "Sled Overhead Triceps Extension",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Sled_Overhead_Triceps_Extension/0.jpg"
   },
   {
     "id": "gh_Sled_Push",
     "name": "Sled Push",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Sled_Push/0.jpg"
   },
   {
     "id": "gh_Sled_Reverse_Flye",
     "name": "Sled Reverse Flye",
     "muscleGroup": "Hombros",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Sled_Reverse_Flye/0.jpg"
   },
   {
     "id": "gh_Sled_Row",
     "name": "Sled Row",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Sled_Row/0.jpg"
   },
   {
     "id": "gh_Sledgehammer_Swings",
     "name": "Sledgehammer Swings",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Sledgehammer_Swings/0.jpg"
   },
   {
@@ -4883,126 +4883,126 @@ export const extendedExerciseLibrary = [
     "id": "gh_Smith_Machine_Behind_the_Back_Shrug",
     "name": "Smith Machine Behind the Back Shrug",
     "muscleGroup": "Espalda",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Behind_the_Back_Shrug/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Bench_Press",
     "name": "Smith Machine Bench Press",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Bench_Press/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Bent_Over_Row",
     "name": "Smith Machine Bent Over Row",
     "muscleGroup": "Espalda",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Bent_Over_Row/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Calf_Raise",
     "name": "Smith Machine Calf Raise",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Calf_Raise/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Close_Grip_Bench_Press",
     "name": "Smith Machine Close-Grip Bench Press",
     "muscleGroup": "Brazos",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Close-Grip_Bench_Press/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Decline_Press",
     "name": "Smith Machine Decline Press",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Decline_Press/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Hang_Power_Clean",
     "name": "Smith Machine Hang Power Clean",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Hang_Power_Clean/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Hip_Raise",
     "name": "Smith Machine Hip Raise",
     "muscleGroup": "Core",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Hip_Raise/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Incline_Bench_Press",
     "name": "Smith Machine Incline Bench Press",
     "muscleGroup": "Pectoral",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Incline_Bench_Press/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Leg_Press",
     "name": "Smith Machine Leg Press",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Leg_Press/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_One_Arm_Upright_Row",
     "name": "Smith Machine One-Arm Upright Row",
     "muscleGroup": "Hombros",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_One-Arm_Upright_Row/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Overhead_Shoulder_Press",
     "name": "Smith Machine Overhead Shoulder Press",
     "muscleGroup": "Hombros",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Overhead_Shoulder_Press/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Pistol_Squat",
     "name": "Smith Machine Pistol Squat",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Pistol_Squat/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Reverse_Calf_Raises",
     "name": "Smith Machine Reverse Calf Raises",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Reverse_Calf_Raises/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Squat",
     "name": "Smith Machine Squat",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Squat/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Stiff_Legged_Deadlift",
     "name": "Smith Machine Stiff-Legged Deadlift",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Stiff-Legged_Deadlift/0.jpg"
   },
   {
     "id": "gh_Smith_Machine_Upright_Row",
     "name": "Smith Machine Upright Row",
     "muscleGroup": "Espalda",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Machine_Upright_Row/0.jpg"
   },
   {
     "id": "gh_Smith_Single_Leg_Split_Squat",
     "name": "Smith Single-Leg Split Squat",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Smith_Single-Leg_Split_Squat/0.jpg"
   },
   {
@@ -5051,7 +5051,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Speed_Band_Overhead_Triceps",
     "name": "Speed Band Overhead Triceps",
     "muscleGroup": "Brazos",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Speed_Band_Overhead_Triceps/0.jpg"
   },
   {
@@ -5086,7 +5086,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Spider_Curl",
     "name": "Spider Curl",
     "muscleGroup": "Brazos",
-    "equipment": "e-z curl bar",
+    "equipment": "Barra EZ",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Spider_Curl/0.jpg"
   },
   {
@@ -5170,14 +5170,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Squats___With_Bands",
     "name": "Squats - With Bands",
     "muscleGroup": "Piernas",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Squats_-_With_Bands/0.jpg"
   },
   {
     "id": "gh_Stairmaster",
     "name": "Stairmaster",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Stairmaster/0.jpg"
   },
   {
@@ -5226,7 +5226,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Standing_Biceps_Stretch",
     "name": "Standing Biceps Stretch",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_Biceps_Stretch/0.jpg"
   },
   {
@@ -5261,7 +5261,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Standing_Calf_Raises",
     "name": "Standing Calf Raises",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_Calf_Raises/0.jpg"
   },
   {
@@ -5317,7 +5317,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Standing_Elevated_Quad_Stretch",
     "name": "Standing Elevated Quad Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_Elevated_Quad_Stretch/0.jpg"
   },
   {
@@ -5338,7 +5338,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Standing_Hamstring_and_Calf_Stretch",
     "name": "Standing Hamstring and Calf Stretch",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_Hamstring_and_Calf_Stretch/0.jpg"
   },
   {
@@ -5373,7 +5373,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Standing_Leg_Curl",
     "name": "Standing Leg Curl",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_Leg_Curl/0.jpg"
   },
   {
@@ -5408,7 +5408,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Standing_Olympic_Plate_Hand_Squeeze",
     "name": "Standing Olympic Plate Hand Squeeze",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_Olympic_Plate_Hand_Squeeze/0.jpg"
   },
   {
@@ -5499,7 +5499,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Standing_Two_Arm_Overhead_Throw",
     "name": "Standing Two-Arm Overhead Throw",
     "muscleGroup": "Hombros",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_Two-Arm_Overhead_Throw/0.jpg"
   },
   {
@@ -5520,7 +5520,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Step_Mill",
     "name": "Step Mill",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Step_Mill/0.jpg"
   },
   {
@@ -5583,7 +5583,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Stride_Jump_Crossover",
     "name": "Stride Jump Crossover",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Stride_Jump_Crossover/0.jpg"
   },
   {
@@ -5618,63 +5618,63 @@ export const extendedExerciseLibrary = [
     "id": "gh_Supine_Chest_Throw",
     "name": "Supine Chest Throw",
     "muscleGroup": "Brazos",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Supine_Chest_Throw/0.jpg"
   },
   {
     "id": "gh_Supine_One_Arm_Overhead_Throw",
     "name": "Supine One-Arm Overhead Throw",
     "muscleGroup": "Core",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Supine_One-Arm_Overhead_Throw/0.jpg"
   },
   {
     "id": "gh_Supine_Two_Arm_Overhead_Throw",
     "name": "Supine Two-Arm Overhead Throw",
     "muscleGroup": "Core",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Supine_Two-Arm_Overhead_Throw/0.jpg"
   },
   {
     "id": "gh_Suspended_Fallout",
     "name": "Suspended Fallout",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Suspended_Fallout/0.jpg"
   },
   {
     "id": "gh_Suspended_Push_Up",
     "name": "Suspended Push-Up",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Suspended_Push-Up/0.jpg"
   },
   {
     "id": "gh_Suspended_Reverse_Crunch",
     "name": "Suspended Reverse Crunch",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Suspended_Reverse_Crunch/0.jpg"
   },
   {
     "id": "gh_Suspended_Row",
     "name": "Suspended Row",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Suspended_Row/0.jpg"
   },
   {
     "id": "gh_Suspended_Split_Squat",
     "name": "Suspended Split Squat",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Suspended_Split_Squat/0.jpg"
   },
   {
     "id": "gh_Svend_Press",
     "name": "Svend Press",
     "muscleGroup": "Pectoral",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Svend_Press/0.jpg"
   },
   {
@@ -5702,21 +5702,21 @@ export const extendedExerciseLibrary = [
     "id": "gh_Thigh_Abductor",
     "name": "Thigh Abductor",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Thigh_Abductor/0.jpg"
   },
   {
     "id": "gh_Thigh_Adductor",
     "name": "Thigh Adductor",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Thigh_Adductor/0.jpg"
   },
   {
     "id": "gh_Tire_Flip",
     "name": "Tire Flip",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Tire_Flip/0.jpg"
   },
   {
@@ -5730,7 +5730,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Torso_Rotation",
     "name": "Torso Rotation",
     "muscleGroup": "Core",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Torso_Rotation/0.jpg"
   },
   {
@@ -5744,7 +5744,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Trap_Bar_Deadlift",
     "name": "Trap Bar Deadlift",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Trap_Bar_Deadlift/0.jpg"
   },
   {
@@ -5814,28 +5814,28 @@ export const extendedExerciseLibrary = [
     "id": "gh_Two_Arm_Kettlebell_Clean",
     "name": "Two-Arm Kettlebell Clean",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Two-Arm_Kettlebell_Clean/0.jpg"
   },
   {
     "id": "gh_Two_Arm_Kettlebell_Jerk",
     "name": "Two-Arm Kettlebell Jerk",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Two-Arm_Kettlebell_Jerk/0.jpg"
   },
   {
     "id": "gh_Two_Arm_Kettlebell_Military_Press",
     "name": "Two-Arm Kettlebell Military Press",
     "muscleGroup": "Hombros",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Two-Arm_Kettlebell_Military_Press/0.jpg"
   },
   {
     "id": "gh_Two_Arm_Kettlebell_Row",
     "name": "Two-Arm Kettlebell Row",
     "muscleGroup": "Espalda",
-    "equipment": "kettlebells",
+    "equipment": "Kettlebell",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Two-Arm_Kettlebell_Row/0.jpg"
   },
   {
@@ -5877,7 +5877,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Upright_Row___With_Bands",
     "name": "Upright Row - With Bands",
     "muscleGroup": "Espalda",
-    "equipment": "bands",
+    "equipment": "Bandas elásticas",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Upright_Row_-_With_Bands/0.jpg"
   },
   {
@@ -5912,35 +5912,35 @@ export const extendedExerciseLibrary = [
     "id": "gh_Walking_Treadmill",
     "name": "Walking, Treadmill",
     "muscleGroup": "Piernas",
-    "equipment": "Maquina",
+    "equipment": "Máquina",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Walking_Treadmill/0.jpg"
   },
   {
     "id": "gh_Weighted_Ball_Hyperextension",
     "name": "Weighted Ball Hyperextension",
     "muscleGroup": "Core",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Weighted_Ball_Hyperextension/0.jpg"
   },
   {
     "id": "gh_Weighted_Ball_Side_Bend",
     "name": "Weighted Ball Side Bend",
     "muscleGroup": "Core",
-    "equipment": "exercise ball",
+    "equipment": "Fitball",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Weighted_Ball_Side_Bend/0.jpg"
   },
   {
     "id": "gh_Weighted_Bench_Dip",
     "name": "Weighted Bench Dip",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Weighted_Bench_Dip/0.jpg"
   },
   {
     "id": "gh_Weighted_Crunches",
     "name": "Weighted Crunches",
     "muscleGroup": "Core",
-    "equipment": "medicine ball",
+    "equipment": "Balón medicinal",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Weighted_Crunches/0.jpg"
   },
   {
@@ -5954,7 +5954,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Weighted_Pull_Ups",
     "name": "Weighted Pull Ups",
     "muscleGroup": "Espalda",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Weighted_Pull_Ups/0.jpg"
   },
   {
@@ -5968,14 +5968,14 @@ export const extendedExerciseLibrary = [
     "id": "gh_Weighted_Sit_Ups___With_Bands",
     "name": "Weighted Sit-Ups - With Bands",
     "muscleGroup": "Core",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Weighted_Sit-Ups_-_With_Bands/0.jpg"
   },
   {
     "id": "gh_Weighted_Squat",
     "name": "Weighted Squat",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Weighted_Squat/0.jpg"
   },
   {
@@ -6073,7 +6073,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Wrist_Roller",
     "name": "Wrist Roller",
     "muscleGroup": "Brazos",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Wrist_Roller/0.jpg"
   },
   {
@@ -6087,7 +6087,7 @@ export const extendedExerciseLibrary = [
     "id": "gh_Yoke_Walk",
     "name": "Yoke Walk",
     "muscleGroup": "Piernas",
-    "equipment": "other",
+    "equipment": "Otro",
     "imageUrl": "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Yoke_Walk/0.jpg"
   },
   {

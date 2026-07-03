@@ -1,8 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, lazy, Suspense } from 'react';
 import { Card, Button, Input } from '../UI/Card';
 import { ACCENT_PALETTES, ACCENT_NAMES } from '../../App';
 import { Download, Upload, Dumbbell, Shield } from 'lucide-react';
 import { getMuscleImage } from '../../data/muscleImages';
+
+// Solo lo cargan los admins al abrir el panel — fuera del bundle principal
+const AdminExercisesView = lazy(() => import('../Admin/AdminExercisesView'));
 
 export default function SettingsView({
   exercises,
@@ -10,6 +13,7 @@ export default function SettingsView({
   onSavePreferences,
   onDeleteExercise,
   onCreateExercise,
+  onSaveGlobalExercise,
   onRestoreExercises,
   onExportData,
   onImportData,
@@ -23,6 +27,7 @@ export default function SettingsView({
   const [newExerciseMuscle, setNewExerciseMuscle] = useState('');
   const [importMsg, setImportMsg] = useState('');
   const [importLoading, setImportLoading] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
   const fileInputRef = useRef(null);
 
   const handleCreateExerciseSubmit = async () => {
@@ -178,6 +183,23 @@ export default function SettingsView({
           </div>
         </Card>
 
+        {/* Panel de administración (solo admin) */}
+        {isAdmin && (
+          <Card className="space-y-3 border-brand-500/30 dark:border-brand-500/20">
+            <div className="flex items-center gap-2">
+              <Shield size={15} className="text-brand-500" />
+              <h3 className="font-semibold text-sm text-zinc-900 dark:text-zinc-100">Administración</h3>
+            </div>
+            <p className="text-xs text-zinc-500 leading-relaxed">
+              Gestiona el catálogo global de ejercicios de forma visual: edita nombres, grupos y fotos,
+              oculta ejercicios o añade nuevos. Los cambios los ven todos los usuarios.
+            </p>
+            <Button onClick={() => setShowAdminPanel(true)} className="h-11 text-sm">
+              <Dumbbell size={15} className="mr-2" /> Abrir panel de ejercicios
+            </Button>
+          </Card>
+        )}
+
         {/* Catálogo de ejercicios */}
         <Card className="space-y-4">
           <div className="flex items-center justify-between">
@@ -220,11 +242,12 @@ export default function SettingsView({
           </div>
 
           <div className="space-y-2 max-h-56 overflow-y-auto pr-2">
-            {safeExercises.map((exercise) => (
+            {safeExercises.filter((exercise) => !exercise.hidden).map((exercise) => (
               <div key={exercise.id} className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800 pb-2 last:border-0">
-                <img 
-                  src={exercise.imageUrl || getMuscleImage(exercise.muscleGroup)} 
+                <img
+                  src={exercise.imageUrl || getMuscleImage(exercise.muscleGroup)}
                   alt={exercise.muscleGroup}
+                  loading="lazy"
                   className="w-10 h-10 rounded-md object-cover bg-zinc-900 border border-zinc-700/50 flex-shrink-0"
                   onError={(e) => {
                     e.target.onerror = null;
@@ -292,6 +315,23 @@ export default function SettingsView({
           )}
         </Card>
       </section>
+
+      {/* Overlay del panel de administración */}
+      {showAdminPanel && isAdmin && (
+        <Suspense fallback={
+          <div className="fixed inset-0 bg-zinc-950/80 z-50 flex items-center justify-center">
+            <p className="text-zinc-400 text-sm">Cargando panel…</p>
+          </div>
+        }>
+          <AdminExercisesView
+            exercises={safeExercises}
+            onSaveGlobal={onSaveGlobalExercise}
+            onDeleteGlobal={onDeleteExercise}
+            onRestoreAll={onRestoreExercises}
+            onClose={() => setShowAdminPanel(false)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

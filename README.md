@@ -41,8 +41,9 @@ A diferencia de apps como Hevy, Caliber o Strong — AnotaGym es completamente *
 | ☁️ **Sync en la nube** | Firestore sincroniza en tiempo real entre dispositivos |
 | 💾 **Export/Import JSON** | Copia de seguridad completa de tus datos |
 | 🎨 **Temas y colores** | Modo oscuro/claro + 8 paletas de color de acento |
-| 👑 **Rol admin** | Catálogo global de ejercicios gestionado por el administrador |
-| 📚 **Base de Datos Masiva** | 100 ejercicios base en español + 870+ ejercicios open-source con imágenes demostrativas servidas desde CDN global (jsDelivr) — cero configuración |
+| 👑 **Panel de admin** | Gestión visual del catálogo global: editar, ocultar y añadir ejercicios con foto |
+| 📝 **Notas por ejercicio** | Apunta sensaciones y técnica en cada ejercicio de la sesión |
+| 📚 **Base de Datos Masiva** | 80 ejercicios base en español (79 con foto) + 870+ ejercicios open-source con imágenes servidas desde CDN global (jsDelivr) — cero configuración |
 | ⏱️ **Timer de descanso** | Timer automático al completar una serie, con feedback háptico (desactivable) |
 | 🔗 **Compartir rutinas** | Genera un enlace para que cualquiera importe tu rutina con un toque |
 | 🔍 **Buscador Inteligente** | Filtrado en tiempo real en el creador de rutinas. |
@@ -105,25 +106,12 @@ VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
 
 #### 4. Reglas de Firestore
 
-En la consola de Firebase → Firestore → Rules, copia estas reglas:
+Las reglas completas están en [`firestore.rules`](firestore.rules). Cópialas en la consola
+de Firebase → Firestore Database → Reglas → Publicar (o `firebase deploy --only firestore:rules`).
 
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // Datos privados del usuario
-    match /users/{userId}/{document=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-    // Catálogo global — solo lectura para usuarios, escritura solo admin
-    match /globalExercises/{exerciseId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)/profile/data).data.role == 'admin';
-    }
-  }
-}
-```
+> 🔒 **Importante**: usa siempre el archivo del repo. Además de aislar los datos de cada
+> usuario, impide que un usuario se auto-asigne el rol `admin` editando su propio perfil
+> (el campo `role` es inmutable desde el cliente; se concede a mano en la consola).
 
 #### 5. Arrancar en modo desarrollo
 ```bash
@@ -161,6 +149,48 @@ firebase init hosting   # dist como directorio público, SPA: sí
 firebase deploy
 ```
 
+### 👑 Guía de administración del catálogo
+
+El catálogo de ejercicios se compone de **tres capas** que la app fusiona en tiempo real
+(`src/hooks/useFirestoreData.js`):
+
+| Capa | Dónde vive | Quién la ve | Quién la edita |
+|------|-----------|-------------|----------------|
+| **Catálogo base** | `src/data/exerciseLibrary.js` (80, español) + `src/data/extendedLibrary.js` (870+, inglés) — dentro del bundle JS | Todos | Solo por código (PR al repo) |
+| **Catálogo global** | Colección `/globalExercises` en Firestore | Todos | Solo admins, desde la app |
+| **Ejercicios privados** | `/users/{uid}/privateExercises` | Solo su dueño | Su dueño |
+
+**Regla de oro del merge:** un documento de `/globalExercises` con el **mismo `id`** que un
+ejercicio del catálogo base lo **sobreescribe para todos** (override). Así el admin puede
+corregir el nombre, grupo, equipamiento o foto de cualquier ejercicio sin tocar código.
+
+**Cómo gestionar ejercicios como admin (desde la app):**
+
+1. Entra con tu cuenta admin → pestaña **Ajustes** → tarjeta **Administración** → *Abrir panel de ejercicios*
+2. Desde el panel puedes:
+   - 🔍 Buscar y filtrar (grupo, material, **sin foto**, ocultos) — toca las tarjetas de stats para filtrar
+   - ✏️ **Editar** cualquier ejercicio (con preview de la imagen en vivo)
+   - 🙈 **Ocultar** ejercicios del catálogo base para todos (sin borrar el historial de nadie)
+   - ➕ **Añadir** ejercicios globales nuevos con foto
+   - 🗑️ **Eliminar** documentos globales (si es un override, vuelve a la versión original del bundle)
+
+**Cómo se asigna el rol admin** (solo se hace una vez, a mano):
+Firebase Console → Firestore → `users/{uid}/profile/data` → editar campo `role` → `admin`.
+Las reglas de seguridad impiden que nadie se lo asigne desde el cliente.
+
+**Fotos de ejercicios:** el proyecto usa [free-exercise-db](https://github.com/yuhonas/free-exercise-db)
+(dominio público) servido vía jsDelivr. Para un ejercicio nuevo, busca su carpeta y usa:
+`https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/<NOMBRE>/0.jpg`
+
+### 🗄️ Estructura de datos en Firestore
+
+```
+/users/{uid}/profile/data            → displayName, photoURL, role ('user'|'admin')
+/users/{uid}/workoutData/main        → rutinas, sesión activa, historial, métricas, preferencias
+/users/{uid}/privateExercises/{id}   → ejercicios personalizados del usuario
+/globalExercises/{id}                → catálogo global (overrides, nuevos y tombstones {hidden:true})
+```
+
 ### 🏗️ Estructura del proyecto
 
 ```
@@ -177,19 +207,23 @@ anotagym/
 │   │   │   └── HistoryView.jsx # Historial, gráficas, métricas
 │   │   ├── Layout/
 │   │   │   └── MobileAppShell.jsx  # Shell de navegación móvil
+│   │   ├── Admin/
+│   │   │   └── AdminExercisesView.jsx  # Panel de gestión del catálogo global
 │   │   ├── Profile/
 │   │   │   ├── ProfileView.jsx # Perfil y métricas corporales
 │   │   │   └── SettingsView.jsx    # Configuración, ejercicios, export
 │   │   ├── Tracker/
-│   │   │   └── SetLogger.jsx   # Logger de series activo (entrenamiento)
+│   │   │   ├── SetLogger.jsx   # Logger de series activo (entrenamiento)
+│   │   │   └── RestTimerPill.jsx   # Timer de descanso flotante
 │   │   └── UI/
-│   │       └── Card.jsx        # Componentes UI reutilizables
+│   │       ├── Card.jsx        # Componentes UI reutilizables
+│   │       └── ErrorBoundary.jsx   # Recuperación ante crashes
 │   ├── contexts/
 │   │   └── AuthContext.jsx     # Context de autenticación Firebase
 │   ├── data/
-│   │   ├── exerciseLibrary.js  # 100 ejercicios base en español
+│   │   ├── exerciseLibrary.js  # 80 ejercicios base en español (79 con foto)
 │   │   ├── extendedLibrary.js  # 870+ ejercicios open-source (imágenes vía jsDelivr CDN)
-│   │   └── muscleImages.js     # Imágenes de cabecera por grupo muscular
+│   │   └── muscleImages.js     # Imágenes de fallback por grupo muscular
 │   ├── hooks/
 │   │   └── useFirestoreData.js # Hook principal: sync Firestore ↔ estado
 │   ├── utils/                  # Utilidades (helpers)
@@ -199,6 +233,7 @@ anotagym/
 │   └── index.css               # Estilos globales
 ├── .env.example                # Plantilla de variables de entorno
 ├── .env.local                  # TUS credenciales (no subir a git)
+├── firestore.rules             # Reglas de seguridad de Firestore
 ├── .gitignore
 ├── index.html                  # HTML con SEO meta tags
 ├── package.json
@@ -296,10 +331,13 @@ Una vez tengas el dominio, en Vercel o Firebase Hosting puedes conectarlo gratis
 - [x] Script automático GitHub Actions para limpieza de invitados
 - [x] Timer de descanso entre series (con feedback háptico)
 - [x] Compartir rutinas por enlace
-- [ ] Notas por ejercicio en la sesión
+- [x] Notas por ejercicio en la sesión
+- [x] Panel de administración visual del catálogo global
+- [x] Reglas de Firestore endurecidas (rol admin inmutable desde el cliente)
 - [ ] Estadísticas por ejercicio (curva de progresión)
 - [ ] Quick Log (sesión libre sin plantilla)
 - [ ] Notificaciones push
+- [ ] Historial de sesiones en subcolección (hoy vive en un único documento)
 
 ### 📄 Licencia
 
@@ -387,23 +425,12 @@ VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
 
 #### 4. Firestore Security Rules
 
-In Firebase Console → Firestore → Rules:
+Full rules live in [`firestore.rules`](firestore.rules). Paste them in Firebase Console →
+Firestore Database → Rules → Publish (or `firebase deploy --only firestore:rules`).
 
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId}/{document=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-    match /globalExercises/{exerciseId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)/profile/data).data.role == 'admin';
-    }
-  }
-}
-```
+> 🔒 Always use the repo file: besides isolating each user's data, it prevents
+> privilege escalation (the `role` field is immutable from the client — admin is
+> granted manually in the console).
 
 #### 5. Start dev server
 ```bash
@@ -441,10 +468,13 @@ firebase deploy
 - [x] Automated guest cleanup via GitHub Actions
 - [x] Rest timer between sets (with haptic feedback)
 - [x] Share routines via link
-- [ ] Per-exercise notes in session
+- [x] Per-exercise notes in session
+- [x] Visual admin panel for the global exercise catalog
+- [x] Hardened Firestore rules (client-immutable admin role)
 - [ ] Exercise progression chart
 - [ ] Free-form Quick Log session
 - [ ] Push notifications
+- [ ] Move session history to a subcollection (currently a single document)
 
 ### 📄 License
 

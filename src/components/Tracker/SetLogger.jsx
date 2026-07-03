@@ -188,9 +188,10 @@ export default function SetLogger({
           <div className="mb-4">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <img 
-                  src={getExerciseById(exercise.exerciseId)?.imageUrl || getMuscleImage(getExerciseById(exercise.exerciseId)?.muscleGroup)} 
+                <img
+                  src={getExerciseById(exercise.exerciseId)?.imageUrl || getMuscleImage(getExerciseById(exercise.exerciseId)?.muscleGroup)}
                   alt={getExerciseById(exercise.exerciseId)?.muscleGroup}
+                  loading="lazy"
                   className="w-12 h-12 rounded-xl object-cover bg-zinc-100 dark:bg-zinc-900 shadow-sm border border-zinc-200 dark:border-zinc-800"
                 />
                 <div>

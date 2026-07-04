@@ -159,6 +159,7 @@ export default function SetLogger({
   onRemoveExercise,
   showRmEstimates = false,
   plateCalcEnabled = false,
+  effortMode = 'rir', // 'rir' | 'rpe' | 'off'
 }) {
   // Track which set has the type-picker open: { exerciseId, setId }
   const [openTypePicker, setOpenTypePicker] = useState(null);
@@ -414,7 +415,7 @@ export default function SetLogger({
                   )}
 
                   {/* Inputs */}
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className={`grid gap-2 ${effortMode === 'off' ? 'grid-cols-2' : 'grid-cols-3'}`}>
                     <div className="flex flex-col gap-1">
                       <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
                         Peso ({unit})
@@ -444,20 +445,22 @@ export default function SetLogger({
                         placeholder={previousReps || '0'}
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
-                        RIR
-                      </label>
-                      <input
-                        type="text"
-                        value={set.effort}
-                        onChange={(event) =>
-                          onSetFieldChange(exercise.id, set.id, 'effort', event.target.value)
-                        }
-                        className="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 focus:border-brand-500 dark:focus:border-brand-500 outline-none rounded-lg px-2.5 py-2 text-sm text-zinc-900 dark:text-zinc-100 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
-                        placeholder="-"
-                      />
-                    </div>
+                    {effortMode !== 'off' && (
+                      <div className="flex flex-col gap-1">
+                        <label className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
+                          {effortMode === 'rpe' ? 'RPE' : 'RIR'}
+                        </label>
+                        <input
+                          type="text"
+                          value={set.effort}
+                          onChange={(event) =>
+                            onSetFieldChange(exercise.id, set.id, 'effort', event.target.value)
+                          }
+                          className="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 focus:border-brand-500 dark:focus:border-brand-500 outline-none rounded-lg px-2.5 py-2 text-sm text-zinc-900 dark:text-zinc-100 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
+                          placeholder="-"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {/* RM Estimations — opcional (Ajustes → Entrenamiento) */}

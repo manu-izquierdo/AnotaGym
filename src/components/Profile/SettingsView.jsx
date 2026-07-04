@@ -316,6 +316,34 @@ export default function SettingsView({
               </Button>
             </div>
           </div>
+
+          <div>
+            <h3 className="font-medium text-sm text-zinc-900 dark:text-zinc-100 mb-2">Esfuerzo por serie</h3>
+            <div className="flex gap-2">
+              {[
+                { id: 'rir', label: 'RIR' },
+                { id: 'rpe', label: 'RPE' },
+                { id: 'off', label: 'No anotar' },
+              ].map(({ id, label }) => (
+                <Button
+                  key={id}
+                  variant={(safePreferences.effortMode || 'rir') === id ? 'primary' : 'secondary'}
+                  className="h-10 text-sm flex-1"
+                  onClick={() => onSavePreferences({ effortMode: id })}
+                >
+                  {label}
+                </Button>
+              ))}
+            </div>
+            <p className="text-[11px] text-zinc-500 mt-2 leading-relaxed">
+              {(safePreferences.effortMode || 'rir') === 'rir' &&
+                'RIR: repeticiones que dejas en la recámara (0 = al fallo, 2 = podrías hacer 2 más).'}
+              {safePreferences.effortMode === 'rpe' &&
+                'RPE: esfuerzo percibido del 1 al 10 (10 = al fallo, 8 = podrías hacer 2 reps más).'}
+              {safePreferences.effortMode === 'off' &&
+                'La columna de esfuerzo no se mostrará al anotar tus series.'}
+            </p>
+          </div>
         </Card>
 
         {/* Herramientas opcionales de la sesión */}

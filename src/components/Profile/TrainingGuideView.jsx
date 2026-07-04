@@ -92,6 +92,10 @@ export default function TrainingGuideView({ onBack }) {
           Cuanto más cerca del fallo, más estímulo pero también más fatiga. Entrenar casi siempre con 1–3 en la
           recámara es el punto dulce para progresar sin machacarte.
         </p>
+        <p className="text-xs text-zinc-500 leading-relaxed">
+          Si lo prefieres, en Ajustes → Entrenamiento puedes anotar el esfuerzo como <strong className="text-zinc-700 dark:text-zinc-300">RPE</strong> (escala
+          de 1 a 10, donde 10 es el fallo: RPE 8 ≈ RIR 2) o no anotarlo.
+        </p>
       </Card>
 
       {SECTIONS.map((section) => (

@@ -448,6 +448,7 @@ function App() {
             user={uiUser}
             completedSessions={workoutState.completedSessions}
             hasActiveSession={Boolean(workoutState.activeSession)}
+            exerciseLibrary={exercises}
           />
         )}
 

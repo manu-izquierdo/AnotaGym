@@ -30,13 +30,16 @@
 
 /* ── Micro-animaciones (CSS puro: cero coste en el bundle, van por GPU) ── */
 
-/* Entrada suave del contenido al cambiar de pestaña */
+/* Entrada suave del contenido al cambiar de pestaña.
+   OJO: sin fill-mode — si el transform se quedara aplicado, los ancestros
+   con transform "capturan" a los hijos position:fixed (modales, hojas)
+   y los descolocan de la ventana. */
 @keyframes viewIn {
   from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: none; }
 }
 .animate-view-in {
-  animation: viewIn 0.28s ease-out both;
+  animation: viewIn 0.28s ease-out;
 }
 
 /* La línea de las gráficas se dibuja de izquierda a derecha */

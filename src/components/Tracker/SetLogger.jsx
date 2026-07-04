@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { Card, Button } from '../UI/Card';
+import ConfirmDialog from '../UI/ConfirmDialog';
 import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell } from 'lucide-react';
 import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
 import { getMuscleImage } from '../../data/muscleImages';
@@ -159,6 +160,8 @@ export default function SetLogger({
   const [openTypePicker, setOpenTypePicker] = useState(null);
   const [openNotes, setOpenNotes] = useState({});
   const [showExercisePicker, setShowExercisePicker] = useState(false);
+  const [confirmRemoveId, setConfirmRemoveId] = useState(null);
+  const [confirmCancel, setConfirmCancel] = useState(false);
 
   const getExerciseById = useCallback(
     (exerciseId) => exerciseLibrary.find((exercise) => exercise.id === exerciseId),
@@ -286,11 +289,7 @@ export default function SetLogger({
                   <BookOpen size={16} />
                 </button>
                 <button
-                  onClick={() => {
-                    if (window.confirm('¿Quitar este ejercicio de la sesión? Se perderán sus series anotadas.')) {
-                      onRemoveExercise?.(exercise.id);
-                    }
-                  }}
+                  onClick={() => setConfirmRemoveId(exercise.id)}
                   className="p-1.5 rounded-lg text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
                   title="Quitar ejercicio de la sesión"
                 >
@@ -500,16 +499,35 @@ export default function SetLogger({
         </Button>
         <Button
           variant="ghost"
-          onClick={() => {
-            if (window.confirm('¿Estás seguro de que deseas cancelar este entrenamiento? No se guardará ningún progreso.')) {
-              onCancelSession?.();
-            }
-          }}
+          onClick={() => setConfirmCancel(true)}
           className="h-12 text-red-500 hover:text-red-600 dark:hover:text-red-400 bg-red-50 dark:bg-red-950/20"
         >
           Cancelar entreno
         </Button>
       </div>
+
+      {confirmRemoveId && (
+        <ConfirmDialog
+          title="¿Quitar este ejercicio?"
+          message="Se perderán las series anotadas de este ejercicio en la sesión actual."
+          confirmLabel="Quitar"
+          danger
+          onConfirm={() => { onRemoveExercise?.(confirmRemoveId); setConfirmRemoveId(null); }}
+          onCancel={() => setConfirmRemoveId(null)}
+        />
+      )}
+
+      {confirmCancel && (
+        <ConfirmDialog
+          title="¿Cancelar el entrenamiento?"
+          message="No se guardará ningún progreso de esta sesión."
+          confirmLabel="Cancelar entreno"
+          cancelLabel="Seguir entrenando"
+          danger
+          onConfirm={() => { setConfirmCancel(false); onCancelSession?.(); }}
+          onCancel={() => setConfirmCancel(false)}
+        />
+      )}
 
       {showExercisePicker && (
         <ExercisePickerSheet

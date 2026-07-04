@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Card } from '../UI/Card';
+import ConfirmDialog from '../UI/ConfirmDialog';
 import { Trash2, Dumbbell, Scale, BarChart3, ListChecks, LineChart } from 'lucide-react';
 import { SET_TYPE_MAP } from '../Dashboard/TemplateEditor';
 import ProgressChart from '../UI/ProgressChart';
@@ -168,6 +169,7 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
   const safeLibrary = exerciseLibrary || [];
 
   const [section, setSection] = useState('summary');
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
   const exerciseIndex = useMemo(() =>
     safeLibrary.reduce((acc, ex) => { acc[ex.id] = ex; return acc; }, {}), [safeLibrary]);
@@ -319,11 +321,7 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
                     <div className="flex items-center justify-between">
                       <p className="font-bold text-zinc-900 dark:text-zinc-100 text-sm">{session.templateName}</p>
                       <button
-                        onClick={() => {
-                          if (window.confirm('¿Borrar este entrenamiento? Esta acción no se puede deshacer.')) {
-                            onDeleteSession?.(session.id);
-                          }
-                        }}
+                        onClick={() => setConfirmDeleteId(session.id)}
                         className="p-1.5 rounded-lg text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
                         aria-label="Borrar sesión"
                       >
@@ -388,6 +386,17 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
             })}
           </div>
         )
+      )}
+
+      {confirmDeleteId && (
+        <ConfirmDialog
+          title="¿Borrar este entrenamiento?"
+          message="Esta acción no se puede deshacer."
+          confirmLabel="Borrar"
+          danger
+          onConfirm={() => { onDeleteSession?.(confirmDeleteId); setConfirmDeleteId(null); }}
+          onCancel={() => setConfirmDeleteId(null)}
+        />
       )}
     </div>
   );

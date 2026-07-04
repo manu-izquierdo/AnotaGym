@@ -320,6 +320,26 @@ function App() {
     });
   };
 
+  // Quitar una serie concreta (renumera las restantes)
+  const handleRemoveSetFromExercise = (sessionExerciseId, setId) => {
+    setWorkoutState((prev) => {
+      if (!prev.activeSession) return prev;
+      return {
+        ...prev,
+        activeSession: {
+          ...prev.activeSession,
+          exercises: prev.activeSession.exercises.map((ex) => {
+            if (ex.id !== sessionExerciseId) return ex;
+            const sets = ex.sets
+              .filter((s) => s.id !== setId)
+              .map((s, i) => ({ ...s, order: i + 1 }));
+            return { ...ex, targetSets: Math.max(sets.length, 1), sets };
+          }),
+        },
+      };
+    });
+  };
+
   const handleRemoveExerciseFromSession = (sessionExerciseId) => {
     setWorkoutState((prev) => {
       if (!prev.activeSession) return prev;
@@ -465,6 +485,7 @@ function App() {
               onCancelSession={handleCancelSession}
               onAddExercise={handleAddExerciseToSession}
               onAddSet={handleAddSetToExercise}
+              onRemoveSet={handleRemoveSetFromExercise}
               onRemoveExercise={handleRemoveExerciseFromSession}
             />
           ) : (

@@ -154,6 +154,7 @@ export default function SetLogger({
   onCancelSession,
   onAddExercise,
   onAddSet,
+  onRemoveSet,
   onRemoveExercise,
 }) {
   // Track which set has the type-picker open: { exerciseId, setId }
@@ -349,6 +350,18 @@ export default function SetLogger({
                     </div>
 
                     <div className="flex items-center gap-2">
+                      {/* Quitar esta serie (las restantes se renumeran) */}
+                      {exercise.sets.length > 1 && (
+                        <button
+                          onClick={() => onRemoveSet?.(exercise.id, set.id)}
+                          className="p-1 rounded-md text-zinc-300 dark:text-zinc-600 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                          title="Quitar serie"
+                          aria-label="Quitar serie"
+                        >
+                          <X size={14} />
+                        </button>
+                      )}
+
                       {/* Set type badge — tap to open inline picker */}
                       <button
                         onClick={() => setOpenTypePicker(isPickerOpen ? null : pickerKey)}

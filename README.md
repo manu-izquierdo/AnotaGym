@@ -2,7 +2,7 @@
 
 # 🏋️ AnotaGym
 
-### Tu Agenda para el Gym · Your Smart Gym Tracker
+### Tu agenda para el gym · Your smart gym tracker
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-violet.svg)](LICENSE)
 [![Firebase](https://img.shields.io/badge/Backend-Firebase-orange)](https://firebase.google.com)
@@ -10,7 +10,7 @@
 [![React](https://img.shields.io/badge/React-18-61dafb)](https://reactjs.org)
 [![Vite](https://img.shields.io/badge/Vite-5-646cff)](https://vitejs.dev)
 
-**🔗 App en producción / Live app: [anotagym.vercel.app](https://anotagym.vercel.app)**
+**🔗 Pruébala ya / Try it now: [anotagym.vercel.app](https://anotagym.vercel.app)**
 
 > **Español** · [English below ↓](#english-version)
 
@@ -22,72 +22,113 @@
 
 ### ¿Qué es AnotaGym?
 
-**AnotaGym** es una aplicación web progresiva (PWA) gratuita para el registro y seguimiento de entrenamientos en el gimnasio. Diseñada mobile-first, funciona tanto online como offline y sincroniza tus datos en todos tus dispositivos.
+**AnotaGym** es tu cuaderno de entrenamiento de toda la vida, pero inteligente. Apunta tus series, pesos y repeticiones en segundos, y la app se encarga del resto: te enseña tu progreso con gráficas, guarda tus récords personales y sincroniza todo entre tu móvil y tu ordenador.
 
-A diferencia de apps como Hevy, Caliber o Strong — AnotaGym es completamente **gratuita, sin anuncios y con tu propio backup**.
+A diferencia de apps como Hevy, Caliber o Strong, AnotaGym es completamente **gratuita, sin anuncios, sin funciones bloqueadas y sin suscripciones**. Tus datos son tuyos: puedes exportarlos cuando quieras. Y además es de código abierto.
 
-### ✨ Características principales
+### 🚀 Empieza en 1 minuto
+
+1. **Abre [anotagym.vercel.app](https://anotagym.vercel.app)** en tu móvil u ordenador
+2. **Entra como quieras**: con Google, con email, o en **Modo Invitado** si solo quieres echar un vistazo (sin registrarte)
+3. **Instálala como una app** (opcional, pero muy recomendable):
+   - 📱 **iPhone/iPad**: Safari → botón *Compartir* → *Añadir a pantalla de inicio*
+   - 🤖 **Android**: Chrome te ofrecerá instalarla automáticamente
+   - 💻 **Ordenador**: icono de instalación en la barra de direcciones de Chrome/Edge
+
+Sin App Store, sin Play Store, y siempre actualizada a la última versión.
+
+### 📖 Guía de uso
+
+#### 1. Crea tu rutina (o entrena sin ella)
+
+- En la pantalla principal, toca **+ Nueva** y monta tu rutina: elige ejercicios del catálogo (¡más de 900 con foto!), define series y repeticiones objetivo, y ordénalos arrastrando.
+- ¿Tienes prisa o improvisas? Usa el **Entreno libre (Quick Log)**: empieza a entrenar sin plantilla, añade ejercicios sobre la marcha, y al terminar la app te ofrece guardarlo como rutina para repetirlo.
+- ¿Un compañero te pasa su rutina? Impórtala con un toque desde un **enlace compartido**. Tú también puedes compartir las tuyas.
+
+#### 2. Entrena y anota
+
+- Apunta peso y repeticiones de cada serie y márcala como hecha ✅ — el **timer de descanso** arranca solo (puedes ajustar los segundos o desactivarlo).
+- Marca tus series como *Top Set*, *Drop Set*, *Al Fallo*, *Calentamiento*… y añade **notas** por ejercicio para recordar sensaciones o ajustes de técnica.
+- ¿Ha surgido algo? Puedes **añadir o quitar ejercicios y series en plena sesión**, sin tocar la rutina original.
+
+#### 3. Mira cómo progresas
+
+- **Progreso → Resumen**: tu volumen semanal y evolución general de un vistazo.
+- **Progreso → Ejercicios**: gráfica interactiva de cada ejercicio (peso máximo, 1RM estimado o volumen). Toca cualquier punto y verás las series exactas de ese día.
+- **Progreso → Récords**: tus mejores marcas de cada ejercicio, con fecha y podio de tus 3 mejores.
+- **Progreso → Historial**: todas tus sesiones, con calendario mensual.
+- En **Perfil** puedes además registrar tu **peso corporal** y ver su evolución.
+
+#### 4. Hazla tuya
+
+- **Modo oscuro o claro** y **8 colores de acento** para elegir.
+- Ponte un **apodo**: la app te llamará como tú decidas.
+- **Herramientas opcionales** (apagadas por defecto, actívalas en Ajustes → Entrenamiento si te interesan):
+  - 🧮 **Calculadora de discos**: te dice qué discos poner a cada lado de la barra
+  - 📈 **Estimaciones de RM**: 1RM, 5RM y 8RM calculadas en tiempo real mientras entrenas
+- ¿No usas máquinas de un tipo? **Oculta ejercicios** del catálogo para que no estorben, o **crea los tuyos propios** con foto.
+
+### ✨ Todo lo que incluye
 
 | Feature | Descripción |
 |---------|-------------|
-| 🔐 **Autenticación** | Email + contraseña, Google Sign-In y Modo Invitado |
-| 📋 **Plantillas de rutina** | Crea rutinas con hasta 15 ejercicios |
-| 🏷️ **Tipos de serie** | Normal, Top Set, Back-off, Drop Set, Rest-Pause, Myo-Rep, Calentamiento, Al Fallo |
-| ✅ **Check de series** | Marca cada serie como completada con indicador visual |
-| 📈 **1RM en tiempo real** | Estimaciones de 1RM, 5RM y 8RM por serie (fórmula Epley) |
+| 🔐 **Entra como quieras** | Google, email + contraseña o Modo Invitado sin registro |
+| 📋 **Rutinas** | Crea, edita, duplica y comparte rutinas de hasta 15 ejercicios |
+| ⚡ **Entreno libre** | Entrena sin plantilla y guárdalo como rutina al terminar |
+| 🏷️ **Tipos de serie** | Top Set, Back-off, Drop Set, Rest-Pause, Myo-Rep, Calentamiento, Al Fallo |
+| ⏱️ **Timer de descanso** | Automático al completar una serie, con vibración y segundos a tu gusto |
+| 📉 **Progresión por ejercicio** | Gráfica interactiva: peso máximo, 1RM estimado y volumen, con detalle de cada sesión |
+| 🏆 **Récords personales** | Tus mejores marcas por ejercicio, con fecha y buscador |
 | 📊 **Historial completo** | Timeline de sesiones, calendario mensual y gráficas de volumen |
-| 📉 **Progresión por ejercicio** | Gráfica interactiva por ejercicio: peso máximo, 1RM estimado y volumen, con récords, rangos de tiempo y detalle de cada sesión al tocar un punto |
-| ⚡ **Entreno libre (Quick Log)** | Entrena sin plantilla añadiendo ejercicios y series sobre la marcha; al terminar puedes guardarlo como rutina |
-| 🏆 **Récords personales** | Mejores marcas por ejercicio (peso máx y 1RM estimado) con fecha, top 3 destacado y buscador |
-| 🧮 **Calculadora de discos** | Opcional: qué discos poner por cada lado de la barra, con aviso si el peso no sale exacto |
-| ⚖️ **Métricas corporales** | Registro y gráfica de evolución de peso corporal |
-| 🌍 **Offline-first** | Funciona sin conexión gracias a IndexedDB |
-| ☁️ **Sync en la nube** | Firestore sincroniza en tiempo real entre dispositivos |
-| 💾 **Export/Import JSON** | Copia de seguridad completa de tus datos |
-| 🎨 **Temas y colores** | Modo oscuro/claro + 8 paletas de color de acento |
-| 👑 **Panel de admin** | Gestión visual del catálogo global: editar, ocultar y añadir ejercicios con foto |
-| 📝 **Notas por ejercicio** | Apunta sensaciones y técnica en cada ejercicio de la sesión |
-| 📚 **Base de Datos Masiva** | 80 ejercicios base en español (79 con foto) + 870+ ejercicios open-source con imágenes servidas desde CDN global (jsDelivr) — cero configuración |
-| ⏱️ **Timer de descanso** | Timer automático al completar una serie, con feedback háptico (desactivable) |
-| 🔗 **Compartir rutinas** | Genera un enlace para que cualquiera importe tu rutina con un toque |
-| 🔍 **Buscador Inteligente** | Filtrado en tiempo real en el creador de rutinas. |
-| 🛡️ **Seguridad Anti-bots** | Firebase App Check con reCAPTCHA v3 |
-| 🧹 **Mantenimiento auto** | Script en GitHub Actions para limpieza de invitados |
+| ⚖️ **Peso corporal** | Registro y gráfica de evolución |
+| 📝 **Notas por ejercicio** | Apunta sensaciones y técnica en cada sesión |
+| 🧮 **Calculadora de discos** | Opcional: qué discos cargar por lado, con aviso si el peso no sale exacto |
+| 📚 **Catálogo enorme** | Más de 900 ejercicios con foto, en español, y puedes añadir los tuyos |
+| 🌍 **Funciona sin internet** | Entrena en sótanos sin cobertura: se sincroniza al volver la conexión |
+| ☁️ **Multi-dispositivo** | Empieza en el móvil, revisa en el ordenador: todo sincronizado |
+| 💾 **Tus datos, tuyos** | Exporta e importa todo en un archivo JSON cuando quieras |
+| 🎨 **Personalizable** | Modo oscuro/claro, 8 colores de acento y apodo propio |
 
-### 📱 ¿PWA o App nativa?
+### 🔒 Privacidad y tus datos
 
-AnotaGym es una **Progressive Web App**. Esto significa que:
-- En **iOS**: Abre Safari → visita la URL → botón "Compartir" → "Añadir a pantalla de inicio" → queda como icono de app
-- En **Android**: Chrome te ofrecerá automáticamente instalarla
-- Sin App Store, sin Play Store, actualización automática
+- Tus entrenamientos se guardan en tu cuenta personal (Firebase de Google) y **nadie más puede verlos**.
+- No hay anuncios, no hay rastreadores de terceros, no se venden datos.
+- Puedes descargar **todo** lo tuyo en cualquier momento: Ajustes → Datos → Exportar.
+- Consejo: haz un export de vez en cuando y guárdalo en tu Drive/Dropbox como copia de seguridad extra.
+- El Modo Invitado es temporal: si te gusta la app, crea cuenta para no perder nada.
 
-### 🛠️ Stack tecnológico
+### ❓ Preguntas frecuentes
 
-```
-Frontend:   React 18 + Vite 5 + Tailwind CSS 3
-Auth:       Firebase Authentication
-Database:   Cloud Firestore (NoSQL, tiempo real)
-Offline:    IndexedDB (via Firebase Persistence)
-PWA:        vite-plugin-pwa (Workbox)
-Icons:      Lucide React
-Fonts:      Inter (Google Fonts)
-Deploy:     Firebase Hosting / Vercel
-```
+**¿Cuánto cuesta?** Nada. Es gratis, sin anuncios y sin versión premium.
 
-### 🚀 Instalación local
+**¿Necesito instalar algo?** No, funciona desde el navegador. Instalarla en la pantalla de inicio es opcional (pero se siente como una app nativa).
 
-#### 1. Clonar el repositorio
+**¿Funciona sin conexión?** Sí. Todo lo que hagas offline se sincroniza automáticamente al recuperar internet.
+
+**¿Puedo usarla en el móvil y en el PC?** Sí, con la misma cuenta todo está sincronizado al instante.
+
+**¿Y si un día quiero irme?** Exportas tus datos en JSON y te los llevas. Sin ataduras.
+
+---
+
+### 🛠️ Para desarrolladores
+
+AnotaGym es open source (MIT). Si quieres trastear con el código, montar tu propia instancia o contribuir, esto es lo esencial:
+
+**Stack:** React 18 + Vite 5 + Tailwind CSS 3 · Firebase (Auth, Firestore, App Check) · vite-plugin-pwa · Lucide React · Deploy en Vercel
+
+<details>
+<summary><b>Instalación local paso a paso</b></summary>
+
+#### 1. Clona e instala
+
 ```bash
 git clone https://github.com/manu-izquierdo/AnotaGym.git
 cd AnotaGym
-```
-
-#### 2. Instalar dependencias
-```bash
 npm install
 ```
 
-#### 3. Configurar Firebase
+#### 2. Configura Firebase
 
 Crea un proyecto en [console.firebase.google.com](https://console.firebase.google.com):
 
@@ -95,7 +136,7 @@ Crea un proyecto en [console.firebase.google.com](https://console.firebase.googl
 2. Activa **Firestore** → empieza en modo de producción
 3. Copia las credenciales del proyecto
 
-Crea el archivo `.env.local` en la raíz del proyecto:
+Crea `.env.local` en la raíz (usa `.env.example` como plantilla):
 
 ```env
 VITE_FIREBASE_API_KEY=tu_api_key
@@ -106,251 +147,34 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
 VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
 ```
 
-> ⚠️ **NUNCA subas `.env.local` a GitHub.** Ya está en `.gitignore`.
+> ⚠️ **Nunca subas `.env.local` a GitHub.** Ya está en `.gitignore`.
 
-#### 4. Reglas de Firestore
+#### 3. Reglas de seguridad de Firestore
 
-Las reglas completas están en [`firestore.rules`](firestore.rules). Cópialas en la consola
-de Firebase → Firestore Database → Reglas → Publicar (o `firebase deploy --only firestore:rules`).
+Copia el contenido de [`firestore.rules`](firestore.rules) en Firebase Console →
+Firestore Database → Reglas → Publicar (o `firebase deploy --only firestore:rules`).
+Usa siempre el archivo del repo: aísla los datos de cada usuario y protege los campos sensibles.
 
-> 🔒 **Importante**: usa siempre el archivo del repo. Además de aislar los datos de cada
-> usuario, impide que un usuario se auto-asigne el rol `admin` editando su propio perfil
-> (el campo `role` es inmutable desde el cliente; se concede a mano en la consola).
-
-#### 5. Arrancar en modo desarrollo
-```bash
-npm run dev
-```
-
-La app estará disponible en `http://localhost:5173`
-
-### 📦 Build de producción
+#### 4. Arranca
 
 ```bash
-npm run build
+npm run dev      # desarrollo en http://localhost:5173
+npm run build    # build de producción en dist/
 ```
 
-La carpeta `dist/` contendrá la app lista para desplegar.
+#### 5. Despliega (opcional)
 
-### 🌐 Despliegue
+Conecta el repo a [vercel.com](https://vercel.com) y cada push a `main` desplegará solo. También funciona en Firebase Hosting o cualquier hosting estático.
 
-#### Opción A: Vercel (recomendado — gratis, automático)
+</details>
 
-```bash
-npm install -g vercel
-vercel login
-vercel --prod
-```
+**¿Quieres contribuir?** Los issues y pull requests son bienvenidos. Convención de commits: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
 
-O conecta tu repositorio GitHub a [vercel.com](https://vercel.com) — cada push a `main` desplegará automáticamente.
+### 🗺️ Próximamente
 
-#### Opción B: Firebase Hosting
-
-```bash
-npm install -g firebase-tools
-firebase login
-firebase init hosting   # dist como directorio público, SPA: sí
-firebase deploy
-```
-
-### 👑 Guía de administración del catálogo
-
-El catálogo de ejercicios se compone de **tres capas** que la app fusiona en tiempo real
-(`src/hooks/useFirestoreData.js`):
-
-| Capa | Dónde vive | Quién la ve | Quién la edita |
-|------|-----------|-------------|----------------|
-| **Catálogo base** | `src/data/exerciseLibrary.js` (80, español) + `src/data/extendedLibrary.js` (870+, inglés) — dentro del bundle JS | Todos | Solo por código (PR al repo) |
-| **Catálogo global** | Colección `/globalExercises` en Firestore | Todos | Solo admins, desde la app |
-| **Ejercicios privados** | `/users/{uid}/privateExercises` | Solo su dueño | Su dueño |
-
-**Regla de oro del merge:** un documento de `/globalExercises` con el **mismo `id`** que un
-ejercicio del catálogo base lo **sobreescribe para todos** (override). Así el admin puede
-corregir el nombre, grupo, equipamiento o foto de cualquier ejercicio sin tocar código.
-
-**Cómo gestionar ejercicios como admin (desde la app):**
-
-1. Entra con tu cuenta admin → pestaña **Ajustes** → tarjeta **Administración** → *Abrir panel de ejercicios*
-2. Desde el panel puedes:
-   - 🔍 Buscar y filtrar (grupo, material, **sin foto**, ocultos) — toca las tarjetas de stats para filtrar
-   - ✏️ **Editar** cualquier ejercicio (con preview de la imagen en vivo)
-   - 🙈 **Ocultar** ejercicios del catálogo base para todos (sin borrar el historial de nadie)
-   - ➕ **Añadir** ejercicios globales nuevos con foto
-   - 🗑️ **Eliminar** documentos globales (si es un override, vuelve a la versión original del bundle)
-
-**Cómo se asigna el rol admin** (solo se hace una vez, a mano):
-Firebase Console → Firestore → `users/{uid}/profile/data` → editar campo `role` → `admin`.
-Las reglas de seguridad impiden que nadie se lo asigne desde el cliente.
-
-**Fotos de ejercicios:** el proyecto usa [free-exercise-db](https://github.com/yuhonas/free-exercise-db)
-(dominio público) servido vía jsDelivr. Para un ejercicio nuevo, busca su carpeta y usa:
-`https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/<NOMBRE>/0.jpg`
-
-### 🗄️ Estructura de datos en Firestore
-
-```
-/users/{uid}/profile/data            → displayName, photoURL, role ('user'|'admin')
-/users/{uid}/workoutData/main        → rutinas, sesión activa, historial, métricas, preferencias
-/users/{uid}/privateExercises/{id}   → ejercicios personalizados del usuario
-/globalExercises/{id}                → catálogo global (overrides, nuevos y tombstones {hidden:true})
-```
-
-### 🏗️ Estructura del proyecto
-
-```
-anotagym/
-├── public/                     # Assets estáticos (iconos PWA)
-├── src/
-│   ├── components/
-│   │   ├── Auth/
-│   │   │   └── LoginView.jsx   # Pantalla de login/registro
-│   │   ├── Dashboard/
-│   │   │   ├── SplitView.jsx   # Lista de rutinas (home)
-│   │   │   └── TemplateEditor.jsx  # Editor de plantillas con tipos de serie
-│   │   ├── History/
-│   │   │   └── HistoryView.jsx # Historial, gráficas, métricas
-│   │   ├── Layout/
-│   │   │   └── MobileAppShell.jsx  # Shell de navegación móvil
-│   │   ├── Admin/
-│   │   │   └── AdminExercisesView.jsx  # Panel de gestión del catálogo global
-│   │   ├── Profile/
-│   │   │   ├── ProfileView.jsx # Perfil y métricas corporales
-│   │   │   └── SettingsView.jsx    # Configuración, ejercicios, export
-│   │   ├── Tracker/
-│   │   │   ├── SetLogger.jsx   # Logger de series activo (entrenamiento)
-│   │   │   └── RestTimerPill.jsx   # Timer de descanso flotante
-│   │   └── UI/
-│   │       ├── Card.jsx        # Componentes UI reutilizables
-│   │       └── ErrorBoundary.jsx   # Recuperación ante crashes
-│   ├── contexts/
-│   │   └── AuthContext.jsx     # Context de autenticación Firebase
-│   ├── data/
-│   │   ├── exerciseLibrary.js  # 80 ejercicios base en español (79 con foto)
-│   │   ├── extendedLibrary.js  # 870+ ejercicios open-source (imágenes vía jsDelivr CDN)
-│   │   └── muscleImages.js     # Imágenes de fallback por grupo muscular
-│   ├── hooks/
-│   │   └── useFirestoreData.js # Hook principal: sync Firestore ↔ estado
-│   ├── utils/                  # Utilidades (helpers)
-│   ├── firebase.js             # Inicialización Firebase
-│   ├── App.jsx                 # Componente raíz, manejo de estado global
-│   ├── main.jsx                # Entry point React
-│   └── index.css               # Estilos globales
-├── .env.example                # Plantilla de variables de entorno
-├── .env.local                  # TUS credenciales (no subir a git)
-├── firestore.rules             # Reglas de seguridad de Firestore
-├── .gitignore
-├── index.html                  # HTML con SEO meta tags
-├── package.json
-├── tailwind.config.js
-└── vite.config.js              # Config Vite + PWA manifest
-```
-
-### 🌿 Flujo de trabajo Git recomendado
-
-```bash
-# Ramas principales
-main      → producción (protegida)
-develop   → integración continua
-
-# Crear nueva feature
-git checkout develop
-git checkout -b feature/nombre-feature
-# ... trabaja ...
-git add .
-git commit -m "feat: descripción del cambio"
-git push origin feature/nombre-feature
-# → crea Pull Request a develop
-# → cuando está listo, merge develop → main
-```
-
-#### Convención de commits
-
-```
-feat:     nueva funcionalidad
-fix:      corrección de bug
-docs:     cambios en documentación
-style:    cambios de estilo sin lógica
-refactor: refactorización de código
-chore:    tareas de mantenimiento
-```
-
-### 💾 Backup y seguridad de datos
-
-**¿Dónde están tus datos?**
-- **Cloud Firestore** (Google) — base de datos principal, sincronización en tiempo real
-- **IndexedDB** del navegador — copia local para modo offline
-- **Export JSON** — botón en Configuración → descarga todos tus datos como archivo `.json`
-
-**Estrategia de backup recomendada:**
-1. Export mensual desde la app (Configuración → Exportar datos)
-2. Guardar el JSON en Google Drive / Dropbox
-3. El código siempre respaldado en GitHub
-
-### 🌐 Dominio — Dónde comprar y por qué
-
-#### Comparativa de registradores recomendados
-
-| Registrador | `.com` | `.app` | `.es` | Privacidad WHOIS | Por qué |
-|-------------|--------|--------|-------|-----------------|---------|
-| **[Porkbun](https://porkbun.com)** | ~8€/año | ~12€/año | ~6€/año | ✅ Gratis | El más barato, muy recomendado |
-| **[Namecheap](https://namecheap.com)** | ~10€/año | ~14€/año | ~8€/año | ✅ Gratis | Interfaz clara, buen soporte |
-| **[Cloudflare Registrar](https://cloudflare.com/registrar)** | ~8€/año | — | — | ✅ Gratis | Sin markup, precio de coste |
-| **[Google Domains](https://domains.google)** | ~12€/año | ~12€/año | — | ✅ Gratis | Integrado con Firebase |
-
-**Recomendación**: `anotagym.app` (`.app` es perfecto para PWAs) en **Porkbun** (~12€/año). El dominio `.app` fuerza HTTPS por protocolo, lo que es ideal para una PWA.
-
-**Alternativa económica**: `anotagym.es` si solo te importa el mercado español.
-
-Una vez tengas el dominio, en Vercel o Firebase Hosting puedes conectarlo gratis en 5 minutos (SSL incluido automáticamente).
-
-### 💰 Costes reales (escenario gratuito completo)
-
-| Servicio | Plan | Coste mensual |
-|----------|------|--------------|
-| Firebase Auth | Spark (gratis) | 0€ |
-| Firestore | Spark (50K reads/día, 20K writes/día) | 0€ |
-| Firebase Hosting | Spark (10GB) | 0€ |
-| GitHub | Free | 0€ |
-| Vercel | Hobby | 0€ |
-| **Dominio** (opcional) | — | ~1€/mes (12€/año) |
-| **TOTAL** | | **0€ o ~1€/mes** |
-
-> El plan gratuito de Firebase soporta cómodamente entre 500 y 1.000 usuarios activos sin pagar nada.
-
-### 🗺️ Roadmap
-
-- [x] Autenticación (email + Google)
-- [x] Plantillas de rutina con editor completo
-- [x] Logger de series con estimaciones de 1RM
-- [x] Tipos de serie (topset, dropset, rest-pause, myo-rep, etc.)
-- [x] Check visual de series completadas + barra de progreso
-- [x] Historial con gráficas de volumen y peso corporal
-- [x] Métricas corporales
-- [x] Sincronización Firestore + offline IndexedDB
-- [x] Export / Import JSON
-- [x] Temas y paletas de color
-- [x] PWA instalable (iOS + Android)
-- [x] Modo Invitado (Anonymous Auth)
-- [x] Firebase App Check (reCAPTCHA)
-- [x] Script automático GitHub Actions para limpieza de invitados
-- [x] Timer de descanso entre series (con feedback háptico)
-- [x] Compartir rutinas por enlace
-- [x] Notas por ejercicio en la sesión
-- [x] Panel de administración visual del catálogo global
-- [x] Reglas de Firestore endurecidas (rol admin inmutable desde el cliente)
-- [x] Estadísticas por ejercicio (curva de progresión con peso máx, 1RM estimado y volumen)
-- [x] Quick Log (entreno libre sin plantilla, con guardado como rutina al terminar)
-- [x] Duplicar rutinas y menú de acciones por tarjeta
-- [x] Página de récords (mejores marcas por ejercicio)
-- [x] Añadir/quitar ejercicios y series en la sesión activa
-- [x] Reordenar ejercicios arrastrando en el editor
-- [x] Calculadora de discos y estimaciones de RM como herramientas opcionales
-- [x] Descanso automático con segundos personalizados
-- [x] Layout de escritorio con barra lateral + ajustes tipo menú
-- [x] Diálogos de confirmación propios (sin window.confirm, mejor INP)
-- [x] Login con Google por popup en todos los dispositivos (fix Safari/iOS)
-- [ ] Notificaciones push
-- [ ] Historial de sesiones en subcolección (hoy vive en un único documento)
+- [ ] Notificaciones push (recordatorios de entreno)
+- [ ] Más estadísticas y comparativas entre periodos
+- [ ] Mejoras continuas según lo que pida la comunidad — [abre un issue](https://github.com/manu-izquierdo/AnotaGym/issues) con tu idea
 
 ### 📄 Licencia
 
@@ -366,68 +190,92 @@ MIT © 2024-2026 — Manu Izquierdo · Ver [LICENSE](LICENSE)
 
 ### What is AnotaGym?
 
-**AnotaGym** (*"Write it down, Gym"* in Spanish) is a free Progressive Web App (PWA) for gym workout tracking. Built mobile-first, it works both online and offline, syncing your data across all your devices via Firebase.
+**AnotaGym** (*"write it down, gym"* in Spanish) is your lifelong workout notebook, made smart. Log your sets, weights and reps in seconds, and the app handles the rest: interactive progress charts, personal records, and seamless sync between your phone and your computer.
 
-Unlike Hevy, Caliber or Strong — AnotaGym is completely **free, ad-free and gives you full data ownership**.
+Unlike Hevy, Caliber or Strong, AnotaGym is completely **free, ad-free, with no locked features and no subscriptions**. Your data is yours — export it anytime. And it's open source.
 
-### ✨ Key Features
+### 🚀 Get started in 1 minute
+
+1. **Open [anotagym.vercel.app](https://anotagym.vercel.app)** on your phone or computer
+2. **Sign in your way**: Google, email, or **Guest Mode** if you just want to look around (no sign-up)
+3. **Install it as an app** (optional, but worth it):
+   - 📱 **iPhone/iPad**: Safari → *Share* → *Add to Home Screen*
+   - 🤖 **Android**: Chrome will offer to install it automatically
+   - 💻 **Desktop**: install icon in the Chrome/Edge address bar
+
+No App Store, no Play Store, always up to date.
+
+### 📖 How to use it
+
+1. **Build your routine** — pick from 900+ exercises with photos, set target sets/reps, reorder by dragging. Or skip templates entirely with **Quick Log**: train freely and save it as a routine when you finish. You can also import routines shared by friends via link.
+2. **Train and log** — enter weight and reps, check off each set ✅ and the **rest timer** starts on its own. Tag sets as *Top Set*, *Drop Set*, *To Failure*… add notes per exercise, and add or remove exercises mid-session.
+3. **Watch yourself progress** — interactive per-exercise charts (max weight, estimated 1RM, volume), personal records with dates, full session history with a monthly calendar, and bodyweight tracking.
+4. **Make it yours** — dark/light mode, 8 accent colors, a custom nickname, and opt-in tools (plate calculator, real-time RM estimates) you can enable in Settings.
+
+### ✨ Everything included
 
 | Feature | Description |
 |---------|-------------|
-| 🔐 **Authentication** | Email/password, Google Sign-In & Guest Mode |
-| 📋 **Routine Templates** | Create routines with up to 15 exercises |
-| 🏷️ **Set Types** | Normal, Top Set, Back-off, Drop Set, Rest-Pause, Myo-Rep, Warm-up, To Failure |
-| ✅ **Set Completion Check** | Mark each set as done with visual green highlight |
-| 📈 **Real-time 1RM** | 1RM, 5RM and 8RM estimates per set (Epley formula) + delta vs previous session |
-| 📊 **Full History** | Session timeline, monthly calendar heatmap, volume charts |
-| 📉 **Per-exercise progression** | Interactive chart per exercise: max weight, estimated 1RM and volume, with PRs, time ranges and tap-to-inspect session detail |
-| ⚡ **Quick Log** | Train without a template, adding exercises and sets on the fly; save it as a routine when finishing |
-| 🏆 **Personal records** | Best marks per exercise (max weight and estimated 1RM) with dates, top-3 highlight and search |
-| 🧮 **Plate calculator** | Optional: which plates to load per side of the bar, warning when the weight isn't exact |
-| ⚖️ **Body Metrics** | Track and chart bodyweight over time |
-| 🌍 **Offline-first** | Works without internet via IndexedDB |
-| ☁️ **Cloud sync** | Firestore real-time sync across devices |
-| 💾 **Export/Import JSON** | Full data backup at any time |
-| 🎨 **Themes** | Dark/light mode + 8 accent color palettes |
-| 👑 **Admin role** | Global exercise catalog managed by admin |
-| 🛡️ **Security** | Firebase App Check with reCAPTCHA v3 |
-| 🧹 **Auto Cleanup** | GitHub Actions cron job for guest accounts cleanup |
+| 🔐 **Sign in your way** | Google, email/password or Guest Mode with no sign-up |
+| 📋 **Routines** | Create, edit, duplicate and share routines of up to 15 exercises |
+| ⚡ **Quick Log** | Train without a template, save it as a routine when done |
+| 🏷️ **Set types** | Top Set, Back-off, Drop Set, Rest-Pause, Myo-Rep, Warm-up, To Failure |
+| ⏱️ **Rest timer** | Auto-starts when you complete a set, haptic feedback, custom seconds |
+| 📉 **Per-exercise progression** | Interactive chart: max weight, estimated 1RM and volume, tap any point for session detail |
+| 🏆 **Personal records** | Best marks per exercise, with dates and search |
+| 📊 **Full history** | Session timeline, monthly calendar and volume charts |
+| ⚖️ **Body metrics** | Track and chart bodyweight over time |
+| 📝 **Exercise notes** | Jot down cues and how each session felt |
+| 🧮 **Plate calculator** | Optional: which plates to load per side, warns if the weight isn't exact |
+| 📚 **Huge catalog** | 900+ exercises with photos, plus your own custom ones |
+| 🌍 **Works offline** | Train in basements with no signal — syncs when you're back online |
+| ☁️ **Multi-device** | Start on your phone, review on your computer: always in sync |
+| 💾 **Your data, yours** | Export and import everything as JSON, anytime |
+| 🎨 **Customizable** | Dark/light mode, 8 accent colors and your own nickname |
 
-### 🛠️ Tech Stack
+### 🔒 Privacy & your data
 
-```
-Frontend:   React 18 + Vite 5 + Tailwind CSS 3
-Auth:       Firebase Authentication
-Database:   Cloud Firestore (NoSQL, real-time)
-Offline:    IndexedDB (via Firebase Persistence)
-PWA:        vite-plugin-pwa (Workbox service worker)
-Icons:      Lucide React
-Fonts:      Inter (Google Fonts)
-Deploy:     Firebase Hosting / Vercel
-```
+- Your workouts live in your personal account (Google Firebase) and **nobody else can see them**.
+- No ads, no third-party trackers, no data selling.
+- Download **everything** anytime: Settings → Data → Export.
+- Guest Mode is temporary — create an account if you want to keep your data.
 
-### 🚀 Local Setup
+### ❓ FAQ
 
-#### 1. Clone the repo
+**How much does it cost?** Nothing. Free, ad-free, no premium tier.
+
+**Do I need to install anything?** No, it runs in the browser. Adding it to your home screen is optional (but feels like a native app).
+
+**Does it work offline?** Yes. Everything you do offline syncs automatically when you're back online.
+
+**What if I want to leave someday?** Export your data as JSON and take it with you. No lock-in.
+
+---
+
+### 🛠️ For developers
+
+AnotaGym is open source (MIT). Want to self-host or contribute?
+
+**Stack:** React 18 + Vite 5 + Tailwind CSS 3 · Firebase (Auth, Firestore, App Check) · vite-plugin-pwa · Lucide React · Deployed on Vercel
+
+<details>
+<summary><b>Local setup step by step</b></summary>
+
+#### 1. Clone & install
+
 ```bash
 git clone https://github.com/manu-izquierdo/AnotaGym.git
 cd AnotaGym
-```
-
-#### 2. Install dependencies
-```bash
 npm install
 ```
 
-#### 3. Firebase Setup
+#### 2. Firebase setup
 
 Create a project at [console.firebase.google.com](https://console.firebase.google.com):
 
 1. Enable **Authentication** → activate Email/Password and Google
 2. Enable **Firestore** → start in production mode
-3. Copy the project credentials
-
-Create `.env.local` in the project root:
+3. Copy the project credentials into `.env.local` (see `.env.example`):
 
 ```env
 VITE_FIREBASE_API_KEY=your_api_key
@@ -438,69 +286,33 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
 VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
 ```
 
-> ⚠️ **Never commit `.env.local` to GitHub.** It's already in `.gitignore`.
+> ⚠️ **Never commit `.env.local`.** It's already in `.gitignore`.
 
-#### 4. Firestore Security Rules
+#### 3. Firestore security rules
 
-Full rules live in [`firestore.rules`](firestore.rules). Paste them in Firebase Console →
-Firestore Database → Rules → Publish (or `firebase deploy --only firestore:rules`).
+Paste [`firestore.rules`](firestore.rules) in Firebase Console → Firestore Database →
+Rules → Publish (or `firebase deploy --only firestore:rules`). Always use the repo file.
 
-> 🔒 Always use the repo file: besides isolating each user's data, it prevents
-> privilege escalation (the `role` field is immutable from the client — admin is
-> granted manually in the console).
+#### 4. Run
 
-#### 5. Start dev server
 ```bash
-npm run dev
+npm run dev      # dev server at http://localhost:5173
+npm run build    # production build in dist/
 ```
 
-### 🌐 Deployment
+#### 5. Deploy (optional)
 
-#### Vercel (recommended — free, auto-deploy)
-Connect your GitHub repo at [vercel.com](https://vercel.com). Every push to `main` deploys automatically.
+Connect the repo at [vercel.com](https://vercel.com) — every push to `main` auto-deploys. Firebase Hosting or any static host works too.
 
-#### Firebase Hosting
-```bash
-npm install -g firebase-tools
-firebase login
-firebase init hosting
-npm run build
-firebase deploy
-```
+</details>
 
-### 🗺️ Roadmap
+**Contributions welcome** — issues and PRs are open. Commit convention: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
 
-- [x] Authentication (email + Google)
-- [x] Routine templates with full editor
-- [x] Set logger with real-time 1RM estimates
-- [x] Set types (topset, dropset, rest-pause, myo-rep, etc.)
-- [x] Set completion check + progress bar
-- [x] History with volume charts and bodyweight chart
-- [x] Cloud sync (Firestore) + offline (IndexedDB)
-- [x] Full data export / import (JSON)
-- [x] Themes and color palettes
-- [x] Installable PWA (iOS + Android)
-- [x] Guest Mode (Anonymous Auth)
-- [x] Firebase App Check (reCAPTCHA)
-- [x] Automated guest cleanup via GitHub Actions
-- [x] Rest timer between sets (with haptic feedback)
-- [x] Share routines via link
-- [x] Per-exercise notes in session
-- [x] Visual admin panel for the global exercise catalog
-- [x] Hardened Firestore rules (client-immutable admin role)
-- [x] Exercise progression chart (max weight, estimated 1RM, volume)
-- [x] Free-form Quick Log session (save as routine when finishing)
-- [x] Duplicate routines + per-card action menu
-- [x] Personal records page (best marks per exercise)
-- [x] Add/remove exercises and sets mid-session
-- [x] Drag & drop exercise reordering in the editor
-- [x] Plate calculator and RM estimates as optional tools
-- [x] Custom rest timer seconds
-- [x] Desktop sidebar layout + menu-style settings
-- [x] Custom confirm dialogs (no window.confirm, better INP)
-- [x] Google sign-in via popup on all devices (Safari/iOS fix)
-- [ ] Push notifications
-- [ ] Move session history to a subcollection (currently a single document)
+### 🗺️ Coming soon
+
+- [ ] Push notifications (workout reminders)
+- [ ] More stats and period comparisons
+- [ ] Community-driven improvements — [open an issue](https://github.com/manu-izquierdo/AnotaGym/issues) with your idea
 
 ### 📄 License
 

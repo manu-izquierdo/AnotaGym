@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { Card, Button } from '../UI/Card';
-import { PlayCircle, Check, BookOpen } from 'lucide-react';
+import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell } from 'lucide-react';
 import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
 import { getMuscleImage } from '../../data/muscleImages';
 
@@ -72,6 +72,74 @@ function InlineTypePicker({ current, onChange }) {
   );
 }
 
+/** Hoja modal para añadir un ejercicio a la sesión en marcha (Quick Log) */
+function ExercisePickerSheet({ exerciseLibrary, onPick, onClose }) {
+  const [query, setQuery] = useState('');
+
+  const results = useMemo(() => {
+    const pool = (exerciseLibrary || []).filter((ex) => !ex.hidden);
+    const q = query.trim().toLowerCase();
+    const filtered = q
+      ? pool.filter((ex) =>
+          (ex.name || '').toLowerCase().includes(q) ||
+          (ex.muscleGroup || '').toLowerCase().includes(q))
+      : pool;
+    return filtered.slice(0, 50);
+  }, [exerciseLibrary, query]);
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-end sm:items-center justify-center sm:p-4" onClick={onClose}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[80vh]"
+      >
+        <div className="p-4 pb-3 flex items-center gap-2 border-b border-zinc-100 dark:border-zinc-800">
+          <div className="relative flex-1">
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <input
+              autoFocus
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Buscar ejercicio…"
+              className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none focus:border-brand-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 transition-all"
+            />
+          </div>
+          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" aria-label="Cerrar">
+            <X size={20} />
+          </button>
+        </div>
+        <div className="overflow-y-auto p-2" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}>
+          {results.length === 0 && (
+            <p className="text-xs text-zinc-500 text-center py-6">Sin resultados para “{query}”.</p>
+          )}
+          {results.map((ex) => (
+            <button
+              key={ex.id}
+              onClick={() => onPick(ex.id)}
+              className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800/60 text-left transition-colors"
+            >
+              <img
+                src={ex.imageUrl || getMuscleImage(ex.muscleGroup)}
+                alt=""
+                loading="lazy"
+                className="w-10 h-10 rounded-lg object-cover bg-zinc-100 dark:bg-zinc-800 shrink-0"
+                onError={(e) => { e.target.onerror = null; e.target.src = getMuscleImage(ex.muscleGroup); }}
+              />
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">{ex.name}</p>
+                <p className="text-[11px] text-zinc-500">{ex.muscleGroup}{ex.equipment ? ` · ${ex.equipment}` : ''}</p>
+              </div>
+            </button>
+          ))}
+          {!query && results.length > 0 && (
+            <p className="text-[10px] text-zinc-400 text-center py-2">Escribe para buscar entre todo el catálogo.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function SetLogger({
@@ -83,10 +151,14 @@ export default function SetLogger({
   onExerciseFieldChange,
   onFinishSession,
   onCancelSession,
+  onAddExercise,
+  onAddSet,
+  onRemoveExercise,
 }) {
   // Track which set has the type-picker open: { exerciseId, setId }
   const [openTypePicker, setOpenTypePicker] = useState(null);
   const [openNotes, setOpenNotes] = useState({});
+  const [showExercisePicker, setShowExercisePicker] = useState(false);
 
   const getExerciseById = useCallback(
     (exerciseId) => exerciseLibrary.find((exercise) => exercise.id === exerciseId),
@@ -199,17 +271,32 @@ export default function SetLogger({
                     {getExerciseById(exercise.exerciseId)?.name || 'Ejercicio desconocido'}
                   </h3>
                   <p className="text-sm text-zinc-500 mt-0.5">
-                    Objetivo: {exercise.targetSets} sets · {exercise.targetReps} reps
+                    {exercise.targetReps
+                      ? `Objetivo: ${exercise.targetSets} sets · ${exercise.targetReps} reps`
+                      : `${exercise.sets.length} ${exercise.sets.length === 1 ? 'serie' : 'series'}`}
                   </p>
                 </div>
               </div>
-              <button 
-                onClick={() => setOpenNotes(p => ({ ...p, [exercise.id]: !p[exercise.id] }))}
-                className={`p-1.5 rounded-lg transition-colors ${openNotes[exercise.id] || exercise.notes ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/20' : 'text-zinc-400 hover:text-brand-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
-                title="Añadir notas"
-              >
-                <BookOpen size={16} />
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => setOpenNotes(p => ({ ...p, [exercise.id]: !p[exercise.id] }))}
+                  className={`p-1.5 rounded-lg transition-colors ${openNotes[exercise.id] || exercise.notes ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/20' : 'text-zinc-400 hover:text-brand-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
+                  title="Añadir notas"
+                >
+                  <BookOpen size={16} />
+                </button>
+                <button
+                  onClick={() => {
+                    if (window.confirm('¿Quitar este ejercicio de la sesión? Se perderán sus series anotadas.')) {
+                      onRemoveExercise?.(exercise.id);
+                    }
+                  }}
+                  className="p-1.5 rounded-lg text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                  title="Quitar ejercicio de la sesión"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -257,7 +344,7 @@ export default function SetLogger({
                       <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm">
                         {exerciseName}
                         <span className="text-zinc-400 dark:text-zinc-500 font-normal text-xs ml-1.5">
-                          #{set.order} · obj. {exercise.targetReps} reps
+                          #{set.order}{exercise.targetReps ? ` · obj. ${exercise.targetReps} reps` : ''}
                         </span>
                       </span>
                     </div>
@@ -377,8 +464,34 @@ export default function SetLogger({
               );
             })}
           </div>
+
+          {/* Serie extra sobre la marcha */}
+          <button
+            onClick={() => onAddSet?.(exercise.id)}
+            className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-dashed border-zinc-300 dark:border-zinc-700 text-xs font-bold text-zinc-500 hover:text-brand-600 dark:hover:text-brand-400 hover:border-brand-400 transition-colors"
+          >
+            <Plus size={14} /> Añadir serie
+          </button>
         </Card>
       ))}
+
+      {/* Sesión libre recién creada: invitar a añadir el primer ejercicio */}
+      {activeSession.exercises.length === 0 && (
+        <Card className="text-center py-10 border-dashed border-2 bg-transparent shadow-none">
+          <Dumbbell className="w-10 h-10 mx-auto text-zinc-300 dark:text-zinc-700 mb-3" />
+          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-300">Sesión libre en marcha</p>
+          <p className="text-xs text-zinc-500 mt-1">Añade tu primer ejercicio para empezar a anotar series.</p>
+        </Card>
+      )}
+
+      {/* Añadir ejercicio a la sesión (Quick Log o extra sobre plantilla) */}
+      <Button
+        variant="secondary"
+        onClick={() => setShowExercisePicker(true)}
+        className="h-12 font-bold"
+      >
+        <Plus size={16} className="mr-1.5 text-brand-500" /> Añadir ejercicio
+      </Button>
 
       <div className="flex flex-col gap-3">
         <Button onClick={onFinishSession} className="h-12">
@@ -397,6 +510,17 @@ export default function SetLogger({
           Cancelar entreno
         </Button>
       </div>
+
+      {showExercisePicker && (
+        <ExercisePickerSheet
+          exerciseLibrary={exerciseLibrary}
+          onPick={(exerciseId) => {
+            onAddExercise?.(exerciseId);
+            setShowExercisePicker(false);
+          }}
+          onClose={() => setShowExercisePicker(false)}
+        />
+      )}
     </div>
   );
 }

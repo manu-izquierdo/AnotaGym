@@ -246,6 +246,93 @@ function App() {
     });
   };
 
+  // ---- Quick Log: sesión libre sin plantilla ----
+
+  const handleStartQuickLog = () => {
+    // Si ya hay una sesión en marcha, no la pisamos: llevamos al usuario a ella
+    if (workoutState.activeSession) {
+      setActiveTab('tracker');
+      return;
+    }
+    const activeSession = {
+      id: `session-${Date.now()}`,
+      templateId: null,
+      templateName: 'Entrenamiento libre',
+      startedAt: new Date().toISOString(),
+      exercises: [],
+    };
+    setWorkoutState((prev) => ({ ...prev, activeSession }));
+    setActiveTab('tracker');
+  };
+
+  const createEmptySet = (exerciseInstanceId, order, setType = 'normal') => ({
+    id: `${exerciseInstanceId}-set-${generateUUID()}`,
+    order,
+    weight: '',
+    reps: '',
+    effort: '',
+    completed: false,
+    setType,
+  });
+
+  // Añadir un ejercicio a la sesión activa (Quick Log o extra sobre plantilla)
+  const handleAddExerciseToSession = (exerciseId) => {
+    setWorkoutState((prev) => {
+      if (!prev.activeSession) return prev;
+      const instanceId = `${exerciseId}-${generateUUID()}`;
+      const newExercise = {
+        id: instanceId,
+        exerciseId,
+        targetSets: 3,
+        targetReps: '',
+        setTypes: [],
+        sets: Array.from({ length: 3 }, (_, i) => createEmptySet(instanceId, i + 1)),
+      };
+      return {
+        ...prev,
+        activeSession: {
+          ...prev.activeSession,
+          exercises: [...prev.activeSession.exercises, newExercise],
+        },
+      };
+    });
+  };
+
+  // Añadir una serie extra a un ejercicio de la sesión (hereda el tipo de la última)
+  const handleAddSetToExercise = (sessionExerciseId) => {
+    setWorkoutState((prev) => {
+      if (!prev.activeSession) return prev;
+      return {
+        ...prev,
+        activeSession: {
+          ...prev.activeSession,
+          exercises: prev.activeSession.exercises.map((ex) => {
+            if (ex.id !== sessionExerciseId) return ex;
+            const lastType = ex.sets[ex.sets.length - 1]?.setType || 'normal';
+            return {
+              ...ex,
+              targetSets: ex.sets.length + 1,
+              sets: [...ex.sets, createEmptySet(ex.id, ex.sets.length + 1, lastType)],
+            };
+          }),
+        },
+      };
+    });
+  };
+
+  const handleRemoveExerciseFromSession = (sessionExerciseId) => {
+    setWorkoutState((prev) => {
+      if (!prev.activeSession) return prev;
+      return {
+        ...prev,
+        activeSession: {
+          ...prev.activeSession,
+          exercises: prev.activeSession.exercises.filter((ex) => ex.id !== sessionExerciseId),
+        },
+      };
+    });
+  };
+
   // ---- Template handlers ----
 
   const handleSaveTemplate = (updatedTemplate) => {
@@ -263,6 +350,22 @@ function App() {
     setWorkoutState((prev) => ({
       ...prev,
       routineTemplates: prev.routineTemplates.filter((t) => t.id !== templateId),
+    }));
+  };
+
+  const handleDuplicateTemplate = (templateId) => {
+    const template = workoutState.routineTemplates.find((t) => t.id === templateId);
+    if (!template) return;
+    const copy = {
+      ...template,
+      id: `template-${Date.now()}`,
+      name: `${template.name} (copia)`,
+      // Nuevos ids de instancia para que ambas rutinas sean independientes
+      exercises: template.exercises.map((ex) => ({ ...ex, id: `${ex.exerciseId}-${generateUUID()}` })),
+    };
+    setWorkoutState((prev) => ({
+      ...prev,
+      routineTemplates: [...prev.routineTemplates, copy],
     }));
   };
 
@@ -337,11 +440,14 @@ function App() {
           <SplitView
             templates={workoutState.routineTemplates}
             onStartTraining={handleStartTraining}
+            onStartQuickLog={handleStartQuickLog}
             onCreateTemplate={() => setEditingTemplate('NEW')}
             onEditTemplate={(template) => setEditingTemplate(template)}
             onDeleteTemplate={handleDeleteTemplate}
+            onDuplicateTemplate={handleDuplicateTemplate}
             user={uiUser}
             completedSessions={workoutState.completedSessions}
+            hasActiveSession={Boolean(workoutState.activeSession)}
           />
         )}
 
@@ -356,6 +462,9 @@ function App() {
               onExerciseFieldChange={handleExerciseFieldChange}
               onFinishSession={handleFinishSession}
               onCancelSession={handleCancelSession}
+              onAddExercise={handleAddExerciseToSession}
+              onAddSet={handleAddSetToExercise}
+              onRemoveExercise={handleRemoveExerciseFromSession}
             />
           ) : (
             <HistoryView

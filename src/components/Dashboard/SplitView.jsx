@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardTitle, Button } from '../UI/Card';
-import { Share2, Play, Edit3, Trash2, Dumbbell, Plus } from 'lucide-react';
+import { Share2, Play, Edit3, Trash2, Dumbbell, Plus, Copy, Zap } from 'lucide-react';
 
 // Color del chip de enfoque de cada rutina
 const FOCUS_COLORS = {
@@ -17,11 +17,14 @@ const FOCUS_COLORS = {
 export default function SplitView({
   templates,
   onStartTraining,
+  onStartQuickLog,
   onCreateTemplate,
   onEditTemplate,
   onDeleteTemplate,
+  onDuplicateTemplate,
   user,
   completedSessions,
+  hasActiveSession,
 }) {
   const [shareMsg, setShareMsg] = useState('');
 
@@ -63,9 +66,15 @@ export default function SplitView({
         <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">{weekMsg}</p>
       </div>
 
-      <Button onClick={onCreateTemplate} className="w-full font-bold h-12">
-        <Plus size={17} className="mr-1.5" /> Nueva rutina
-      </Button>
+      <div className="flex gap-2">
+        <Button onClick={onCreateTemplate} className="flex-1 font-bold h-12">
+          <Plus size={17} className="mr-1.5" /> Nueva rutina
+        </Button>
+        <Button onClick={onStartQuickLog} variant="secondary" className="flex-1 font-bold h-12">
+          <Zap size={16} className="mr-1.5 text-brand-500" />
+          {hasActiveSession ? 'Continuar sesión' : 'Entreno libre'}
+        </Button>
+      </div>
 
       {shareMsg && (
         <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold p-3 rounded-lg text-center animate-in fade-in zoom-in-95">
@@ -119,15 +128,24 @@ export default function SplitView({
                     <Play size={14} fill="currentColor" /> Iniciar
                   </Button>
                   
-                  <Button 
-                    variant="secondary" 
+                  <Button
+                    variant="secondary"
                     onClick={() => onEditTemplate(template)}
                     className="flex items-center justify-center p-0 w-12 h-11 bg-white dark:bg-zinc-800"
                     title="Editar"
                   >
                     <Edit3 size={16} />
                   </Button>
-                  
+
+                  <Button
+                    variant="secondary"
+                    onClick={() => onDuplicateTemplate(template.id)}
+                    className="flex items-center justify-center p-0 w-12 h-11 bg-white dark:bg-zinc-800"
+                    title="Duplicar rutina"
+                  >
+                    <Copy size={16} />
+                  </Button>
+
                   <Button 
                     variant="secondary" 
                     onClick={() => {

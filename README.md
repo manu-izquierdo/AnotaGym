@@ -37,6 +37,9 @@ A diferencia de apps como Hevy, Caliber o Strong — AnotaGym es completamente *
 | 📈 **1RM en tiempo real** | Estimaciones de 1RM, 5RM y 8RM por serie (fórmula Epley) |
 | 📊 **Historial completo** | Timeline de sesiones, calendario mensual y gráficas de volumen |
 | 📉 **Progresión por ejercicio** | Gráfica interactiva por ejercicio: peso máximo, 1RM estimado y volumen, con récords, rangos de tiempo y detalle de cada sesión al tocar un punto |
+| ⚡ **Entreno libre (Quick Log)** | Entrena sin plantilla añadiendo ejercicios y series sobre la marcha; al terminar puedes guardarlo como rutina |
+| 🏆 **Récords personales** | Mejores marcas por ejercicio (peso máx y 1RM estimado) con fecha, top 3 destacado y buscador |
+| 🧮 **Calculadora de discos** | Opcional: qué discos poner por cada lado de la barra, con aviso si el peso no sale exacto |
 | ⚖️ **Métricas corporales** | Registro y gráfica de evolución de peso corporal |
 | 🌍 **Offline-first** | Funciona sin conexión gracias a IndexedDB |
 | ☁️ **Sync en la nube** | Firestore sincroniza en tiempo real entre dispositivos |
@@ -336,7 +339,16 @@ Una vez tengas el dominio, en Vercel o Firebase Hosting puedes conectarlo gratis
 - [x] Panel de administración visual del catálogo global
 - [x] Reglas de Firestore endurecidas (rol admin inmutable desde el cliente)
 - [x] Estadísticas por ejercicio (curva de progresión con peso máx, 1RM estimado y volumen)
-- [ ] Quick Log (sesión libre sin plantilla)
+- [x] Quick Log (entreno libre sin plantilla, con guardado como rutina al terminar)
+- [x] Duplicar rutinas y menú de acciones por tarjeta
+- [x] Página de récords (mejores marcas por ejercicio)
+- [x] Añadir/quitar ejercicios y series en la sesión activa
+- [x] Reordenar ejercicios arrastrando en el editor
+- [x] Calculadora de discos y estimaciones de RM como herramientas opcionales
+- [x] Descanso automático con segundos personalizados
+- [x] Layout de escritorio con barra lateral + ajustes tipo menú
+- [x] Diálogos de confirmación propios (sin window.confirm, mejor INP)
+- [x] Login con Google por popup en todos los dispositivos (fix Safari/iOS)
 - [ ] Notificaciones push
 - [ ] Historial de sesiones en subcolección (hoy vive en un único documento)
 
@@ -369,6 +381,9 @@ Unlike Hevy, Caliber or Strong — AnotaGym is completely **free, ad-free and gi
 | 📈 **Real-time 1RM** | 1RM, 5RM and 8RM estimates per set (Epley formula) + delta vs previous session |
 | 📊 **Full History** | Session timeline, monthly calendar heatmap, volume charts |
 | 📉 **Per-exercise progression** | Interactive chart per exercise: max weight, estimated 1RM and volume, with PRs, time ranges and tap-to-inspect session detail |
+| ⚡ **Quick Log** | Train without a template, adding exercises and sets on the fly; save it as a routine when finishing |
+| 🏆 **Personal records** | Best marks per exercise (max weight and estimated 1RM) with dates, top-3 highlight and search |
+| 🧮 **Plate calculator** | Optional: which plates to load per side of the bar, warning when the weight isn't exact |
 | ⚖️ **Body Metrics** | Track and chart bodyweight over time |
 | 🌍 **Offline-first** | Works without internet via IndexedDB |
 | ☁️ **Cloud sync** | Firestore real-time sync across devices |
@@ -474,7 +489,16 @@ firebase deploy
 - [x] Visual admin panel for the global exercise catalog
 - [x] Hardened Firestore rules (client-immutable admin role)
 - [x] Exercise progression chart (max weight, estimated 1RM, volume)
-- [ ] Free-form Quick Log session
+- [x] Free-form Quick Log session (save as routine when finishing)
+- [x] Duplicate routines + per-card action menu
+- [x] Personal records page (best marks per exercise)
+- [x] Add/remove exercises and sets mid-session
+- [x] Drag & drop exercise reordering in the editor
+- [x] Plate calculator and RM estimates as optional tools
+- [x] Custom rest timer seconds
+- [x] Desktop sidebar layout + menu-style settings
+- [x] Custom confirm dialogs (no window.confirm, better INP)
+- [x] Google sign-in via popup on all devices (Safari/iOS fix)
 - [ ] Push notifications
 - [ ] Move session history to a subcollection (currently a single document)
 

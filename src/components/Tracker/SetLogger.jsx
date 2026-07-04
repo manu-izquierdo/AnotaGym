@@ -1,7 +1,8 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { Card, Button } from '../UI/Card';
 import ConfirmDialog from '../UI/ConfirmDialog';
-import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell } from 'lucide-react';
+import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell, Calculator } from 'lucide-react';
+import PlateCalculator from './PlateCalculator';
 import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
 import { getMuscleImage } from '../../data/muscleImages';
 
@@ -156,6 +157,8 @@ export default function SetLogger({
   onAddSet,
   onRemoveSet,
   onRemoveExercise,
+  showRmEstimates = false,
+  plateCalcEnabled = false,
 }) {
   // Track which set has the type-picker open: { exerciseId, setId }
   const [openTypePicker, setOpenTypePicker] = useState(null);
@@ -163,6 +166,7 @@ export default function SetLogger({
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const [confirmRemoveId, setConfirmRemoveId] = useState(null);
   const [confirmCancel, setConfirmCancel] = useState(false);
+  const [calcWeight, setCalcWeight] = useState(null); // null = cerrada; ''|número = abierta
 
   const getExerciseById = useCallback(
     (exerciseId) => exerciseLibrary.find((exercise) => exercise.id === exerciseId),
@@ -282,6 +286,18 @@ export default function SetLogger({
                 </div>
               </div>
               <div className="flex items-center gap-1">
+                {plateCalcEnabled && (
+                  <button
+                    onClick={() => {
+                      const maxW = Math.max(0, ...exercise.sets.map((s) => parseFloat(s.weight) || 0));
+                      setCalcWeight(maxW > 0 ? maxW : '');
+                    }}
+                    className="p-1.5 rounded-lg text-zinc-400 hover:text-brand-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                    title="Calculadora de discos"
+                  >
+                    <Calculator size={16} />
+                  </button>
+                )}
                 <button
                   onClick={() => setOpenNotes(p => ({ ...p, [exercise.id]: !p[exercise.id] }))}
                   className={`p-1.5 rounded-lg transition-colors ${openNotes[exercise.id] || exercise.notes ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/20' : 'text-zinc-400 hover:text-brand-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
@@ -444,8 +460,8 @@ export default function SetLogger({
                     </div>
                   </div>
 
-                  {/* RM Estimations — only shown when weight + reps are entered */}
-                  {currentRm && (
+                  {/* RM Estimations — opcional (Ajustes → Entrenamiento) */}
+                  {showRmEstimates && currentRm && (
                     <div className="flex items-center justify-around bg-white dark:bg-zinc-900 rounded-lg border border-zinc-200 dark:border-zinc-700/60 py-2 px-3">
                       <RmBadge
                         label="1RM est."
@@ -539,6 +555,14 @@ export default function SetLogger({
           danger
           onConfirm={() => { setConfirmCancel(false); onCancelSession?.(); }}
           onCancel={() => setConfirmCancel(false)}
+        />
+      )}
+
+      {calcWeight !== null && (
+        <PlateCalculator
+          unit={unit}
+          initialWeight={calcWeight}
+          onClose={() => setCalcWeight(null)}
         />
       )}
 

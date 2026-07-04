@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { GripVertical } from 'lucide-react';
 import { generateUUID } from '../../utils/uuid';
 import { getMuscleImage } from '../../data/muscleImages';
 
@@ -287,6 +288,49 @@ export default function TemplateEditor({
     });
   };
 
+  // ── Reordenar arrastrando (táctil y ratón; las flechas siguen disponibles) ──
+  // Se arrastra desde el asa (GripVertical): touch-none en el asa evita que
+  // el gesto haga scroll. Los listeners van en window para no depender de
+  // pointer capture, que se pierde al remontar nodos en cada reordenación.
+  const [dragIdx, setDragIdx] = useState(null);
+  const itemRefs = useRef([]);
+
+  useEffect(() => {
+    if (dragIdx === null) return;
+
+    const handlePointerMove = (e) => {
+      const y = e.clientY;
+      const items = itemRefs.current.slice(0, draft.exercises.length);
+      let to = dragIdx;
+      for (let i = 0; i < items.length; i++) {
+        const el = items[i];
+        if (!el || i === dragIdx) continue;
+        const mid = el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2;
+        if (i < dragIdx && y < mid) to = Math.min(to, i);
+        if (i > dragIdx && y > mid) to = Math.max(to, i);
+      }
+      if (to !== dragIdx) {
+        setDraft((prev) => {
+          const list = [...prev.exercises];
+          const [item] = list.splice(dragIdx, 1);
+          list.splice(to, 0, item);
+          return { ...prev, exercises: list };
+        });
+        setDragIdx(to);
+      }
+    };
+
+    const stopDrag = () => setDragIdx(null);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', stopDrag);
+    window.addEventListener('pointercancel', stopDrag);
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', stopDrag);
+      window.removeEventListener('pointercancel', stopDrag);
+    };
+  }, [dragIdx, draft.exercises.length]);
+
   const validateAndSave = () => {
     if (!draft.name.trim()) {
       alert('El nombre de la rutina es obligatorio.');
@@ -363,18 +407,33 @@ export default function TemplateEditor({
 
           return (
             <div
-              key={`${exercise.id}-${exIdx}`}
-              className="flex flex-col gap-3 bg-zinc-900 p-4 rounded-2xl border border-zinc-800"
+              key={exercise.id || exIdx}
+              ref={(el) => { itemRefs.current[exIdx] = el; }}
+              className={`flex flex-col gap-3 bg-zinc-900 p-4 rounded-2xl border transition-shadow ${
+                dragIdx === exIdx
+                  ? 'border-brand-500 ring-1 ring-brand-500 shadow-2xl relative z-10'
+                  : 'border-zinc-800'
+              }`}
             >
               {/* Exercise header */}
               <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-bold text-zinc-100">
-                    {dictExercise ? dictExercise.name : 'Desconocido'}
-                  </p>
-                  {dictExercise?.muscleGroup && (
-                    <p className="text-[10px] text-zinc-500 mt-0.5">{dictExercise.muscleGroup}</p>
-                  )}
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <button
+                    onPointerDown={(e) => { e.preventDefault(); setDragIdx(exIdx); }}
+                    className="p-1.5 -ml-1.5 text-zinc-600 hover:text-zinc-300 cursor-grab active:cursor-grabbing touch-none shrink-0 transition-colors"
+                    aria-label="Arrastrar para reordenar"
+                    title="Arrastrar para reordenar"
+                  >
+                    <GripVertical size={16} />
+                  </button>
+                  <div className="min-w-0">
+                    <p className="font-bold text-zinc-100 truncate">
+                      {dictExercise ? dictExercise.name : 'Desconocido'}
+                    </p>
+                    {dictExercise?.muscleGroup && (
+                      <p className="text-[10px] text-zinc-500 mt-0.5">{dictExercise.muscleGroup}</p>
+                    )}
+                  </div>
                 </div>
                 <div className="flex gap-2 items-center">
                   <button

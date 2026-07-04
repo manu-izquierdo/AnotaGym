@@ -8,6 +8,7 @@ import HistoryView from './components/History/HistoryView';
 import ProfileView from './components/Profile/ProfileView';
 import SettingsView from './components/Profile/SettingsView';
 import RestTimerPill from './components/Tracker/RestTimerPill';
+import SaveRoutineDialog from './components/Tracker/SaveRoutineDialog';
 import { useAuth } from './contexts/AuthContext';
 import useFirestoreData from './hooks/useFirestoreData';
 import { generateUUID } from './utils/uuid';
@@ -66,6 +67,8 @@ function App() {
   const [activeTab, setActiveTab] = useState('routine');
   const [editingTemplate, setEditingTemplate] = useState(null);
   const [restTimerEnd, setRestTimerEnd] = useState(null);
+  // Sesión libre recién terminada, pendiente de ofrecer "guardar como rutina"
+  const [saveRoutinePrompt, setSaveRoutinePrompt] = useState(null);
 
   // ---- Hooks siempre ANTES de cualquier return condicional ----
 
@@ -213,37 +216,76 @@ function App() {
   };
 
   const handleFinishSession = () => {
-    setWorkoutState((prev) => {
-      if (!prev.activeSession) return prev;
+    const session = workoutState.activeSession;
+    if (!session) return;
 
-      const cleanedExercises = prev.activeSession.exercises
-        .map((exercise) => {
-          const completedSets = exercise.sets.filter((set) => {
-            const hasWeight = String(set.weight).trim() !== '';
-            const hasReps = String(set.reps).trim() !== '';
-            return hasWeight || hasReps;
-          });
-          return { ...exercise, sets: completedSets };
-        })
-        .filter((exercise) => exercise.sets.length > 0);
+    const cleanedExercises = session.exercises
+      .map((exercise) => {
+        const completedSets = exercise.sets.filter((set) => {
+          const hasWeight = String(set.weight).trim() !== '';
+          const hasReps = String(set.reps).trim() !== '';
+          return hasWeight || hasReps;
+        });
+        return { ...exercise, sets: completedSets };
+      })
+      .filter((exercise) => exercise.sets.length > 0);
 
-      if (cleanedExercises.length === 0) {
-        return { ...prev, activeSession: null };
-      }
+    if (cleanedExercises.length === 0) {
+      setWorkoutState((prev) => ({ ...prev, activeSession: null }));
+      return;
+    }
 
-      const completedSession = {
-        ...prev.activeSession,
-        id: generateUUID(),
-        finishedAt: new Date().toISOString(),
-        exercises: cleanedExercises,
-      };
+    const completedSession = {
+      ...session,
+      id: generateUUID(),
+      finishedAt: new Date().toISOString(),
+      exercises: cleanedExercises,
+    };
 
-      return {
-        ...prev,
-        completedSessions: [...prev.completedSessions, completedSession],
-        activeSession: null,
-      };
-    });
+    setWorkoutState((prev) => ({
+      ...prev,
+      completedSessions: [...prev.completedSessions, completedSession],
+      activeSession: null,
+    }));
+
+    // Entreno libre con contenido → ofrecer convertirlo en rutina
+    if (!session.templateId) {
+      setSaveRoutinePrompt(completedSession);
+    }
+  };
+
+  // Convierte la sesión libre recién guardada en una plantilla de rutina
+  const handleSaveSessionAsRoutine = (name) => {
+    const session = saveRoutinePrompt;
+    if (!session) return;
+
+    const repsRange = (sets) => {
+      const reps = sets.map((s) => parseInt(s.reps, 10)).filter((n) => Number.isFinite(n) && n > 0);
+      if (reps.length === 0) return '';
+      const min = Math.min(...reps);
+      const max = Math.max(...reps);
+      return min === max ? String(min) : `${min}-${max}`;
+    };
+
+    const template = {
+      id: `template-${Date.now()}`,
+      name,
+      focus: '',
+      exercises: session.exercises.map((ex) => ({
+        id: `${ex.exerciseId}-${generateUUID()}`,
+        exerciseId: ex.exerciseId,
+        targetSets: ex.sets.length,
+        targetReps: repsRange(ex.sets),
+        setTypes: ex.sets.map((s) => s.setType || 'normal'),
+      })),
+    };
+
+    setWorkoutState((prev) => ({
+      ...prev,
+      routineTemplates: [...prev.routineTemplates, template],
+    }));
+    setSaveRoutinePrompt(null);
+    setActiveTab('routine');
   };
 
   // ---- Quick Log: sesión libre sin plantilla ----
@@ -487,6 +529,8 @@ function App() {
               onAddSet={handleAddSetToExercise}
               onRemoveSet={handleRemoveSetFromExercise}
               onRemoveExercise={handleRemoveExerciseFromSession}
+              showRmEstimates={workoutState.preferences?.showRmEstimates === true}
+              plateCalcEnabled={workoutState.preferences?.plateCalculator === true}
             />
           ) : (
             <HistoryView
@@ -544,6 +588,15 @@ function App() {
           endTime={restTimerEnd}
           onAdd={(secs) => setRestTimerEnd((prev) => prev + secs * 1000)}
           onStop={() => setRestTimerEnd(null)}
+        />
+      )}
+
+      {saveRoutinePrompt && (
+        <SaveRoutineDialog
+          defaultName={`Entreno ${new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}`}
+          exerciseCount={saveRoutinePrompt.exercises.length}
+          onSave={handleSaveSessionAsRoutine}
+          onClose={() => setSaveRoutinePrompt(null)}
         />
       )}
     </>

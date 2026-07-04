@@ -44,6 +44,32 @@ function MenuGroup({ label, children }) {
   );
 }
 
+function Toggle({ checked, onChange }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onChange(!checked)}
+      className={`relative w-11 h-6 rounded-full shrink-0 transition-colors ${checked ? 'bg-brand-600' : 'bg-zinc-300 dark:bg-zinc-700'}`}
+    >
+      <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${checked ? 'translate-x-5' : ''}`} />
+    </button>
+  );
+}
+
+function ToggleRow({ title, desc, checked, onChange }) {
+  return (
+    <div className="flex items-center gap-3 px-4 py-3.5">
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{title}</p>
+        <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">{desc}</p>
+      </div>
+      <Toggle checked={checked} onChange={onChange} />
+    </div>
+  );
+}
+
 function SubviewHeader({ title, onBack }) {
   return (
     <div className="flex items-center gap-1 mb-4">
@@ -86,6 +112,7 @@ export default function SettingsView({
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [catalogQuery, setCatalogQuery] = useState('');
   const [showOnlyHidden, setShowOnlyHidden] = useState(false);
+  const [customRest, setCustomRest] = useState('');
   const fileInputRef = useRef(null);
 
   const myExercises = useMemo(
@@ -211,16 +238,21 @@ export default function SettingsView({
   }
 
   if (subview === 'training') {
+    const currentRest = safePreferences.defaultRestTimer ?? 90;
+    const restPresets = [0, 60, 90, 120, 180];
+    const isCustomRest = !restPresets.includes(currentRest);
+    const customRestValue = parseInt(customRest, 10);
+    const customRestValid = Number.isFinite(customRestValue) && customRestValue >= 5 && customRestValue <= 900;
+
     return (
-      <div className="p-4 pb-10">
+      <div className="p-4 pb-10 space-y-4">
         <SubviewHeader title="Entrenamiento" onBack={() => setSubview(null)} />
         <Card className="space-y-5">
           <div>
             <h3 className="font-medium text-sm text-zinc-900 dark:text-zinc-100 mb-2">Descanso automático</h3>
             <div className="flex gap-2">
-              {[0, 60, 90, 120, 180].map(secs => {
-                const currentVal = safePreferences.defaultRestTimer ?? 90;
-                const isSelected = currentVal === secs;
+              {restPresets.map(secs => {
+                const isSelected = currentRest === secs;
                 return (
                   <Button
                     key={secs}
@@ -233,6 +265,32 @@ export default function SettingsView({
                 );
               })}
             </div>
+
+            {/* Segundos a mano, para descansos fuera de los presets */}
+            <div className="flex gap-2 mt-2">
+              <Input
+                type="number"
+                min="5"
+                max="900"
+                placeholder="Otro (segundos, ej. 10)"
+                value={customRest}
+                onChange={(e) => setCustomRest(e.target.value)}
+                className="py-2 text-sm flex-1"
+              />
+              <button
+                type="button"
+                disabled={!customRestValid}
+                onClick={() => { onSavePreferences({ defaultRestTimer: customRestValue }); setCustomRest(''); }}
+                className="px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-40"
+              >
+                OK
+              </button>
+            </div>
+            {isCustomRest && (
+              <p className="text-[11px] font-semibold text-brand-600 dark:text-brand-400 mt-2">
+                Actual: {currentRest}s (personalizado)
+              </p>
+            )}
             <p className="text-[11px] text-zinc-500 mt-2 leading-relaxed">
               El temporizador se activará automáticamente al marcar una serie como completada. Al llegar a 0, tu móvil vibrará.
             </p>
@@ -258,6 +316,25 @@ export default function SettingsView({
             </div>
           </div>
         </Card>
+
+        {/* Herramientas opcionales de la sesión */}
+        <div className="space-y-1.5">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-2">Herramientas opcionales</p>
+          <Card className="p-0 overflow-hidden divide-y divide-zinc-100 dark:divide-zinc-800">
+            <ToggleRow
+              title="Estimaciones de RM"
+              desc="Muestra el 1RM, 5RM y 8RM estimados bajo cada serie al anotar peso y repeticiones."
+              checked={safePreferences.showRmEstimates === true}
+              onChange={(v) => onSavePreferences({ showRmEstimates: v })}
+            />
+            <ToggleRow
+              title="Calculadora de discos"
+              desc="Añade un botón en cada ejercicio de la sesión que calcula qué discos poner por lado de la barra."
+              checked={safePreferences.plateCalculator === true}
+              onChange={(v) => onSavePreferences({ plateCalculator: v })}
+            />
+          </Card>
+        </div>
       </div>
     );
   }

@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { Card } from '../UI/Card';
 import ConfirmDialog from '../UI/ConfirmDialog';
-import { Trash2, Dumbbell, Scale, BarChart3, ListChecks, LineChart } from 'lucide-react';
+import { Trash2, Dumbbell, Scale, BarChart3, ListChecks, LineChart, Trophy } from 'lucide-react';
 import { SET_TYPE_MAP } from '../Dashboard/TemplateEditor';
 import ProgressChart from '../UI/ProgressChart';
 import ExerciseProgress from '../Progress/ExerciseProgress';
+import RecordsView from '../Progress/RecordsView';
 
 function isoToDay(isoDate) { return (isoDate || '').slice(0, 10); }
 function sessionDate(session) { return session.finishedAt || session.startedAt; }
@@ -19,6 +20,7 @@ function maxWeightForExercise(exercise) {
 const SECTIONS = [
   { key: 'summary', label: 'Resumen', icon: BarChart3 },
   { key: 'exercises', label: 'Ejercicios', icon: LineChart },
+  { key: 'records', label: 'Récords', icon: Trophy },
   { key: 'history', label: 'Historial', icon: ListChecks },
 ];
 
@@ -289,6 +291,14 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
 
       {section === 'exercises' && (
         <ExerciseProgress
+          completedSessions={safeSessions}
+          exerciseLibrary={safeLibrary}
+          unit={unit}
+        />
+      )}
+
+      {section === 'records' && (
+        <RecordsView
           completedSessions={safeSessions}
           exerciseLibrary={safeLibrary}
           unit={unit}

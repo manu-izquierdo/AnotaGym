@@ -327,10 +327,12 @@ export default function TemplateEditor({
   // ── Render ──
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-zinc-950 text-white z-50 p-4 overflow-y-auto"
       style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))', paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
     >
+      {/* Ancho limitado para que el editor no se estire en escritorio */}
+      <div className="mx-auto w-full max-w-2xl">
       <header className="flex justify-between items-center mb-6">
         <button onClick={onCancel} className="text-zinc-400 p-2">
           Cancelar
@@ -615,6 +617,7 @@ export default function TemplateEditor({
           onClose={() => setPickerTarget(null)}
         />
       )}
+      </div>
     </div>
   );
 }

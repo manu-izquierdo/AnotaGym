@@ -223,7 +223,7 @@ export default function AdminExercisesView({ exercises, onSaveGlobal, onDeleteGl
       style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))', paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {/* Header */}
-      <header className="px-4 pb-3 border-b border-zinc-800 space-y-3">
+      <header className="px-4 pb-3 border-b border-zinc-800 space-y-3 [&>*]:mx-auto [&>*]:w-full [&>*]:max-w-3xl">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-bold text-lg flex items-center gap-2">
@@ -295,7 +295,7 @@ export default function AdminExercisesView({ exercises, onSaveGlobal, onDeleteGl
       </header>
 
       {/* Lista */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-1.5">
+      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-1.5 [&>*]:mx-auto [&>*]:w-full [&>*]:max-w-3xl">
         <p className="text-[11px] text-zinc-500 px-1">{filtered.length} resultados</p>
 
         {shown.map((ex) => (
@@ -359,7 +359,7 @@ export default function AdminExercisesView({ exercises, onSaveGlobal, onDeleteGl
       </div>
 
       {/* Footer acciones */}
-      <footer className="px-4 py-3 border-t border-zinc-800 flex gap-2">
+      <footer className="px-4 py-3 border-t border-zinc-800 flex gap-2 justify-center [&>button:last-child]:max-w-2xl">
         <button
           onClick={() => {
             if (window.confirm('¿Restaurar el catálogo? Se volverán a mostrar todos los ejercicios ocultos.')) onRestoreAll();

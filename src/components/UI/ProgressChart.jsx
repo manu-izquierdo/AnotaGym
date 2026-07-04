@@ -1,12 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 /**
  * Gráfica de línea interactiva y legible:
  *  - Eje Y con 3 valores de referencia y líneas de guía
- *  - Eje X con fechas (primera / central / última)
+ *  - Eje X con fechas (3 o 5 según el ancho disponible)
  *  - Puntos tocables: al pulsar uno se muestra su detalle debajo
  *    (por defecto queda seleccionado el último punto)
  *  - El mejor valor (isBest) se resalta con un anillo
+ *
+ * Responsive: mide su contenedor con ResizeObserver y dibuja a escala 1:1
+ * (1 unidad SVG = 1px), así el texto y los puntos tienen el mismo tamaño
+ * en un móvil de 360px que en un portátil.
  *
  * Tolerante a fallos: descarta valores no numéricos y si quedan menos de
  * 2 puntos muestra un mensaje en lugar de romper.
@@ -14,7 +18,6 @@ import React, { useEffect, useMemo, useState } from 'react';
  * points: [{ date: 'YYYY-MM-DD'|ISO, value: number, detail?: string, isBest?: boolean }]
  */
 
-const W = 360;
 const H = 190;
 const PAD = { top: 16, right: 12, bottom: 24, left: 42 };
 const MAX_POINTS = 60;
@@ -38,6 +41,20 @@ function fmtDateLong(iso) {
 }
 
 export default function ProgressChart({ points, unit = '', emptyMessage = 'Aún no hay suficientes datos para dibujar la gráfica.' }) {
+  const containerRef = useRef(null);
+  const [width, setWidth] = useState(360);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver((entries) => {
+      const w = entries[0]?.contentRect?.width;
+      if (w) setWidth(Math.max(260, Math.round(w)));
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   const clean = useMemo(() => {
     const valid = (points || []).filter((p) => p && Number.isFinite(Number(p.value)) && p.date);
     return valid.slice(-MAX_POINTS).map((p) => ({ ...p, value: Number(p.value) }));
@@ -71,7 +88,7 @@ export default function ProgressChart({ points, unit = '', emptyMessage = 'Aún 
     yMax += pad;
   }
 
-  const innerW = W - PAD.left - PAD.right;
+  const innerW = width - PAD.left - PAD.right;
   const innerH = H - PAD.top - PAD.bottom;
   const xAt = (i) => PAD.left + (clean.length === 1 ? innerW / 2 : (i / (clean.length - 1)) * innerW);
   const yAt = (v) => PAD.top + innerH - ((v - yMin) / (yMax - yMin)) * innerH;
@@ -80,13 +97,19 @@ export default function ProgressChart({ points, unit = '', emptyMessage = 'Aún 
   const areaPath = `${linePath} L ${xAt(clean.length - 1).toFixed(1)} ${PAD.top + innerH} L ${xAt(0).toFixed(1)} ${PAD.top + innerH} Z`;
 
   const yTicks = [yMin, (yMin + yMax) / 2, yMax];
-  const midIdx = Math.floor((clean.length - 1) / 2);
+
+  // Con más ancho caben más fechas en el eje X
+  const labelCount = Math.min(clean.length, width >= 520 ? 5 : 3);
+  const xLabelIdx = [...new Set(
+    Array.from({ length: labelCount }, (_, i) => Math.round((i / (labelCount - 1)) * (clean.length - 1)))
+  )];
+
   const colW = innerW / Math.max(clean.length - 1, 1);
   const sel = clean[selected] || null;
 
   return (
-    <div className="space-y-2" style={{ color: 'rgb(var(--brand-500))' }}>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto select-none" role="img">
+    <div ref={containerRef} className="space-y-2" style={{ color: 'rgb(var(--brand-500))' }}>
+      <svg viewBox={`0 0 ${width} ${H}`} width={width} height={H} className="max-w-full select-none" role="img">
         <defs>
           <linearGradient id="pcArea" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="currentColor" stopOpacity="0.28" />
@@ -98,7 +121,7 @@ export default function ProgressChart({ points, unit = '', emptyMessage = 'Aún 
         {yTicks.map((t) => (
           <g key={t}>
             <line
-              x1={PAD.left} x2={W - PAD.right} y1={yAt(t)} y2={yAt(t)}
+              x1={PAD.left} x2={width - PAD.right} y1={yAt(t)} y2={yAt(t)}
               className="stroke-zinc-200 dark:stroke-zinc-800" strokeWidth="1" strokeDasharray="3 4"
             />
             <text x={PAD.left - 6} y={yAt(t) + 3} textAnchor="end" fontSize="10" className="fill-zinc-400 dark:fill-zinc-500 font-medium">
@@ -107,8 +130,8 @@ export default function ProgressChart({ points, unit = '', emptyMessage = 'Aún 
           </g>
         ))}
 
-        {/* Eje X: primera, central y última fecha */}
-        {[0, midIdx, clean.length - 1].filter((v, i, a) => a.indexOf(v) === i).map((i) => (
+        {/* Eje X: fechas repartidas */}
+        {xLabelIdx.map((i) => (
           <text
             key={i} x={xAt(i)} y={H - 6} fontSize="10"
             textAnchor={i === 0 ? 'start' : i === clean.length - 1 ? 'end' : 'middle'}
@@ -137,7 +160,7 @@ export default function ProgressChart({ points, unit = '', emptyMessage = 'Aún 
             )}
             <circle
               cx={xAt(i)} cy={yAt(p.value)} r={i === selected ? 5 : 3}
-              fill={i === selected ? 'currentColor' : 'currentColor'}
+              fill="currentColor"
               className={i === selected ? '' : 'opacity-70'}
               stroke={i === selected ? 'white' : 'none'} strokeWidth={i === selected ? 1.5 : 0}
             />

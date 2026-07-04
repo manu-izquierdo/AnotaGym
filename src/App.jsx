@@ -536,7 +536,7 @@ function App() {
               onRemoveExercise={handleRemoveExerciseFromSession}
               showRmEstimates={workoutState.preferences?.showRmEstimates === true}
               plateCalcEnabled={workoutState.preferences?.plateCalculator === true}
-              effortMode={workoutState.preferences?.effortMode || 'rir'}
+              effortMode={workoutState.preferences?.effortMode || 'off'}
             />
           ) : (
             <HistoryView

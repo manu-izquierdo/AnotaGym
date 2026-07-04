@@ -66,6 +66,8 @@ Sin App Store, sin Play Store, y siempre actualizada a la última versión.
 - **Herramientas opcionales** (apagadas por defecto, actívalas en Ajustes → Entrenamiento si te interesan):
   - 🧮 **Calculadora de discos**: te dice qué discos poner a cada lado de la barra
   - 📈 **Estimaciones de RM**: 1RM, 5RM y 8RM calculadas en tiempo real mientras entrenas
+  - 💪 **Esfuerzo por serie**: apunta tu RIR o RPE en cada serie, como prefieras
+- ¿Dudas con los tipos de serie? La **Guía de entrenamiento** (Ajustes → Aprende) te explica qué es cada uno y cuándo usarlo.
 - ¿No usas máquinas de un tipo? **Oculta ejercicios** del catálogo para que no estorben, o **crea los tuyos propios** con foto.
 
 ### ✨ Todo lo que incluye
@@ -83,6 +85,8 @@ Sin App Store, sin Play Store, y siempre actualizada a la última versión.
 | ⚖️ **Peso corporal** | Registro y gráfica de evolución |
 | 📝 **Notas por ejercicio** | Apunta sensaciones y técnica en cada sesión |
 | 🧮 **Calculadora de discos** | Opcional: qué discos cargar por lado, con aviso si el peso no sale exacto |
+| 💪 **RIR / RPE opcional** | Anota el esfuerzo de cada serie con la escala que prefieras, o ninguna |
+| 🎓 **Guía de entrenamiento** | Los tipos de serie explicados dentro de la app: qué son y cuándo usarlos |
 | 📚 **Catálogo enorme** | Más de 900 ejercicios con foto, en español, y puedes añadir los tuyos |
 | 🌍 **Funciona sin internet** | Entrena en sótanos sin cobertura: se sincroniza al volver la conexión |
 | ☁️ **Multi-dispositivo** | Empieza en el móvil, revisa en el ordenador: todo sincronizado |
@@ -210,7 +214,7 @@ No App Store, no Play Store, always up to date.
 1. **Build your routine** — pick from 900+ exercises with photos, set target sets/reps, reorder by dragging. Or skip templates entirely with **Quick Log**: train freely and save it as a routine when you finish. You can also import routines shared by friends via link.
 2. **Train and log** — enter weight and reps, check off each set ✅ and the **rest timer** starts on its own. Tag sets as *Top Set*, *Drop Set*, *To Failure*… add notes per exercise, and add or remove exercises mid-session.
 3. **Watch yourself progress** — interactive per-exercise charts (max weight, estimated 1RM, volume), personal records with dates, full session history with a monthly calendar, and bodyweight tracking.
-4. **Make it yours** — dark/light mode, 8 accent colors, a custom nickname, and opt-in tools (plate calculator, real-time RM estimates) you can enable in Settings.
+4. **Make it yours** — dark/light mode, 8 accent colors, a custom nickname, and opt-in tools (plate calculator, real-time RM estimates, RIR/RPE effort tracking) you can enable in Settings. Unsure about set types? The in-app **Training Guide** explains each one.
 
 ### ✨ Everything included
 
@@ -227,6 +231,8 @@ No App Store, no Play Store, always up to date.
 | ⚖️ **Body metrics** | Track and chart bodyweight over time |
 | 📝 **Exercise notes** | Jot down cues and how each session felt |
 | 🧮 **Plate calculator** | Optional: which plates to load per side, warns if the weight isn't exact |
+| 💪 **Optional RIR / RPE** | Log per-set effort with the scale you prefer, or none at all |
+| 🎓 **Training guide** | Set types explained in-app: what they are and when to use them |
 | 📚 **Huge catalog** | 900+ exercises with photos, plus your own custom ones |
 | 🌍 **Works offline** | Train in basements with no signal — syncs when you're back online |
 | ☁️ **Multi-device** | Start on your phone, review on your computer: always in sync |

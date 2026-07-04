@@ -25,7 +25,7 @@ function MenuRow({ icon: Icon, color, title, subtitle, onClick }) {
       </span>
       <span className="flex-1 min-w-0">
         <span className="block text-sm font-semibold text-zinc-900 dark:text-zinc-100">{title}</span>
-        {subtitle && <span className="block text-xs text-zinc-500 truncate mt-0.5">{subtitle}</span>}
+        {subtitle && <span className="block text-xs text-zinc-500 line-clamp-2 mt-0.5">{subtitle}</span>}
       </span>
       <ChevronRight size={17} className="text-zinc-300 dark:text-zinc-600 shrink-0" />
     </button>
@@ -181,6 +181,16 @@ export default function SettingsView({
     ? 'descanso off'
     : `descanso ${safePreferences.defaultRestTimer ?? 90}s`;
 
+  // Resumen completo para leer los ajustes de un vistazo sin entrar
+  const effortLabel = { rir: 'RIR', rpe: 'RPE', off: 'esfuerzo off' }[safePreferences.effortMode || 'off'];
+  const trainingSummary = [
+    restLabel,
+    safePreferences.unit || 'kg',
+    effortLabel,
+    `RM ${safePreferences.showRmEstimates === true ? 'on' : 'off'}`,
+    `discos ${safePreferences.plateCalculator === true ? 'on' : 'off'}`,
+  ].join(' · ');
+
   // ─── Subvistas ────────────────────────────────────────────────────────────
 
   if (subview === 'appearance') {
@@ -327,7 +337,7 @@ export default function SettingsView({
               ].map(({ id, label }) => (
                 <Button
                   key={id}
-                  variant={(safePreferences.effortMode || 'rir') === id ? 'primary' : 'secondary'}
+                  variant={(safePreferences.effortMode || 'off') === id ? 'primary' : 'secondary'}
                   className="h-10 text-sm flex-1"
                   onClick={() => onSavePreferences({ effortMode: id })}
                 >
@@ -336,11 +346,11 @@ export default function SettingsView({
               ))}
             </div>
             <p className="text-[11px] text-zinc-500 mt-2 leading-relaxed">
-              {(safePreferences.effortMode || 'rir') === 'rir' &&
+              {safePreferences.effortMode === 'rir' &&
                 'RIR: repeticiones que dejas en la recámara (0 = al fallo, 2 = podrías hacer 2 más).'}
               {safePreferences.effortMode === 'rpe' &&
                 'RPE: esfuerzo percibido del 1 al 10 (10 = al fallo, 8 = podrías hacer 2 reps más).'}
-              {safePreferences.effortMode === 'off' &&
+              {(safePreferences.effortMode || 'off') === 'off' &&
                 'La columna de esfuerzo no se mostrará al anotar tus series.'}
             </p>
           </div>
@@ -611,7 +621,7 @@ export default function SettingsView({
           icon={Timer}
           color="bg-amber-500"
           title="Entrenamiento"
-          subtitle={`${restLabel} · ${safePreferences.unit || 'kg'}`}
+          subtitle={trainingSummary}
           onClick={() => setSubview('training')}
         />
       </MenuGroup>

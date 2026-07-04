@@ -159,7 +159,7 @@ export default function SetLogger({
   onRemoveExercise,
   showRmEstimates = false,
   plateCalcEnabled = false,
-  effortMode = 'rir', // 'rir' | 'rpe' | 'off'
+  effortMode = 'off', // 'rir' | 'rpe' | 'off' — apagado por defecto, como el resto de herramientas opcionales
 }) {
   // Track which set has the type-picker open: { exerciseId, setId }
   const [openTypePicker, setOpenTypePicker] = useState(null);

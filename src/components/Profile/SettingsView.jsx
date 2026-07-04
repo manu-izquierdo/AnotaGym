@@ -3,9 +3,10 @@ import { Card, Button, Input } from '../UI/Card';
 import { ACCENT_PALETTES, ACCENT_NAMES } from '../../App';
 import {
   Download, Upload, Dumbbell, Shield, Plus, Search, Eye, EyeOff,
-  Palette, Timer, Database, ChevronRight, ChevronLeft,
+  Palette, Timer, Database, ChevronRight, ChevronLeft, BookOpen,
 } from 'lucide-react';
 import { getMuscleImage } from '../../data/muscleImages';
+import TrainingGuideView from './TrainingGuideView';
 
 // Solo lo cargan los admins al abrir el panel — fuera del bundle principal
 const AdminExercisesView = lazy(() => import('../Admin/AdminExercisesView'));
@@ -104,7 +105,7 @@ export default function SettingsView({
   const safePreferences = preferences || { theme: 'dark', unit: 'kg' };
   const safeExercises = exercises || [];
 
-  const [subview, setSubview] = useState(null); // null | 'appearance' | 'training' | 'myExercises' | 'catalog' | 'data'
+  const [subview, setSubview] = useState(null); // null | 'appearance' | 'training' | 'guide' | 'myExercises' | 'catalog' | 'data'
   const [newExerciseName, setNewExerciseName] = useState('');
   const [newExerciseMuscle, setNewExerciseMuscle] = useState('');
   const [importMsg, setImportMsg] = useState(null); // { ok, text }
@@ -337,6 +338,10 @@ export default function SettingsView({
         </div>
       </div>
     );
+  }
+
+  if (subview === 'guide') {
+    return <TrainingGuideView onBack={() => setSubview(null)} />;
   }
 
   if (subview === 'myExercises') {
@@ -597,6 +602,16 @@ export default function SettingsView({
           title="Catálogo de ejercicios"
           subtitle={hiddenByMe.size > 0 ? `${hiddenByMe.size} ocultos` : 'Oculta los que no uses'}
           onClick={() => setSubview('catalog')}
+        />
+      </MenuGroup>
+
+      <MenuGroup label="Aprende">
+        <MenuRow
+          icon={BookOpen}
+          color="bg-rose-500"
+          title="Guía de entrenamiento"
+          subtitle="Tipos de serie: qué son y cuándo usar cada uno"
+          onClick={() => setSubview('guide')}
         />
       </MenuGroup>
 

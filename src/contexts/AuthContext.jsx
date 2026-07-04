@@ -15,13 +15,14 @@ import { auth, db, googleProvider } from '../firebase';
 
 const AuthContext = createContext(null);
 
-/**
- * Detecta navegador móvil para elegir popup vs redirect.
- * Safari iOS bloquea popups → usamos redirect.
- */
-function isMobileBrowser() {
-  return /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
-}
+// NOTA: antes elegíamos popup (desktop) vs redirect (móvil), pero
+// signInWithRedirect está roto en Safari/iOS (y cada vez más navegadores):
+// el resultado vuelve a través de <proyecto>.firebaseapp.com, un origen
+// distinto al de la app, y el bloqueo de almacenamiento de terceros (ITP)
+// impide recogerlo → getRedirectResult devuelve null y el usuario "rebota"
+// al login. La recomendación oficial de Firebase es usar popup en todos los
+// dispositivos y dejar redirect solo como plan B si el popup se bloquea.
+// https://firebase.google.com/docs/auth/web/redirect-best-practices
 
 /**
  * Traduce códigos de error Firebase al español.
@@ -143,9 +144,8 @@ export function AuthProvider({ children }) {
   }
 
   /**
-   * Google Sign-In:
-   * - Desktop  → signInWithPopup  (sin recarga de página)
-   * - Móvil    → signInWithRedirect (única opción fiable en Safari iOS)
+   * Google Sign-In: popup en todos los dispositivos (ver nota arriba).
+   * Si el navegador bloquea el popup, plan B con redirect.
    *
    * REQUISITO: la IP/dominio desde donde accedes debe estar en
    * Firebase Console → Authentication → Settings → Authorized domains
@@ -153,18 +153,21 @@ export function AuthProvider({ children }) {
   async function loginWithGoogle() {
     setRedirectError('');
     try {
-      if (isMobileBrowser()) {
-        // Inicia el redirect — la página se recarga al volver de Google
-        await signInWithRedirect(auth, googleProvider);
-        // Este código no se ejecuta en móvil (redirect)
-        return { ok: true };
-      } else {
-        await signInWithPopup(auth, googleProvider);
-        return { ok: true };
-      }
+      await signInWithPopup(auth, googleProvider);
+      return { ok: true };
     } catch (err) {
-      const msg = translateFirebaseError(err.code);
-      return { ok: false, message: msg };
+      if (
+        err.code === 'auth/popup-blocked' ||
+        err.code === 'auth/operation-not-supported-in-this-environment'
+      ) {
+        try {
+          await signInWithRedirect(auth, googleProvider);
+          return { ok: true };
+        } catch (redirectErr) {
+          return { ok: false, message: translateFirebaseError(redirectErr.code) };
+        }
+      }
+      return { ok: false, message: translateFirebaseError(err.code) };
     }
   }
 

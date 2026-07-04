@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Card, Button, Input, Label } from '../UI/Card';
+import { Pencil, Check, X } from 'lucide-react';
 
 export default function ProfileView({
   completedSessions,
@@ -16,6 +17,19 @@ export default function ProfileView({
 
   const [measurementDate, setMeasurementDate] = useState(new Date().toISOString().slice(0, 10));
   const [bodyWeight, setBodyWeight] = useState('');
+  const [editingName, setEditingName] = useState(false);
+  const [nameDraft, setNameDraft] = useState('');
+
+  const startEditName = () => {
+    setNameDraft(safePreferences.nickname || user?.displayName || '');
+    setEditingName(true);
+  };
+
+  const saveNickname = () => {
+    // Vacío = quitar el apodo y volver al nombre de la cuenta
+    onSavePreferences({ nickname: nameDraft.trim() });
+    setEditingName(false);
+  };
 
   const stats = useMemo(() => {
     const safe = completedSessions || [];
@@ -99,9 +113,46 @@ export default function ProfileView({
           </div>
         </label>
         <div>
-          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-            {user?.displayName || user?.email?.split('@')[0] || (user?.isAnonymous ? 'Atleta Invitado' : 'Atleta')}
-          </h2>
+          {editingName ? (
+            <div className="flex items-center gap-2 justify-center">
+              <input
+                autoFocus
+                type="text"
+                maxLength={30}
+                value={nameDraft}
+                onChange={(e) => setNameDraft(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') saveNickname(); if (e.key === 'Escape') setEditingName(false); }}
+                placeholder="¿Cómo quieres que te llame?"
+                className="w-52 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-center text-lg font-bold text-zinc-900 dark:text-zinc-100 outline-none focus:border-brand-500 transition-all"
+              />
+              <button
+                onClick={saveNickname}
+                className="p-2 rounded-lg text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 transition-colors"
+                aria-label="Guardar nombre"
+              >
+                <Check size={16} strokeWidth={3} />
+              </button>
+              <button
+                onClick={() => setEditingName(false)}
+                className="p-2 rounded-lg text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 bg-zinc-100 dark:bg-zinc-800 transition-colors"
+                aria-label="Cancelar"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          ) : (
+            <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 flex items-center justify-center gap-1.5">
+              {user?.displayName || user?.email?.split('@')[0] || (user?.isAnonymous ? 'Atleta Invitado' : 'Atleta')}
+              <button
+                onClick={startEditName}
+                className="p-1.5 rounded-lg text-zinc-400 hover:text-brand-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                aria-label="Cambiar cómo te llama la app"
+                title="Cambiar cómo te llama la app"
+              >
+                <Pencil size={15} />
+              </button>
+            </h2>
+          )}
           <p className="text-brand-600 dark:text-brand-400 text-sm font-medium">AnotaGym</p>
           {user?.email && (
             <p className="text-xs text-zinc-500 mt-0.5">{user.email}</p>
@@ -139,14 +190,28 @@ export default function ProfileView({
       <Card className="space-y-4">
         <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">Medidas corporales</h3>
 
+        {/* min-w-0 + padding reducido: el input de fecha de iOS tiene un ancho
+            mínimo intrínseco que desbordaba y pisaba el campo del peso */}
         <div className="flex gap-2">
-          <div className="flex-1">
+          <div className="flex-[1.2] min-w-0">
             <Label>Fecha</Label>
-            <Input type="date" value={measurementDate} onChange={e => setMeasurementDate(e.target.value)} />
+            <Input
+              type="date"
+              value={measurementDate}
+              onChange={e => setMeasurementDate(e.target.value)}
+              className="px-2.5 text-sm min-w-0 appearance-none"
+            />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <Label>Peso ({safePreferences.unit})</Label>
-            <Input type="number" step="0.1" value={bodyWeight} onChange={e => setBodyWeight(e.target.value)} placeholder="75.5" />
+            <Input
+              type="number"
+              step="0.1"
+              value={bodyWeight}
+              onChange={e => setBodyWeight(e.target.value)}
+              placeholder="75.5"
+              className="px-2.5 text-sm min-w-0"
+            />
           </div>
         </div>
         <Button onClick={handleAddMeasurement}>Guardar medida</Button>

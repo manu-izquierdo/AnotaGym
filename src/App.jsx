@@ -480,11 +480,16 @@ function App() {
     }));
   };
 
-  // Objeto de usuario unificado para los componentes UI
+  // Objeto de usuario unificado para los componentes UI.
+  // El nickname (elegido en Perfil) manda sobre el nombre de la cuenta.
   const uiUser = {
     uid: currentUser.uid,
     email: currentUser.email,
-    displayName: userProfile?.displayName || currentUser.displayName || currentUser.email,
+    displayName:
+      workoutState.preferences?.nickname ||
+      userProfile?.displayName ||
+      currentUser.displayName ||
+      currentUser.email,
     photoURL: workoutState.preferences?.profilePicture || currentUser.photoURL || null,
     role: userProfile?.role || 'user',
     isAnonymous: currentUser.isAnonymous,

@@ -35,7 +35,8 @@ A diferencia de apps como Hevy, Caliber o Strong — AnotaGym es completamente *
 | 🏷️ **Tipos de serie** | Normal, Top Set, Back-off, Drop Set, Rest-Pause, Myo-Rep, Calentamiento, Al Fallo |
 | ✅ **Check de series** | Marca cada serie como completada con indicador visual |
 | 📈 **1RM en tiempo real** | Estimaciones de 1RM, 5RM y 8RM por serie (fórmula Epley) |
-| 📊 **Historial completo** | Timeline de sesiones, calendarios y gráficos de volumen |
+| 📊 **Historial completo** | Timeline de sesiones, calendario mensual y gráficas de volumen |
+| 📉 **Progresión por ejercicio** | Gráfica interactiva por ejercicio: peso máximo, 1RM estimado y volumen, con récords, rangos de tiempo y detalle de cada sesión al tocar un punto |
 | ⚖️ **Métricas corporales** | Registro y gráfica de evolución de peso corporal |
 | 🌍 **Offline-first** | Funciona sin conexión gracias a IndexedDB |
 | ☁️ **Sync en la nube** | Firestore sincroniza en tiempo real entre dispositivos |
@@ -334,7 +335,7 @@ Una vez tengas el dominio, en Vercel o Firebase Hosting puedes conectarlo gratis
 - [x] Notas por ejercicio en la sesión
 - [x] Panel de administración visual del catálogo global
 - [x] Reglas de Firestore endurecidas (rol admin inmutable desde el cliente)
-- [ ] Estadísticas por ejercicio (curva de progresión)
+- [x] Estadísticas por ejercicio (curva de progresión con peso máx, 1RM estimado y volumen)
 - [ ] Quick Log (sesión libre sin plantilla)
 - [ ] Notificaciones push
 - [ ] Historial de sesiones en subcolección (hoy vive en un único documento)
@@ -367,6 +368,7 @@ Unlike Hevy, Caliber or Strong — AnotaGym is completely **free, ad-free and gi
 | ✅ **Set Completion Check** | Mark each set as done with visual green highlight |
 | 📈 **Real-time 1RM** | 1RM, 5RM and 8RM estimates per set (Epley formula) + delta vs previous session |
 | 📊 **Full History** | Session timeline, monthly calendar heatmap, volume charts |
+| 📉 **Per-exercise progression** | Interactive chart per exercise: max weight, estimated 1RM and volume, with PRs, time ranges and tap-to-inspect session detail |
 | ⚖️ **Body Metrics** | Track and chart bodyweight over time |
 | 🌍 **Offline-first** | Works without internet via IndexedDB |
 | ☁️ **Cloud sync** | Firestore real-time sync across devices |
@@ -471,7 +473,7 @@ firebase deploy
 - [x] Per-exercise notes in session
 - [x] Visual admin panel for the global exercise catalog
 - [x] Hardened Firestore rules (client-immutable admin role)
-- [ ] Exercise progression chart
+- [x] Exercise progression chart (max weight, estimated 1RM, volume)
 - [ ] Free-form Quick Log session
 - [ ] Push notifications
 - [ ] Move session history to a subcollection (currently a single document)

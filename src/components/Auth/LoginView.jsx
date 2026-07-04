@@ -78,13 +78,20 @@ export default function LoginView() {
       <div className="relative w-full max-w-[360px] space-y-7">
 
         {/* Logo */}
-        <div className="text-center">
-          <h1 className="text-[2.75rem] font-black tracking-tighter bg-gradient-to-br from-brand-400 via-brand-500 to-brand-700 bg-clip-text text-transparent leading-none">
-            AnotaGym
-          </h1>
-          <p className="text-zinc-500 text-sm mt-2">
-            {mode === 'login' ? 'Bienvenido de vuelta' : 'Crea tu cuenta gratuita'}
-          </p>
+        <div className="text-center space-y-3">
+          <div className="mx-auto w-14 h-14 rounded-2xl bg-brand-600 flex items-center justify-center shadow-lg shadow-brand-900/40">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14.4 14.4 9.6 9.6" /><path d="M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z" /><path d="m21.5 21.5-1.4-1.4" /><path d="M3.9 3.9 2.5 2.5" /><path d="M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z" />
+            </svg>
+          </div>
+          <div>
+            <h1 className="text-4xl font-extrabold tracking-tight text-white leading-none">
+              AnotaGym
+            </h1>
+            <p className="text-zinc-500 text-sm mt-2">
+              {mode === 'login' ? 'Bienvenido de vuelta' : 'Crea tu cuenta gratuita'}
+            </p>
+          </div>
         </div>
 
         {/* Card */}
@@ -161,7 +168,7 @@ export default function LoginView() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-500 hover:to-brand-600 text-white font-bold text-sm py-3 rounded-2xl transition-all duration-150 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-brand-900/30"
+              className="w-full bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white font-bold text-sm py-3 rounded-2xl transition-all duration-150 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-brand-900/30"
             >
               {loading ? <Spinner /> : (mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta')}
             </button>

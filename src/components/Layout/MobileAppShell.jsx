@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, LineChart, UserCircle2, Settings } from 'lucide-react';
+import { Home, LineChart, UserCircle2, Settings, Dumbbell } from 'lucide-react';
 
 export default function MobileAppShell({ children, activeTab, onTabChange, onProfileClick, user }) {
   return (
@@ -10,7 +10,12 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
         className="sticky top-0 z-10 backdrop-blur-xl bg-white/70 dark:bg-[#09090b]/70 border-b border-zinc-200 dark:border-zinc-800/80 px-4 pb-3 flex items-center justify-between transition-colors duration-300"
         style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
       >
-        <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-brand-500 to-brand-700 dark:from-brand-400 dark:to-brand-600 bg-clip-text text-transparent">AnotaGym</h1>
+        <div className="flex items-center gap-2">
+          <span className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center">
+            <Dumbbell size={15} className="text-white" />
+          </span>
+          <h1 className="text-lg font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">AnotaGym</h1>
+        </div>
         <button
           type="button"
           onClick={onProfileClick}
@@ -68,12 +73,14 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
 
 function NavItem({ icon, label, isActive, onClick }) {
   return (
-    <button 
+    <button
       onClick={onClick}
-      className={`flex flex-col items-center p-2 min-w-[4rem] transition-all duration-200 ${isActive ? 'text-brand-600 dark:text-brand-400 scale-110' : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200 hover:scale-105'}`}
+      className={`flex flex-col items-center gap-0.5 py-1 min-w-[4rem] transition-colors duration-200 ${isActive ? 'text-brand-600 dark:text-brand-400' : 'text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200'}`}
     >
-      <div className="mb-1">{icon}</div>
-      <span className="text-[10px] font-medium">{label}</span>
+      <span className={`px-4 py-1 rounded-full transition-colors duration-200 ${isActive ? 'bg-brand-100 dark:bg-brand-950/60' : ''}`}>
+        {icon}
+      </span>
+      <span className={`text-[10px] ${isActive ? 'font-bold' : 'font-medium'}`}>{label}</span>
     </button>
   );
 }

@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Card, CardTitle, Button } from '../UI/Card';
-import { Share2, Play, Edit3, Trash2, Dumbbell, ClipboardList } from 'lucide-react';
+import { Share2, Play, Edit3, Trash2, Dumbbell, Plus } from 'lucide-react';
 
+// Color del chip de enfoque de cada rutina
 const FOCUS_COLORS = {
-  'Upper': 'from-blue-500/20 to-blue-900/5 border-blue-500/20',
-  'Lower': 'from-red-500/20 to-red-900/5 border-red-500/20',
-  'Full Body': 'from-purple-500/20 to-purple-900/5 border-purple-500/20',
-  'Push': 'from-amber-500/20 to-amber-900/5 border-amber-500/20',
-  'Pull': 'from-emerald-500/20 to-emerald-900/5 border-emerald-500/20',
-  'Pierna': 'from-red-500/20 to-red-900/5 border-red-500/20',
-  'Brazos': 'from-cyan-500/20 to-cyan-900/5 border-cyan-500/20',
-  'default': 'from-zinc-500/10 to-zinc-900/5 border-zinc-500/20'
+  'Upper': 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400',
+  'Lower': 'bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400',
+  'Full Body': 'bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400',
+  'Push': 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400',
+  'Pull': 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400',
+  'Pierna': 'bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400',
+  'Brazos': 'bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400',
+  'default': 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
 };
 
 export default function SplitView({
@@ -37,17 +38,14 @@ export default function SplitView({
   return (
     <div className="p-4 space-y-6 pb-12">
       <div className="mb-2">
-        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-          <ClipboardList className="text-brand-500" />
-          Tus Rutinas
-        </h2>
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Rutinas</h2>
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-0.5">
           Crea plantillas o comparte tus rutinas con amigos.
         </p>
       </div>
 
-      <Button onClick={onCreateTemplate} className="w-full font-bold shadow-lg shadow-brand-500/20 h-12">
-        + Nueva Rutina
+      <Button onClick={onCreateTemplate} className="w-full font-bold h-12">
+        <Plus size={17} className="mr-1.5" /> Nueva rutina
       </Button>
 
       {shareMsg && (
@@ -66,16 +64,15 @@ export default function SplitView({
         )}
         
         {templates.map((template) => {
-          // Identify the main focus to apply a gradient color
           const mainFocus = Object.keys(FOCUS_COLORS).find(k => template.focus?.includes(k)) || 'default';
-          const bgGradient = FOCUS_COLORS[mainFocus];
+          const chipColor = FOCUS_COLORS[mainFocus];
 
           return (
-            <div key={template.id} className={`relative overflow-hidden rounded-2xl border bg-gradient-to-br bg-white dark:bg-zinc-900 ${bgGradient} transition-all`}>
+            <div key={template.id} className="relative overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm transition-all">
               <div className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <span className="text-[10px] font-bold tracking-widest text-zinc-500 uppercase bg-zinc-100 dark:bg-zinc-800/50 px-2 py-1 rounded-full border border-zinc-200 dark:border-zinc-700/50 shadow-sm">
+                    <span className={`text-[10px] font-bold tracking-widest uppercase px-2 py-1 rounded-full ${chipColor}`}>
                       {template.focus || 'Rutina'}
                     </span>
                     <h3 className="mt-3 text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">

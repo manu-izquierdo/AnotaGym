@@ -118,9 +118,10 @@ export default function useFirestoreData(uid, isAdmin) {
   // ---- Gestión de ejercicios ----
 
   /**
-   * Añade un ejercicio.
-   * Si el usuario es admin → va a /globalExercises (visible para todos)
-   * Si es usuario normal → va a /users/{uid}/privateExercises (solo para él)
+   * Añade un ejercicio PERSONAL a /users/{uid}/privateExercises (solo lo ve
+   * el usuario, admin incluido). Los ejercicios globales se crean únicamente
+   * desde el panel de administración con saveGlobalExercise — así crear un
+   * ejercicio rápido desde una rutina nunca toca el catálogo de todos.
    */
   const addExercise = useCallback(async (exerciseData) => {
     const exercise = {
@@ -131,16 +132,11 @@ export default function useFirestoreData(uid, isAdmin) {
       ...(exerciseData.imageUrl ? { imageUrl: exerciseData.imageUrl.trim() } : {}),
     };
 
-    if (isAdmin) {
-      const globalRef = doc(db, 'globalExercises', exercise.id);
-      await setDoc(globalRef, { ...exercise, createdByAdmin: true });
-    } else {
-      const privateRef = doc(db, 'users', uid, 'privateExercises', exercise.id);
-      await setDoc(privateRef, exercise);
-    }
+    const privateRef = doc(db, 'users', uid, 'privateExercises', exercise.id);
+    await setDoc(privateRef, exercise);
 
     return exercise.id;
-  }, [uid, isAdmin]);
+  }, [uid]);
 
   /**
    * (Solo admin) Crea o edita un ejercicio en /globalExercises.

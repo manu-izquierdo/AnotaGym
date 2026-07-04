@@ -37,7 +37,7 @@ export function Button({ children, variant = 'primary', className = '', ...props
   const baseStyles = "w-full rounded-xl font-medium py-3 px-4 flex items-center justify-center transition-all active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none";
   
   const variants = {
-    primary: "bg-gradient-to-r from-brand-500 to-brand-700 hover:from-brand-400 hover:to-brand-600 text-white shadow-md shadow-brand-500/25",
+    primary: "bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white shadow-sm",
     secondary: "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700",
     ghost: "bg-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800/50"
   };

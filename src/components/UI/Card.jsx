@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Card({ children, className = '' }) {
   return (
-    <div className={`bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/80 shadow-sm dark:shadow-none hover:shadow-md transition-shadow rounded-2xl p-5 ${className}`}>
+    <div className={`bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/80 shadow-sm dark:shadow-none hover:shadow-md md:hover:-translate-y-0.5 transition-all duration-200 rounded-2xl p-5 ${className}`}>
       {children}
     </div>
   );

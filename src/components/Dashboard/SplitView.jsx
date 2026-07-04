@@ -20,8 +20,26 @@ export default function SplitView({
   onCreateTemplate,
   onEditTemplate,
   onDeleteTemplate,
+  user,
+  completedSessions,
 }) {
   const [shareMsg, setShareMsg] = useState('');
+
+  // Saludo dinámico según la hora + resumen de la semana
+  const now = new Date();
+  const hour = now.getHours();
+  const greeting = hour < 7 ? 'A por todas' : hour < 14 ? 'Buenos días' : hour < 21 ? 'Buenas tardes' : 'Buenas noches';
+  const firstName = (user?.displayName || '').trim().split(' ')[0];
+  const dateLabel = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+  const weekCount = (completedSessions || []).filter((s) => {
+    const t = new Date(s.finishedAt || s.startedAt).getTime();
+    return Number.isFinite(t) && Date.now() - t < 7 * 86400000;
+  }).length;
+  const weekMsg = weekCount === 0
+    ? 'Esta semana aún no has entrenado. ¿Empezamos?'
+    : weekCount === 1
+      ? '1 sesión en los últimos 7 días. ¡Sigue así!'
+      : `${weekCount} sesiones en los últimos 7 días. ¡Buen ritmo!`;
 
   const handleShare = async (template) => {
     try {
@@ -38,10 +56,11 @@ export default function SplitView({
   return (
     <div className="p-4 space-y-6 pb-12">
       <div className="mb-2">
-        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Rutinas</h2>
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-0.5">
-          Crea plantillas o comparte tus rutinas con amigos.
-        </p>
+        <p className="text-[11px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 capitalize">{dateLabel}</p>
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mt-0.5">
+          {greeting}{firstName ? `, ${firstName}` : ''}
+        </h2>
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">{weekMsg}</p>
       </div>
 
       <Button onClick={onCreateTemplate} className="w-full font-bold h-12">

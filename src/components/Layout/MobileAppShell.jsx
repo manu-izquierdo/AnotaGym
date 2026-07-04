@@ -45,7 +45,8 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
         </div>
 
         <nav className="flex flex-col gap-1">
-          {NAV_ITEMS.map(({ key, label, icon: Icon }) => {
+          {/* Perfil no va en esta lista: su entrada es la fila de usuario de abajo */}
+          {NAV_ITEMS.filter(({ key }) => key !== 'profile').map(({ key, label, icon: Icon }) => {
             const isActive = activeTab === key;
             return (
               <button
@@ -67,11 +68,16 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
         <button
           type="button"
           onClick={onProfileClick}
-          className="mt-auto flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors text-left"
+          className={`mt-auto flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors text-left
+            ${activeTab === 'profile'
+              ? 'bg-brand-100 dark:bg-brand-950/60'
+              : 'hover:bg-zinc-100 dark:hover:bg-zinc-800/60'}`}
         >
           <Avatar user={user} />
           <div className="min-w-0">
-            <p className="text-sm font-semibold truncate">{user?.displayName || 'Mi perfil'}</p>
+            <p className={`text-sm truncate ${activeTab === 'profile' ? 'font-bold text-brand-700 dark:text-brand-400' : 'font-semibold'}`}>
+              {user?.displayName || 'Mi perfil'}
+            </p>
             {user?.email && <p className="text-[11px] text-zinc-500 truncate">{user.email}</p>}
           </div>
         </button>
@@ -85,20 +91,13 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
           className="md:hidden sticky top-0 z-10 backdrop-blur-xl bg-white/70 dark:bg-[#09090b]/70 border-b border-zinc-200 dark:border-zinc-800/80 px-4 pb-3 flex items-center justify-between transition-colors duration-300"
           style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
         >
+          {/* Solo el logo: la entrada a Perfil ya está en la nav inferior */}
           <Logo onClick={() => onTabChange('routine')} />
-          <button
-            type="button"
-            onClick={onProfileClick}
-            className="rounded-full overflow-hidden transition-all active:scale-95"
-            aria-label="Abrir perfil"
-          >
-            <Avatar user={user} />
-          </button>
         </header>
 
-        {/* Contenido centrado con ancho máximo */}
+        {/* Contenido centrado con ancho máximo; key = animación al cambiar de pestaña */}
         <main className="flex-1 pb-28 md:pb-10 overflow-y-auto no-scrollbar">
-          <div className="mx-auto w-full max-w-2xl md:pt-4">
+          <div key={activeTab} className="mx-auto w-full max-w-2xl md:pt-4 animate-view-in">
             {children}
           </div>
         </main>

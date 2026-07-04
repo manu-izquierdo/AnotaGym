@@ -141,8 +141,9 @@ export default function ProgressChart({ points, unit = '', emptyMessage = 'Aún 
           </text>
         ))}
 
-        <path d={areaPath} fill="url(#pcArea)" />
-        <path d={linePath} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        {/* key = la ruta: al cambiar de serie la animación de dibujado se repite */}
+        <path key={`a-${linePath}`} d={areaPath} fill="url(#pcArea)" className="chart-fade" />
+        <path key={`l-${linePath}`} d={linePath} pathLength="1" className="chart-draw" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 
         {/* Línea vertical del punto seleccionado */}
         {sel && (

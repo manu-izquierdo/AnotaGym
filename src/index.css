@@ -27,3 +27,44 @@
     scrollbar-width: none;
   }
 }
+
+/* ── Micro-animaciones (CSS puro: cero coste en el bundle, van por GPU) ── */
+
+/* Entrada suave del contenido al cambiar de pestaña */
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-view-in {
+  animation: viewIn 0.28s ease-out both;
+}
+
+/* La línea de las gráficas se dibuja de izquierda a derecha */
+@keyframes chartDraw {
+  to { stroke-dashoffset: 0; }
+}
+.chart-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: chartDraw 0.9s ease-out 0.1s forwards;
+}
+
+/* El área bajo la línea aparece en fundido */
+@keyframes chartFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.chart-fade {
+  animation: chartFade 0.7s ease-out 0.4s both;
+}
+
+/* Accesibilidad: si el sistema pide menos movimiento, se desactiva todo */
+@media (prefers-reduced-motion: reduce) {
+  .animate-view-in,
+  .chart-draw,
+  .chart-fade {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+  }
+}

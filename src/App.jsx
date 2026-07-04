@@ -340,6 +340,8 @@ function App() {
             onCreateTemplate={() => setEditingTemplate('NEW')}
             onEditTemplate={(template) => setEditingTemplate(template)}
             onDeleteTemplate={handleDeleteTemplate}
+            user={uiUser}
+            completedSessions={workoutState.completedSessions}
           />
         )}
 

@@ -57,7 +57,7 @@ Sin App Store, sin Play Store, y siempre actualizada a la última versión.
 - **Progreso → Ejercicios**: gráfica interactiva de cada ejercicio (peso máximo, 1RM estimado o volumen). Toca cualquier punto y verás las series exactas de ese día.
 - **Progreso → Récords**: tus mejores marcas de cada ejercicio, con fecha y podio de tus 3 mejores.
 - **Progreso → Historial**: todas tus sesiones, con calendario mensual.
-- En **Perfil** puedes además registrar tu **peso corporal** y ver su evolución.
+- Registra tu **peso corporal** en Progreso → Resumen: gráfica de evolución e historial de medidas en la misma tarjeta.
 
 #### 4. Hazla tuya
 
@@ -81,8 +81,8 @@ Sin App Store, sin Play Store, y siempre actualizada a la última versión.
 | ⏱️ **Timer de descanso** | Automático al completar una serie, con vibración y segundos a tu gusto |
 | 📉 **Progresión por ejercicio** | Gráfica interactiva: peso máximo, 1RM estimado y volumen, con detalle de cada sesión |
 | 🏆 **Récords personales** | Tus mejores marcas por ejercicio, con fecha y buscador |
-| 📊 **Historial completo** | Timeline de sesiones, calendario mensual y gráficas de volumen |
-| ⚖️ **Peso corporal** | Registro y gráfica de evolución |
+| 📊 **Historial completo** | Timeline de sesiones, calendario mensual y gráficas de volumen — y corrige cualquier dato mal apuntado |
+| ⚖️ **Peso corporal** | Registro, gráfica de evolución e historial editable |
 | 📝 **Notas por ejercicio** | Apunta agarres y técnica; se muestran la próxima vez que hagas ese ejercicio y en tu historial |
 | 🧮 **Calculadora de discos** | Opcional: qué discos cargar por lado, con aviso si el peso no sale exacto |
 | 💪 **RIR / RPE opcional** | Anota el esfuerzo de cada serie con la escala que prefieras, o ninguna |
@@ -213,7 +213,7 @@ No App Store, no Play Store, always up to date.
 
 1. **Build your routine** — pick from 900+ exercises with photos, set target sets/reps, reorder by dragging. Or skip templates entirely with **Quick Log**: train freely and save it as a routine when you finish. You can also import routines shared by friends via link.
 2. **Train and log** — enter weight and reps — the set checks itself off ✅ and the **rest timer** starts on its own. Tag sets as *Top Set*, *Drop Set*, *To Failure*… add notes per exercise (grip, bench angle…) that show up again next time you train it, and add or remove exercises mid-session.
-3. **Watch yourself progress** — interactive per-exercise charts (max weight, estimated 1RM, volume), personal records with dates, full session history with a monthly calendar, and bodyweight tracking.
+3. **Watch yourself progress** — interactive per-exercise charts (max weight, estimated 1RM, volume), personal records with dates, full session history with a monthly calendar (you can fix mistyped sets afterwards), and bodyweight tracking.
 4. **Make it yours** — dark, light or System (follows your device) mode, 8 accent colors, a custom nickname, and opt-in tools (plate calculator, real-time RM estimates, RIR/RPE effort tracking) you can enable in Settings. Unsure about set types? The in-app **Training Guide** explains each one.
 
 ### ✨ Everything included
@@ -227,8 +227,8 @@ No App Store, no Play Store, always up to date.
 | ⏱️ **Rest timer** | Auto-starts when you complete a set, haptic feedback, custom seconds |
 | 📉 **Per-exercise progression** | Interactive chart: max weight, estimated 1RM and volume, tap any point for session detail |
 | 🏆 **Personal records** | Best marks per exercise, with dates and search |
-| 📊 **Full history** | Session timeline, monthly calendar and volume charts |
-| ⚖️ **Body metrics** | Track and chart bodyweight over time |
+| 📊 **Full history** | Session timeline, monthly calendar, volume charts — and fix any mistyped set afterwards |
+| ⚖️ **Body metrics** | Log, chart and edit your bodyweight history — right in the Progress tab |
 | 📝 **Exercise notes** | Jot down cues — they reappear next time you do that exercise and in your history |
 | 🧮 **Plate calculator** | Optional: which plates to load per side, warns if the weight isn't exact |
 | 💪 **Optional RIR / RPE** | Log per-set effort with the scale you prefer, or none at all |

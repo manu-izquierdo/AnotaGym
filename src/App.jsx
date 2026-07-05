@@ -509,6 +509,16 @@ function App() {
     }));
   };
 
+  // Corregir un entrenamiento ya guardado (peso/reps mal apuntados un día)
+  const handleUpdateSession = (updatedSession) => {
+    setWorkoutState((prev) => ({
+      ...prev,
+      completedSessions: prev.completedSessions.map((s) =>
+        s.id === updatedSession.id ? updatedSession : s
+      ),
+    }));
+  };
+
   const handleDeleteBodyMetric = (date) => {
     setWorkoutState((prev) => ({
       ...prev,
@@ -581,6 +591,9 @@ function App() {
               bodyMetrics={workoutState.bodyMetrics}
               unit={workoutState.preferences?.unit || 'kg'}
               onDeleteSession={handleDeleteSession}
+              onUpdateSession={handleUpdateSession}
+              onAddBodyMetric={handleAddBodyMetric}
+              onDeleteBodyMetric={handleDeleteBodyMetric}
             />
           )
         )}
@@ -589,10 +602,7 @@ function App() {
           <ProfileView
             completedSessions={workoutState.completedSessions}
             preferences={workoutState.preferences}
-            bodyMetrics={workoutState.bodyMetrics}
             onSavePreferences={handleSavePreferences}
-            onAddBodyMetric={handleAddBodyMetric}
-            onDeleteBodyMetric={handleDeleteBodyMetric}
             onLogout={logout}
             user={uiUser}
           />

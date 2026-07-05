@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { Card } from '../UI/Card';
+import { Card, Button, Input, Label } from '../UI/Card';
 import ConfirmDialog from '../UI/ConfirmDialog';
-import { Trash2, Dumbbell, Scale, BarChart3, ListChecks, LineChart, Trophy } from 'lucide-react';
+import { Trash2, Dumbbell, Scale, BarChart3, ListChecks, LineChart, Trophy, Pencil, ChevronDown, X } from 'lucide-react';
 import { SET_TYPE_MAP } from '../Dashboard/TemplateEditor';
 import ProgressChart from '../UI/ProgressChart';
 import ExerciseProgress from '../Progress/ExerciseProgress';
@@ -112,7 +112,10 @@ function VolumeChart({ sessions, unit }) {
   );
 }
 
-function BodyWeightChart({ bodyMetrics, unit }) {
+// Peso corporal: gráfica + registro rápido + historial editable, todo en una
+// tarjeta. Los cambios de peso se muestran en color NEUTRO a propósito: subir
+// puede ser el objetivo (volumen) o no (definición), la app no lo juzga.
+function BodyWeightCard({ bodyMetrics, unit, onAddBodyMetric, onDeleteBodyMetric }) {
   const sorted = useMemo(
     () => [...(bodyMetrics || [])].sort((a, b) => new Date(a.date) - new Date(b.date)),
     [bodyMetrics]
@@ -121,57 +124,245 @@ function BodyWeightChart({ bodyMetrics, unit }) {
     () => sorted.map(m => ({ date: m.date, value: m.bodyWeight })),
     [sorted]
   );
+  const newestFirst = useMemo(() => [...sorted].reverse(), [sorted]);
 
-  if (sorted.length === 0) {
-    return (
-      <Card className="space-y-2">
-        <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Peso corporal</h3>
-        <p className="text-xs text-zinc-500">Registra tu peso en la pestaña Perfil para ver tu evolución.</p>
-      </Card>
-    );
-  }
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [weight, setWeight] = useState('');
+  const [showList, setShowList] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(null); // date de la medida
 
   const latest = sorted[sorted.length - 1];
   const prev = sorted.length > 1 ? sorted[sorted.length - 2] : null;
-  const delta = prev ? (latest.bodyWeight - prev.bodyWeight).toFixed(1) : null;
-  const isUp = delta !== null && parseFloat(delta) > 0;
-  const isFlat = delta !== null && parseFloat(delta) === 0;
-  const trendLabel = delta === null ? null : isFlat ? 'Sin cambio' : isUp ? `+${delta} ${unit}` : `${delta} ${unit}`;
-  const trendCls = isFlat ? 'text-zinc-500' : isUp ? 'text-red-500 dark:text-red-400' : 'text-emerald-600 dark:text-emerald-400';
+  const delta = prev ? latest.bodyWeight - prev.bodyWeight : null;
+  const trendLabel = delta === null ? null
+    : delta === 0 ? 'Sin cambio'
+    : delta > 0 ? `▲ +${delta.toFixed(1)} ${unit}` : `▼ ${delta.toFixed(1)} ${unit}`;
+
+  const handleSave = () => {
+    const value = parseFloat(weight);
+    if (!date || !value) return;
+    onAddBodyMetric?.({ date, bodyWeight: value });
+    setWeight('');
+  };
 
   return (
-    <Card className="space-y-3">
+    <Card className="space-y-4">
       <div className="flex items-start justify-between">
         <div>
           <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Peso corporal</h3>
-          <p className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-100 mt-0.5">
-            {latest.bodyWeight} <span className="text-sm font-normal text-zinc-500">{unit}</span>
-          </p>
+          {latest ? (
+            <p className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-100 mt-0.5">
+              {latest.bodyWeight} <span className="text-sm font-normal text-zinc-500">{unit}</span>
+            </p>
+          ) : (
+            <p className="text-xs text-zinc-500 mt-1">Registra tu peso aquí para ver tu evolución.</p>
+          )}
         </div>
         {trendLabel && (
-          <span className={`text-xs font-bold px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 ${trendCls}`}>
+          <span className="text-xs font-bold px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
             {trendLabel}
           </span>
         )}
       </div>
-      <ProgressChart
-        points={points}
-        unit={unit}
-        emptyMessage="Registra tu peso al menos 2 días para ver la gráfica."
-      />
+
+      {sorted.length > 0 && (
+        <ProgressChart
+          points={points}
+          unit={unit}
+          emptyMessage="Registra tu peso al menos 2 días para ver la gráfica."
+        />
+      )}
+
+      {/* Registro rápido — guardar en una fecha ya existente reemplaza esa medida */}
+      <div className="flex gap-2">
+        <div className="flex-[1.2] min-w-0">
+          <Label>Fecha</Label>
+          <Input
+            type="date"
+            value={date}
+            onChange={e => setDate(e.target.value)}
+            className="px-2.5 text-sm min-w-0 appearance-none"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <Label>Peso ({unit})</Label>
+          <Input
+            type="number"
+            step="0.1"
+            value={weight}
+            onChange={e => setWeight(e.target.value)}
+            placeholder="75.5"
+            className="px-2.5 text-sm min-w-0"
+          />
+        </div>
+      </div>
+      <Button onClick={handleSave}>Guardar medida</Button>
+
+      {sorted.length > 0 && (
+        <div className="border-t border-zinc-100 dark:border-zinc-800 pt-2">
+          <button
+            type="button"
+            onClick={() => setShowList(s => !s)}
+            className="w-full flex items-center justify-between py-1 text-xs font-bold text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+          >
+            <span>Historial ({sorted.length})</span>
+            <ChevronDown size={14} className={`transition-transform ${showList ? 'rotate-180' : ''}`} />
+          </button>
+
+          {showList && (
+            <div className="max-h-56 overflow-y-auto pr-1 mt-1">
+              {newestFirst.map((metric, i) => {
+                const previous = newestFirst[i + 1];
+                const rowDelta = previous ? metric.bodyWeight - previous.bodyWeight : null;
+                return (
+                  <div key={metric.date} className="flex items-center justify-between py-2 border-b border-zinc-100 dark:border-zinc-800/50 last:border-0">
+                    {/* Tocar una medida la carga en el formulario para corregirla */}
+                    <button
+                      type="button"
+                      onClick={() => { setDate(metric.date); setWeight(String(metric.bodyWeight)); }}
+                      className="flex items-center gap-3 flex-1 min-w-0 text-left"
+                      title="Tocar para corregir esta medida"
+                    >
+                      <span className="text-xs text-zinc-500 w-24 shrink-0">
+                        {new Date(metric.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </span>
+                      <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{metric.bodyWeight} {unit}</span>
+                      {rowDelta !== null && rowDelta !== 0 && (
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">
+                          {rowDelta > 0 ? `▲ +${rowDelta.toFixed(1)}` : `▼ ${rowDelta.toFixed(1)}`}
+                        </span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmDelete(metric.date)}
+                      className="text-zinc-300 dark:text-zinc-600 hover:text-red-500 dark:hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30"
+                      aria-label="Borrar medida"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                );
+              })}
+              <p className="text-[10px] text-zinc-400 pt-2">Toca una medida para cargarla en el formulario y corregirla.</p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {confirmDelete && (
+        <ConfirmDialog
+          title="¿Borrar esta medida?"
+          message="Esta acción no se puede deshacer."
+          confirmLabel="Borrar"
+          danger
+          onConfirm={() => { onDeleteBodyMetric?.(confirmDelete); setConfirmDelete(null); }}
+          onCancel={() => setConfirmDelete(null)}
+        />
+      )}
     </Card>
+  );
+}
+
+// Hoja modal para corregir un entrenamiento guardado: peso y reps de cada serie
+function EditSessionSheet({ session, exerciseIndex, unit, onSave, onClose }) {
+  const [draft, setDraft] = useState(() => JSON.parse(JSON.stringify(session)));
+
+  const setField = (exerciseId, setId, field, value) => {
+    setDraft((d) => ({
+      ...d,
+      exercises: d.exercises.map((ex) =>
+        ex.id === exerciseId
+          ? { ...ex, sets: ex.sets.map((s) => (s.id === setId ? { ...s, [field]: value } : s)) }
+          : ex
+      ),
+    }));
+  };
+
+  const dateLabel = new Date(sessionDate(session)).toLocaleDateString('es-ES', {
+    weekday: 'long', day: 'numeric', month: 'long',
+  });
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-end sm:items-center justify-center sm:p-4" onClick={onClose}>
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[85vh]"
+      >
+        <div className="p-4 pb-3 flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800">
+          <div>
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">Corregir entrenamiento</h3>
+            <p className="text-[11px] text-zinc-500 capitalize">{session.templateName} · {dateLabel}</p>
+          </div>
+          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" aria-label="Cerrar">
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="overflow-y-auto p-4 space-y-4">
+          {draft.exercises.map((exercise) => (
+            <div key={exercise.id} className="space-y-2">
+              <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200">
+                {exerciseIndex[exercise.exerciseId]?.name || 'Ejercicio'}
+              </p>
+              {exercise.sets.map((set) => {
+                const typeInfo = SET_TYPE_MAP[set.setType] || SET_TYPE_MAP.normal;
+                return (
+                  <div key={set.id} className="flex items-center gap-2">
+                    <span className={`text-[8px] font-black px-1 py-0.5 rounded shrink-0 ${typeInfo.color}`}>
+                      {typeInfo.short}
+                    </span>
+                    <span className="text-[11px] text-zinc-400 w-5 shrink-0">#{set.order}</span>
+                    <input
+                      type="number"
+                      step="0.5"
+                      value={set.weight}
+                      onChange={(e) => setField(exercise.id, set.id, 'weight', e.target.value)}
+                      placeholder={`Peso (${unit})`}
+                      className="flex-1 min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 focus:border-brand-500 outline-none rounded-lg px-2.5 py-2 text-sm text-zinc-900 dark:text-zinc-100 transition-all"
+                    />
+                    <span className="text-[10px] text-zinc-400 shrink-0">{unit} ×</span>
+                    <input
+                      type="number"
+                      value={set.reps}
+                      onChange={(e) => setField(exercise.id, set.id, 'reps', e.target.value)}
+                      placeholder="Reps"
+                      className="flex-1 min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 focus:border-brand-500 outline-none rounded-lg px-2.5 py-2 text-sm text-zinc-900 dark:text-zinc-100 transition-all"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        <div className="p-4 pt-3 border-t border-zinc-100 dark:border-zinc-800" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+          <Button onClick={() => onSave(draft)} className="w-full h-11">Guardar cambios</Button>
+        </div>
+      </div>
+    </div>
   );
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
-export default function HistoryView({ completedSessions, exerciseLibrary, bodyMetrics, unit, onDeleteSession }) {
+export default function HistoryView({
+  completedSessions,
+  exerciseLibrary,
+  bodyMetrics,
+  unit,
+  onDeleteSession,
+  onUpdateSession,
+  onAddBodyMetric,
+  onDeleteBodyMetric,
+}) {
   const safeSessions = completedSessions || [];
   const safeMetrics = bodyMetrics || [];
   const safeLibrary = exerciseLibrary || [];
 
   const [section, setSection] = useState('summary');
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [editingSessionId, setEditingSessionId] = useState(null);
 
   const exerciseIndex = useMemo(() =>
     safeLibrary.reduce((acc, ex) => { acc[ex.id] = ex; return acc; }, {}), [safeLibrary]);
@@ -235,12 +426,20 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
 
   if (safeSessions.length === 0 && safeMetrics.length === 0) {
     return (
-      <div className="p-4 flex flex-col items-center justify-center min-h-[60vh] text-center space-y-3">
-        <div className="w-16 h-16 rounded-2xl bg-brand-50 dark:bg-brand-950/40 flex items-center justify-center">
-          <Dumbbell className="w-8 h-8 text-brand-500" />
+      <div className="p-4 space-y-5 pb-10">
+        <div className="flex flex-col items-center justify-center min-h-[40vh] text-center space-y-3">
+          <div className="w-16 h-16 rounded-2xl bg-brand-50 dark:bg-brand-950/40 flex items-center justify-center">
+            <Dumbbell className="w-8 h-8 text-brand-500" />
+          </div>
+          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Aún no hay datos</h2>
+          <p className="text-sm text-zinc-500 max-w-xs">Registra tu primer entrenamiento desde la pestaña de Rutinas para ver tu progreso aquí.</p>
         </div>
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Aún no hay datos</h2>
-        <p className="text-sm text-zinc-500 max-w-xs">Registra tu primer entrenamiento desde la pestaña de Rutinas para ver tu progreso aquí.</p>
+        <BodyWeightCard
+          bodyMetrics={safeMetrics}
+          unit={unit}
+          onAddBodyMetric={onAddBodyMetric}
+          onDeleteBodyMetric={onDeleteBodyMetric}
+        />
       </div>
     );
   }
@@ -285,7 +484,12 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
 
           <MonthCalendar workoutDays={workoutDaysThisMonth} />
           <VolumeChart sessions={safeSessions} unit={unit} />
-          <BodyWeightChart bodyMetrics={safeMetrics} unit={unit} />
+          <BodyWeightCard
+            bodyMetrics={safeMetrics}
+            unit={unit}
+            onAddBodyMetric={onAddBodyMetric}
+            onDeleteBodyMetric={onDeleteBodyMetric}
+          />
         </div>
       )}
 
@@ -330,13 +534,23 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
                   <div className="flex-1 mb-4 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800/80 p-4 space-y-3 shadow-sm">
                     <div className="flex items-center justify-between">
                       <p className="font-bold text-zinc-900 dark:text-zinc-100 text-sm">{session.templateName}</p>
-                      <button
-                        onClick={() => setConfirmDeleteId(session.id)}
-                        className="p-1.5 rounded-lg text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
-                        aria-label="Borrar sesión"
-                      >
-                        <Trash2 size={14} />
-                      </button>
+                      <div className="flex items-center">
+                        <button
+                          onClick={() => setEditingSessionId(session.id)}
+                          className="p-1.5 rounded-lg text-zinc-400 hover:text-brand-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                          aria-label="Corregir sesión"
+                          title="Corregir peso o reps de este día"
+                        >
+                          <Pencil size={14} />
+                        </button>
+                        <button
+                          onClick={() => setConfirmDeleteId(session.id)}
+                          className="p-1.5 rounded-lg text-zinc-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
+                          aria-label="Borrar sesión"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
                     </div>
 
                     <div className="space-y-2">
@@ -413,6 +627,21 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
           onCancel={() => setConfirmDeleteId(null)}
         />
       )}
+
+      {editingSessionId && (() => {
+        const session = safeSessions.find((s) => s.id === editingSessionId);
+        if (!session) return null;
+        return (
+          <EditSessionSheet
+            key={editingSessionId}
+            session={session}
+            exerciseIndex={exerciseIndex}
+            unit={unit}
+            onSave={(updated) => { onUpdateSession?.(updated); setEditingSessionId(null); }}
+            onClose={() => setEditingSessionId(null)}
+          />
+        );
+      })()}
     </div>
   );
 }

@@ -1,22 +1,16 @@
 import React, { useMemo, useState } from 'react';
-import { Card, Button, Input, Label } from '../UI/Card';
-import { Pencil, Check, X } from 'lucide-react';
+import { Card, Button } from '../UI/Card';
+import { Pencil, Check, X, Scale } from 'lucide-react';
 
 export default function ProfileView({
   completedSessions,
   preferences,
-  bodyMetrics,
   onSavePreferences,
-  onAddBodyMetric,
-  onDeleteBodyMetric,
   onLogout,
   user,
 }) {
   const safePreferences = preferences || { theme: 'dark', unit: 'kg' };
-  const safeBodyMetrics = [...(bodyMetrics || [])].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  const [measurementDate, setMeasurementDate] = useState(new Date().toISOString().slice(0, 10));
-  const [bodyWeight, setBodyWeight] = useState('');
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState('');
 
@@ -40,12 +34,6 @@ export default function ProfileView({
     ), 0);
     return { sessions, sets, volume: Math.round(volume) };
   }, [completedSessions]);
-
-  const handleAddMeasurement = () => {
-    if (!bodyWeight) return;
-    onAddBodyMetric({ date: measurementDate, bodyWeight: parseFloat(bodyWeight) });
-    setBodyWeight('');
-  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -186,75 +174,18 @@ export default function ProfileView({
         </Card>
       </div>
 
-      {/* Medidas corporales */}
-      <Card className="space-y-4">
-        <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">Medidas corporales</h3>
-
-        {/* min-w-0 + padding reducido: el input de fecha de iOS tiene un ancho
-            mínimo intrínseco que desbordaba y pisaba el campo del peso */}
-        <div className="flex gap-2">
-          <div className="flex-[1.2] min-w-0">
-            <Label>Fecha</Label>
-            <Input
-              type="date"
-              value={measurementDate}
-              onChange={e => setMeasurementDate(e.target.value)}
-              className="px-2.5 text-sm min-w-0 appearance-none"
-            />
-          </div>
-          <div className="flex-1 min-w-0">
-            <Label>Peso ({safePreferences.unit})</Label>
-            <Input
-              type="number"
-              step="0.1"
-              value={bodyWeight}
-              onChange={e => setBodyWeight(e.target.value)}
-              placeholder="75.5"
-              className="px-2.5 text-sm min-w-0"
-            />
-          </div>
+      {/* El registro de peso corporal vive ahora en Progreso, junto a su gráfica */}
+      <Card className="p-4 flex items-start gap-3">
+        <div className="w-9 h-9 rounded-xl bg-brand-50 dark:bg-brand-950/40 flex items-center justify-center shrink-0">
+          <Scale size={17} className="text-brand-500" />
         </div>
-        <Button onClick={handleAddMeasurement}>Guardar medida</Button>
-
-        {safeBodyMetrics.length > 0 && (
-          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-3 space-y-1">
-            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider mb-2">Historial ({safeBodyMetrics.length})</p>
-            <div className="max-h-52 overflow-y-auto pr-1 space-y-0">
-              {safeBodyMetrics.map((metric, i) => {
-                const prev = safeBodyMetrics[i + 1];
-                const delta = prev ? (metric.bodyWeight - prev.bodyWeight) : null;
-                const isUp = delta !== null && delta > 0;
-                return (
-                  <div key={metric.date} className="flex items-center justify-between py-2.5 border-b border-zinc-100 dark:border-zinc-800/50 last:border-0">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs text-zinc-500 w-24 shrink-0">
-                        {new Date(metric.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
-                      </span>
-                      <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{metric.bodyWeight} {safePreferences.unit}</span>
-                      {delta !== null && delta !== 0 && (
-                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full
-                          ${isUp
-                            ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
-                            : 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
-                          }`}>
-                          {isUp ? `▲ +${delta.toFixed(1)}` : `▼ ${delta.toFixed(1)}`}
-                        </span>
-                      )}
-                    </div>
-                    <button
-                      onClick={() => {
-                        if (window.confirm('¿Borrar esta medida?')) onDeleteBodyMetric?.(metric.date);
-                      }}
-                      className="text-zinc-300 dark:text-zinc-600 hover:text-red-500 dark:hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/30"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        <div>
+          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Peso corporal</p>
+          <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
+            Ahora se registra en <strong className="text-zinc-700 dark:text-zinc-300">Progreso → Resumen</strong>,
+            junto a su gráfica de evolución y el historial de medidas.
+          </p>
+        </div>
       </Card>
 
       <Button

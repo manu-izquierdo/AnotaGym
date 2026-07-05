@@ -100,11 +100,17 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
           <div key={activeTab} className="mx-auto w-full max-w-2xl md:pt-4 animate-view-in">
             {children}
           </div>
+          {/* La nav crece con la safe area: hueco extra para que el final del contenido no quede tapado */}
+          <div className="md:hidden shrink-0" style={{ height: 'env(safe-area-inset-bottom)' }} />
         </main>
       </div>
 
-      {/* Navegación inferior (solo móvil) */}
-      <nav className="md:hidden fixed bottom-0 w-full backdrop-blur-xl bg-white/80 dark:bg-[#09090b]/80 border-t border-zinc-200 dark:border-zinc-800/80 pb-safe pt-2 px-4 flex justify-between items-center z-20 transition-colors duration-300">
+      {/* Navegación inferior (solo móvil). El padding inferior respeta la barra
+          de gestos del iPhone (safe area) para que los botones no queden debajo. */}
+      <nav
+        className="md:hidden fixed bottom-0 w-full backdrop-blur-xl bg-white/80 dark:bg-[#09090b]/80 border-t border-zinc-200 dark:border-zinc-800/80 pt-2 px-4 flex justify-between items-center z-20 transition-colors duration-300"
+        style={{ paddingBottom: 'max(0.5rem, calc(env(safe-area-inset-bottom) + 0.25rem))' }}
+      >
         {NAV_ITEMS.map(({ key, label, icon: Icon }) => (
           <NavItem
             key={key}
@@ -115,9 +121,6 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
           />
         ))}
       </nav>
-
-      {/* Env padding for iOS bottom bar */}
-      <div className="md:hidden h-6 w-full fixed bottom-0 z-10 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-xl" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}></div>
     </div>
   );
 }

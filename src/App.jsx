@@ -73,8 +73,18 @@ function App() {
   // ---- Hooks siempre ANTES de cualquier return condicional ----
 
   useEffect(() => {
-    const isLight = workoutState.preferences?.theme === 'light';
-    document.documentElement.classList.toggle('dark', !isLight);
+    const theme = workoutState.preferences?.theme || 'dark';
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const applyTheme = () => {
+      const isDark = theme === 'system' ? media.matches : theme !== 'light';
+      document.documentElement.classList.toggle('dark', isDark);
+    };
+    applyTheme();
+    if (theme === 'system') {
+      // Seguir los cambios del SO en vivo (p. ej. modo oscuro automático al anochecer)
+      media.addEventListener('change', applyTheme);
+      return () => media.removeEventListener('change', applyTheme);
+    }
   }, [workoutState.preferences?.theme]);
 
   useEffect(() => {
@@ -165,9 +175,29 @@ function App() {
     setActiveTab('tracker');
   };
 
+  // Una serie se autocompleta cuando todos sus campos de datos están rellenos
+  // (peso + reps, y también esfuerzo si RIR/RPE está activo); si se borra
+  // alguno, se desmarca sola. El usuario siempre puede togglearla a mano.
+  const isSetFilled = (set) => {
+    const filled = (v) => String(v ?? '').trim() !== '';
+    const effortMode = workoutState.preferences?.effortMode || 'off';
+    return filled(set.weight) && filled(set.reps) && (effortMode === 'off' || filled(set.effort));
+  };
+
   const handleSetFieldChange = (exerciseId, setId, field, value) => {
-    // Si marcamos una serie como completada, iniciar el timer
-    if (field === 'completed' && value === true) {
+    const isDataField = field === 'weight' || field === 'reps' || field === 'effort';
+
+    // ¿Va a pasar de incompleta a completada? (check manual o auto-check)
+    let startsTimer = field === 'completed' && value === true;
+    if (isDataField) {
+      const currentSet = workoutState.activeSession?.exercises
+        .find((exercise) => exercise.id === exerciseId)
+        ?.sets.find((set) => set.id === setId);
+      if (currentSet && !currentSet.completed) {
+        startsTimer = isSetFilled({ ...currentSet, [field]: value });
+      }
+    }
+    if (startsTimer) {
       const duration = workoutState.preferences?.defaultRestTimer ?? 90;
       if (duration > 0) {
         setRestTimerEnd(Date.now() + duration * 1000);
@@ -184,9 +214,15 @@ function App() {
             exercise.id === exerciseId
               ? {
                   ...exercise,
-                  sets: exercise.sets.map((set) =>
-                    set.id === setId ? { ...set, [field]: value } : set
-                  ),
+                  sets: exercise.sets.map((set) => {
+                    if (set.id !== setId) return set;
+                    const next = { ...set, [field]: value };
+                    if (isDataField) {
+                      if (isSetFilled(next)) next.completed = true;
+                      else if (String(value).trim() === '') next.completed = false;
+                    }
+                    return next;
+                  }),
                 }
               : exercise
           ),

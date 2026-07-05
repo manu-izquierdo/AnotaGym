@@ -195,6 +195,27 @@ export default function SetLogger({
     return previousByExercise;
   }, [completedSessions]);
 
+  // Últimas notas escritas para este ejercicio en sesiones anteriores — funcionan
+  // como ficha del ejercicio (agarre, inclinación del banco, recordatorios…):
+  // se muestran cada vez que vuelve a aparecer, con la fecha de cada una.
+  const previousNotesByExercise = useMemo(() => {
+    const notesByExercise = {};
+    for (let sessionIndex = completedSessions.length - 1; sessionIndex >= 0; sessionIndex -= 1) {
+      const session = completedSessions[sessionIndex];
+      session.exercises.forEach((exercise) => {
+        const text = String(exercise.notes || '').trim();
+        if (!text) return;
+        if (!notesByExercise[exercise.exerciseId]) notesByExercise[exercise.exerciseId] = [];
+        if (notesByExercise[exercise.exerciseId].length >= 3) return;
+        notesByExercise[exercise.exerciseId].push({
+          date: session.finishedAt || session.startedAt,
+          text,
+        });
+      });
+    }
+    return notesByExercise;
+  }, [completedSessions]);
+
   // Previous session best estimated 1RM per exercise (for delta comparison)
   const prevRmByExercise = useMemo(() => {
     const result = {};
@@ -317,11 +338,27 @@ export default function SetLogger({
             </div>
           </div>
 
+          {(previousNotesByExercise[exercise.exerciseId] || []).length > 0 && (
+            <div className="space-y-1.5">
+              {previousNotesByExercise[exercise.exerciseId].map((note, noteIndex) => (
+                <div key={noteIndex} className="flex items-start gap-2 bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/60 rounded-xl px-3 py-2">
+                  <BookOpen size={12} className="text-zinc-400 mt-0.5 shrink-0" />
+                  <p className="text-xs text-zinc-500 leading-relaxed">
+                    <span className="font-semibold text-zinc-700 dark:text-zinc-300">
+                      Nota del {new Date(note.date).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short' })}:
+                    </span>{' '}
+                    {note.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
           {(openNotes[exercise.id] || exercise.notes) && (
             <div className="animate-in fade-in slide-in-from-top-2">
               <textarea
                 className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-sm resize-none focus:border-brand-500 outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 transition-all"
-                placeholder="Apunta sensaciones, técnica, progreso..."
+                placeholder="Agarre, inclinación del banco, sensaciones… la verás la próxima vez que hagas este ejercicio"
                 value={exercise.notes || ''}
                 onChange={e => onExerciseFieldChange(exercise.id, 'notes', e.target.value)}
                 rows={2}

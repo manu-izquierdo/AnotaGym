@@ -176,7 +176,7 @@ export default function SettingsView({
   };
 
   const accentName = ACCENT_NAMES[safePreferences.accentColor || 'violet'] || 'Violeta';
-  const themeName = safePreferences.theme === 'light' ? 'Claro' : 'Oscuro';
+  const themeName = { light: 'Claro', system: 'Sistema' }[safePreferences.theme] || 'Oscuro';
   const restLabel = (safePreferences.defaultRestTimer ?? 90) === 0
     ? 'descanso off'
     : `descanso ${safePreferences.defaultRestTimer ?? 90}s`;
@@ -215,7 +215,19 @@ export default function SettingsView({
               >
                 Claro
               </Button>
+              <Button
+                variant={safePreferences.theme === 'system' ? 'primary' : 'secondary'}
+                className="h-10 text-sm"
+                onClick={() => onSavePreferences({ theme: 'system' })}
+              >
+                Sistema
+              </Button>
             </div>
+            {safePreferences.theme === 'system' && (
+              <p className="text-xs text-zinc-500 mt-2">
+                La app seguirá el modo claro u oscuro de tu dispositivo, y cambiará sola si el sistema cambia.
+              </p>
+            )}
           </div>
 
           <div>

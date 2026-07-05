@@ -367,6 +367,11 @@ export default function HistoryView({ completedSessions, exerciseLibrary, bodyMe
                                   );
                                 })}
                               </p>
+                              {String(exercise.notes || '').trim() && (
+                                <p className="text-[11px] text-zinc-400 dark:text-zinc-500 italic mt-1">
+                                  “{String(exercise.notes).trim()}”
+                                </p>
+                              )}
                             </div>
                             <div className="flex flex-col items-end shrink-0">
                               {maxW > 0 && <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">{maxW}{unit}</span>}

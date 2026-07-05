@@ -12,29 +12,7 @@ import SaveRoutineDialog from './components/Tracker/SaveRoutineDialog';
 import { useAuth } from './contexts/AuthContext';
 import useFirestoreData from './hooks/useFirestoreData';
 import { generateUUID } from './utils/uuid';
-
-// RGB triplets for each accent palette (no # prefix — needed for Tailwind CSS var opacity)
-export const ACCENT_PALETTES = {
-  violet: { 50:'238 233 254', 100:'237 233 254', 400:'167 139 250', 500:'139 92 246',  600:'124 58 237',  700:'109 40 217',  900:'76 29 149' },
-  blue:   { 50:'239 246 255', 100:'219 234 254', 400:'96 165 250',  500:'59 130 246',  600:'37 99 235',   700:'29 78 216',   900:'30 58 138' },
-  emerald:{ 50:'236 253 245', 100:'209 250 229', 400:'52 211 153',  500:'16 185 129',  600:'5 150 105',   700:'4 120 87',    900:'6 78 59' },
-  rose:   { 50:'255 241 242', 100:'255 228 230', 400:'251 113 133', 500:'244 63 94',   600:'225 29 72',   700:'190 18 60',   900:'136 19 55' },
-  orange: { 50:'255 247 237', 100:'255 237 213', 400:'251 146 60',  500:'249 115 22',  600:'234 88 12',   700:'194 65 12',   900:'124 45 18' },
-  cyan:   { 50:'236 254 255', 100:'207 250 254', 400:'34 211 238',  500:'6 182 212',   600:'8 145 178',   700:'14 116 144',  900:'22 78 99' },
-  amber:  { 50:'255 251 235', 100:'254 243 199', 400:'251 191 36',  500:'245 158 11',  600:'217 119 6',   700:'180 83 9',    900:'120 53 15' },
-  pink:   { 50:'253 242 248', 100:'252 231 243', 400:'240 114 163', 500:'236 72 153',  600:'219 39 119',  700:'190 24 93',   900:'131 24 67' },
-};
-
-export const ACCENT_NAMES = {
-  violet: 'Violeta',
-  blue:   'Azul',
-  emerald:'Verde',
-  rose:   'Rojo',
-  orange: 'Naranja',
-  cyan:   'Cian',
-  amber:  'Ámbar',
-  pink:   'Rosa',
-};
+import { PALETTES, resolvePaletteId, buildPaletteCss } from './theme/palettes';
 
 const createSessionSets = (templateExercise) =>
   Array.from({ length: templateExercise.targetSets }, (_, index) => ({
@@ -88,11 +66,17 @@ function App() {
   }, [workoutState.preferences?.theme]);
 
   useEffect(() => {
-    const accentKey = workoutState.preferences?.accentColor || 'violet';
-    const palette = ACCENT_PALETTES[accentKey] || ACCENT_PALETTES.violet;
-    Object.entries(palette).forEach(([shade, rgb]) => {
-      document.documentElement.style.setProperty(`--brand-${shade}`, rgb);
-    });
+    // La paleta define variables para claro Y oscuro a la vez (:root / :root.dark),
+    // así el cambio de tema —incluido el modo Sistema— no necesita recalcular nada.
+    const paletteId = resolvePaletteId(workoutState.preferences?.accentColor);
+    const palette = PALETTES[paletteId];
+    let styleEl = document.getElementById('palette-vars');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'palette-vars';
+      document.head.appendChild(styleEl);
+    }
+    styleEl.textContent = buildPaletteCss(palette);
   }, [workoutState.preferences?.accentColor]);
 
   useEffect(() => {

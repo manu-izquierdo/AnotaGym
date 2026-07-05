@@ -240,7 +240,7 @@ export default function ExerciseProgress({ completedSessions, exerciseLibrary, u
               onClick={() => setRange(r.key)}
               className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition-colors
                 ${range === r.key
-                  ? 'bg-brand-600 text-white'
+                  ? 'bg-brand-600 text-on-brand'
                   : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300'}`}
             >
               {r.label}

@@ -590,7 +590,7 @@ export default function TemplateEditor({
                       <button
                         key={exercise.id}
                         onClick={() => handleAddExercise(exercise.id)}
-                        className="text-left bg-zinc-800 p-2.5 rounded-xl border border-zinc-700 hover:border-brand-600 hover:bg-zinc-750 active:bg-zinc-700 transition-all flex items-center gap-3"
+                        className="text-left bg-zinc-800 p-2.5 rounded-xl border border-zinc-700 hover:border-brand-600 hover:bg-zinc-700 active:bg-zinc-700 transition-all flex items-center gap-3"
                       >
                         <img
                           src={exercise.imageUrl || getMuscleImage(group)}

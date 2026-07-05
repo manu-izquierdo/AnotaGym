@@ -40,7 +40,7 @@ export default function SaveRoutineDialog({ defaultName, exerciseCount, onSave, 
           <button
             onClick={() => name.trim() && onSave(name.trim())}
             disabled={!name.trim()}
-            className="flex-1 h-10 rounded-xl text-sm font-bold text-white bg-brand-600 hover:bg-brand-500 transition-all active:scale-[0.97] disabled:opacity-50"
+            className="flex-1 h-10 rounded-xl text-sm font-bold text-on-brand bg-brand-600 hover:bg-brand-500 transition-all active:scale-[0.97] disabled:opacity-50"
           >
             Guardar rutina
           </button>

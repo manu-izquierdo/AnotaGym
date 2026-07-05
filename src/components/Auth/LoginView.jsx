@@ -168,7 +168,7 @@ export default function LoginView() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-white font-bold text-sm py-3 rounded-2xl transition-all duration-150 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-brand-900/30"
+              className="w-full bg-brand-600 hover:bg-brand-500 active:bg-brand-700 text-on-brand font-bold text-sm py-3 rounded-2xl transition-all duration-150 active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-brand-900/30"
             >
               {loading ? <Spinner /> : (mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta')}
             </button>

@@ -75,7 +75,7 @@ export default function PlateCalculator({ unit = 'kg', initialWeight = '', onClo
                   onClick={() => setBar(b)}
                   className={`px-2.5 py-2.5 rounded-xl text-sm font-bold transition-colors
                     ${bar === b
-                      ? 'bg-brand-600 text-white'
+                      ? 'bg-brand-600 text-on-brand'
                       : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300'}`}
                 >
                   {b}

@@ -430,7 +430,7 @@ export default function SetLogger({
                         onClick={() => onSetFieldChange(exercise.id, set.id, 'completed', !set.completed)}
                         className={`w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all ${
                           set.completed
-                            ? 'bg-emerald-500 border-emerald-500 text-white'
+                            ? 'bg-emerald-500 border-emerald-500 text-on-accent'
                             : 'border-zinc-300 dark:border-zinc-700 text-transparent hover:border-brand-400'
                         }`}
                         aria-label="Marcar serie como completada"

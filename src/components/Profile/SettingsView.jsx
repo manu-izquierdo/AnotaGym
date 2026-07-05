@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState, lazy, Suspense } from 'react';
 import { Card, Button, Input } from '../UI/Card';
-import { ACCENT_PALETTES, ACCENT_NAMES } from '../../App';
+import { PALETTES, resolvePaletteId } from '../../theme/palettes';
 import {
   Download, Upload, Dumbbell, Shield, Plus, Search, Eye, EyeOff,
   Palette, Timer, Database, ChevronRight, ChevronLeft, BookOpen,
@@ -175,7 +175,12 @@ export default function SettingsView({
     e.target.value = '';
   };
 
-  const accentName = ACCENT_NAMES[safePreferences.accentColor || 'violet'] || 'Violeta';
+  const paletteId = resolvePaletteId(safePreferences.accentColor);
+  const accentName = PALETTES[paletteId].name;
+  // Las muestras del selector se enseñan en el modo que el usuario está viendo
+  const viewingDark = safePreferences.theme === 'system'
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    : safePreferences.theme !== 'light';
   const themeName = { light: 'Claro', system: 'Sistema' }[safePreferences.theme] || 'Oscuro';
   const restLabel = (safePreferences.defaultRestTimer ?? 90) === 0
     ? 'descanso off'
@@ -231,25 +236,31 @@ export default function SettingsView({
           </div>
 
           <div>
-            <h3 className="font-medium text-sm text-zinc-900 dark:text-zinc-100 mb-3">Color de acento</h3>
-            <div className="grid grid-cols-4 gap-2">
-              {Object.entries(ACCENT_NAMES).map(([key, name]) => {
-                const palette = ACCENT_PALETTES[key];
-                const rgb = palette[500].split(' ').map(Number);
-                const hex = `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
-                const isActive = (safePreferences.accentColor || 'violet') === key;
+            <h3 className="font-medium text-sm text-zinc-900 dark:text-zinc-100 mb-1">Paleta de color</h3>
+            <p className="text-xs text-zinc-500 mb-3">
+              Cada paleta tiene su versión clara y oscura: cambia con el tema que tengas elegido.
+            </p>
+            <div className="space-y-2">
+              {Object.entries(PALETTES).map(([key, palette]) => {
+                const spec = viewingDark ? palette.dark : palette.light;
+                const isActive = paletteId === key;
                 return (
                   <button
                     key={key}
                     onClick={() => onSavePreferences({ accentColor: key })}
-                    className={`flex flex-col items-center gap-1.5 p-2 rounded-xl transition-all
+                    className={`w-full flex items-center gap-3 p-2.5 rounded-xl border-2 transition-all text-left
                       ${isActive
-                        ? 'bg-zinc-100 dark:bg-zinc-800 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-zinc-900'
-                        : 'hover:bg-zinc-50 dark:hover:bg-zinc-800/60'}`}
-                    style={isActive ? { '--tw-ring-color': hex } : {}}
+                        ? 'border-brand-500 bg-brand-50 dark:bg-brand-950/30'
+                        : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700'}`}
                   >
-                    <span className="w-7 h-7 rounded-full shadow-sm" style={{ backgroundColor: hex }} />
-                    <span className="text-[10px] font-medium text-zinc-600 dark:text-zinc-400">{name}</span>
+                    <span className="flex shrink-0 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-700">
+                      {[spec.bg, spec.primary, spec.accent, spec.text].map((c, i) => (
+                        <span key={i} className="w-5 h-8" style={{ backgroundColor: c }} />
+                      ))}
+                    </span>
+                    <span className={`text-xs font-semibold ${isActive ? 'text-brand-700 dark:text-brand-400' : 'text-zinc-800 dark:text-zinc-200'}`}>
+                      {palette.name}
+                    </span>
                   </button>
                 );
               })}
@@ -304,7 +315,7 @@ export default function SettingsView({
                 type="button"
                 disabled={!customRestValid}
                 onClick={() => { onSavePreferences({ defaultRestTimer: customRestValue }); setCustomRest(''); }}
-                className="px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-40"
+                className="px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-on-brand text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-40"
               >
                 OK
               </button>
@@ -479,7 +490,7 @@ export default function SettingsView({
                 onClick={() => { setShowOnlyHidden((v) => !v); setCatalogQuery(''); }}
                 className={`text-[11px] font-bold px-2.5 py-1.5 rounded-lg transition-colors
                   ${showOnlyHidden
-                    ? 'bg-brand-600 text-white'
+                    ? 'bg-brand-600 text-on-brand'
                     : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300'}`}
               >
                 Ocultos ({hiddenByMe.size})

@@ -56,7 +56,7 @@ function MonthCalendar({ workoutDays }) {
           return (
             <div key={dateKey} className="flex flex-col items-center gap-0.5 py-1">
               <span className={`text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full
-                ${isToday ? 'bg-brand-600 dark:bg-brand-500 text-white font-bold' : 'text-zinc-600 dark:text-zinc-400'}`}>
+                ${isToday ? 'bg-brand-600 dark:bg-brand-500 text-on-brand font-bold' : 'text-zinc-600 dark:text-zinc-400'}`}>
                 {day}
               </span>
               <span className={`w-1.5 h-1.5 rounded-full ${hasWorkout ? 'bg-emerald-500' : ''}`} />

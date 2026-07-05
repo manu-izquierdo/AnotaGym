@@ -61,7 +61,7 @@ Sin App Store, sin Play Store, y siempre actualizada a la última versión.
 
 #### 4. Hazla tuya
 
-- **Modo oscuro, claro o el de tu dispositivo (Sistema)** y **8 colores de acento** para elegir.
+- **Modo oscuro, claro o el de tu dispositivo (Sistema)** y **8 paletas de color pastel**, cada una con su versión clara y oscura.
 - Ponte un **apodo**: la app te llamará como tú decidas.
 - **Herramientas opcionales** (apagadas por defecto, actívalas en Ajustes → Entrenamiento si te interesan):
   - 🧮 **Calculadora de discos**: te dice qué discos poner a cada lado de la barra
@@ -91,7 +91,7 @@ Sin App Store, sin Play Store, y siempre actualizada a la última versión.
 | 🌍 **Funciona sin internet** | Entrena en sótanos sin cobertura: se sincroniza al volver la conexión |
 | ☁️ **Multi-dispositivo** | Empieza en el móvil, revisa en el ordenador: todo sincronizado |
 | 💾 **Tus datos, tuyos** | Exporta e importa todo en un archivo JSON cuando quieras |
-| 🎨 **Personalizable** | Modo oscuro, claro o Sistema, 8 colores de acento y apodo propio |
+| 🎨 **Personalizable** | Modo oscuro, claro o Sistema, 8 paletas pastel y apodo propio |
 
 ### 🔒 Privacidad y tus datos
 
@@ -214,7 +214,7 @@ No App Store, no Play Store, always up to date.
 1. **Build your routine** — pick from 900+ exercises with photos, set target sets/reps, reorder by dragging. Or skip templates entirely with **Quick Log**: train freely and save it as a routine when you finish. You can also import routines shared by friends via link.
 2. **Train and log** — enter weight and reps — the set checks itself off ✅ and the **rest timer** starts on its own. Tag sets as *Top Set*, *Drop Set*, *To Failure*… add notes per exercise (grip, bench angle…) that show up again next time you train it, and add or remove exercises mid-session.
 3. **Watch yourself progress** — interactive per-exercise charts (max weight, estimated 1RM, volume), personal records with dates, full session history with a monthly calendar (you can fix mistyped sets afterwards), and bodyweight tracking.
-4. **Make it yours** — dark, light or System (follows your device) mode, 8 accent colors, a custom nickname, and opt-in tools (plate calculator, real-time RM estimates, RIR/RPE effort tracking) you can enable in Settings. Unsure about set types? The in-app **Training Guide** explains each one.
+4. **Make it yours** — dark, light or System (follows your device) mode, 8 pastel color palettes, a custom nickname, and opt-in tools (plate calculator, real-time RM estimates, RIR/RPE effort tracking) you can enable in Settings. Unsure about set types? The in-app **Training Guide** explains each one.
 
 ### ✨ Everything included
 
@@ -237,7 +237,7 @@ No App Store, no Play Store, always up to date.
 | 🌍 **Works offline** | Train in basements with no signal — syncs when you're back online |
 | ☁️ **Multi-device** | Start on your phone, review on your computer: always in sync |
 | 💾 **Your data, yours** | Export and import everything as JSON, anytime |
-| 🎨 **Customizable** | Dark, light or System mode, 8 accent colors and your own nickname |
+| 🎨 **Customizable** | Dark, light or System mode, 8 pastel palettes and your own nickname |
 
 ### 🔒 Privacy & your data
 

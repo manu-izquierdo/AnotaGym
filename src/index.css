@@ -2,21 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Default accent color: violet (matches original design) */
-:root {
-  --brand-50:  238 233 254;
-  --brand-100: 237 233 254;
-  --brand-400: 167 139 250;
-  --brand-500: 139 92 246;
-  --brand-600: 124 58 237;
-  --brand-700: 109 40 217;
-  --brand-900: 76 29 149;
-}
+/* Paleta por defecto: Terracota y pistacho. Estos valores son los que genera
+   buildPaletteCss(PALETTES.terracota) en src/theme/palettes.js — están aquí
+   en estático para que la app pinte bien antes de que arranque React.
+   Al elegir otra paleta, App.jsx inyecta un <style> que las sustituye. */
+:root{--ui-0:254 252 250;--ui-50:251 246 242;--ui-100:239 234 230;--ui-200:228 222 218;--ui-300:209 202 197;--ui-400:170 162 156;--ui-500:145 136 130;--ui-600:122 112 105;--ui-700:102 92 85;--ui-800:83 72 65;--ui-900:58 46 38;--ui-950:38 30 25;--brand-50:251 245 242;--brand-100:247 235 229;--brand-200:243 223 213;--brand-300:234 200 183;--brand-400:225 175 150;--brand-500:217 155 124;--brand-600:191 136 109;--brand-700:161 115 92;--brand-800:130 93 74;--brand-900:104 74 60;--brand-950:74 53 42;--accent-50:246 249 245;--accent-100:238 243 235;--accent-200:226 234 221;--accent-300:212 224 204;--accent-400:196 212 185;--accent-500:183 203 170;--accent-600:137 152 128;--accent-700:110 122 102;--accent-800:88 97 82;--accent-900:70 77 65;--accent-950:51 57 48;--brand-contrast:255 255 255;--accent-contrast:58 46 38;}
+:root.dark{--ui-0:255 255 255;--ui-50:249 246 243;--ui-100:242 235 228;--ui-200:221 214 208;--ui-300:200 193 187;--ui-400:162 156 150;--ui-500:137 131 126;--ui-600:116 110 105;--ui-700:86 80 74;--ui-800:64 58 53;--ui-900:42 36 31;--ui-950:32 27 23;--brand-50:250 241 236;--brand-100:245 229 220;--brand-200:239 213 199;--brand-300:230 189 168;--brand-400:223 172 146;--brand-500:222 169 141;--brand-600:219 161 131;--brand-700:186 137 111;--brand-800:153 113 92;--brand-900:120 89 72;--brand-950:70 52 42;--accent-50:242 246 239;--accent-100:229 236 224;--accent-200:216 227 208;--accent-300:196 212 184;--accent-400:177 198 161;--accent-500:168 192 151;--accent-600:148 169 133;--accent-700:121 138 109;--accent-800:92 106 83;--accent-900:67 77 60;--accent-950:47 54 42;--brand-contrast:16 14 12;--accent-contrast:16 14 12;}
 
 @layer base {
   body {
     overscroll-behavior-y: none;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ── Tipografía ──────────────────────────────────────────────
+     Cuerpo: Figtree (font-sans en tailwind.config).
+     Etiquetas, fechas y contadores pequeños: Manrope.
+     Títulos y cifras grandes (KPI, pesos): DM Sans (va después para
+     ganar en los solapes). */
+  .text-xs, .text-\[8px\], .text-\[9px\], .text-\[10px\], .text-\[11px\] {
+    font-family: 'Manrope', 'Figtree', sans-serif;
+  }
+  h1, h2, h3, h4, .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl {
+    font-family: 'DM Sans', 'Figtree', sans-serif;
   }
 }
 

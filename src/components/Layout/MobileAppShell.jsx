@@ -17,7 +17,7 @@ function Logo({ onClick }) {
       aria-label="Ir a la página principal"
     >
       <span className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center">
-        <Dumbbell size={15} className="text-white" />
+        <Dumbbell size={15} className="text-on-brand" />
       </span>
       <h1 className="text-lg font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">AnotaGym</h1>
     </button>
@@ -36,10 +36,10 @@ function Avatar({ user, size = 'w-8 h-8' }) {
 
 export default function MobileAppShell({ children, activeTab, onTabChange, onProfileClick, user }) {
   return (
-    <div className="flex min-h-screen bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
+    <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
 
       {/* Sidebar (escritorio / tablet apaisada) */}
-      <aside className="hidden md:flex flex-col w-60 shrink-0 sticky top-0 h-screen border-r border-zinc-200 dark:border-zinc-800/80 bg-white/60 dark:bg-[#09090b] p-4">
+      <aside className="hidden md:flex flex-col w-60 shrink-0 sticky top-0 h-screen border-r border-zinc-200 dark:border-zinc-800/80 bg-white/60 dark:bg-zinc-950 p-4">
         <div className="px-2 py-2 mb-6">
           <Logo onClick={() => onTabChange('routine')} />
         </div>
@@ -88,7 +88,7 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
 
         {/* Header (solo móvil) */}
         <header
-          className="md:hidden sticky top-0 z-10 backdrop-blur-xl bg-white/70 dark:bg-[#09090b]/70 border-b border-zinc-200 dark:border-zinc-800/80 px-4 pb-3 flex items-center justify-between transition-colors duration-300"
+          className="md:hidden sticky top-0 z-10 backdrop-blur-xl bg-white/70 dark:bg-zinc-950/70 border-b border-zinc-200 dark:border-zinc-800/80 px-4 pb-3 flex items-center justify-between transition-colors duration-300"
           style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
         >
           {/* Solo el logo: la entrada a Perfil ya está en la nav inferior */}
@@ -108,7 +108,7 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
       {/* Navegación inferior (solo móvil). El padding inferior respeta la barra
           de gestos del iPhone (safe area) para que los botones no queden debajo. */}
       <nav
-        className="md:hidden fixed bottom-0 w-full backdrop-blur-xl bg-white/80 dark:bg-[#09090b]/80 border-t border-zinc-200 dark:border-zinc-800/80 pt-2 px-4 flex justify-between items-center z-20 transition-colors duration-300"
+        className="md:hidden fixed bottom-0 w-full backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-t border-zinc-200 dark:border-zinc-800/80 pt-2 px-4 flex justify-between items-center z-20 transition-colors duration-300"
         style={{ paddingBottom: 'max(0.5rem, calc(env(safe-area-inset-bottom) + 0.25rem))' }}
       >
         {NAV_ITEMS.map(({ key, label, icon: Icon }) => (

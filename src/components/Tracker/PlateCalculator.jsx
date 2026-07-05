@@ -14,34 +14,89 @@ const PLATE_COLORS = {
   45: 'bg-blue-600', 35: 'bg-yellow-500',
 };
 
+function formatNum(n) {
+  return n.toLocaleString('es-ES', { maximumFractionDigits: 2 });
+}
+
+/** Reparto voraz con un juego concreto de discos (de mayor a menor) */
+function greedy(perSide, plateSet) {
+  const breakdown = [];
+  let remaining = perSide;
+  plateSet.forEach((plate) => {
+    const count = Math.floor((remaining + 1e-9) / plate);
+    if (count > 0) {
+      breakdown.push({ plate, count });
+      remaining = Math.round((remaining - count * plate) * 1000) / 1000;
+    }
+  });
+  return { breakdown, remaining, totalPlates: breakdown.reduce((a, b) => a + b.count, 0) };
+}
+
+function PlateChip({ plate, count, small = false }) {
+  return (
+    <span
+      className={`flex items-center gap-1 rounded-lg font-black text-white ${PLATE_COLORS[plate] || 'bg-zinc-600'}
+        ${small ? 'px-2 py-1 text-xs' : 'px-3 py-2 text-sm rounded-xl'}`}
+    >
+      {plate}{count != null && <span className="text-[10px] font-bold opacity-80">×{count}</span>}
+    </span>
+  );
+}
+
 export default function PlateCalculator({ unit = 'kg', initialWeight = '', onClose }) {
   const { bars, plates } = CONFIG[unit] || CONFIG.kg;
   const [weight, setWeight] = useState(String(initialWeight || ''));
   const [bar, setBar] = useState(bars[0]);
+  // Discos que NO hay en el gym (se descartan tocándolos)
+  const [disabled, setDisabled] = useState(() => new Set());
+
+  const togglePlate = (plate) => {
+    setDisabled((prev) => {
+      const next = new Set(prev);
+      if (next.has(plate)) next.delete(plate); else next.add(plate);
+      return next;
+    });
+  };
 
   const result = useMemo(() => {
     const total = parseFloat(String(weight).replace(',', '.'));
     if (!Number.isFinite(total) || total <= 0) return null;
     if (total < bar) return { error: `El peso es menor que la barra (${bar} ${unit}).` };
 
-    let perSide = (total - bar) / 2;
-    const breakdown = [];
-    let remaining = perSide;
-    plates.forEach((plate) => {
-      const count = Math.floor((remaining + 1e-9) / plate);
-      if (count > 0) {
-        breakdown.push({ plate, count });
-        remaining = Math.round((remaining - count * plate) * 1000) / 1000;
-      }
+    const enabled = plates.filter((p) => !disabled.has(p));
+    if (enabled.length === 0) return { error: 'Has descartado todos los discos.' };
+
+    const perSide = (total - bar) / 2;
+    if (perSide === 0) return { perSide, options: [] };
+
+    // Varias maneras de montar el mismo peso: una por cada "disco más grande"
+    // posible (con 25, empezando por 20, solo con 10 y menores…)
+    const options = [];
+    const seen = new Set();
+    enabled.forEach((maxPlate, index) => {
+      const combo = greedy(perSide, enabled.slice(index));
+      if (combo.breakdown.length === 0) return;
+      const key = combo.breakdown.map((b) => `${b.plate}x${b.count}`).join(',');
+      if (seen.has(key)) return; // p. ej. si no usa el 25, coincide con la de máx 20
+      seen.add(key);
+      combo.maxPlate = maxPlate;
+      options.push(combo);
     });
-    return { perSide, breakdown, remaining };
-  }, [weight, bar, plates, unit]);
+
+    // Si hay combinaciones exactas, las aproximadas solo meten ruido
+    const exact = options.filter((o) => o.remaining <= 0.01);
+    const usable = (exact.length > 0 ? exact : options.slice(0, 1))
+      .filter((o) => o.totalPlates <= 12) // 14 discos de 2.5 no es un consejo serio
+      .slice(0, 5);
+
+    return { perSide, options: usable, inexact: exact.length === 0 };
+  }, [weight, bar, plates, unit, disabled]);
 
   return (
     <div className="fixed inset-0 z-[70] bg-black/60 flex items-end sm:items-center justify-center sm:p-4" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-sm bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl p-5 shadow-2xl space-y-4"
+        className="w-full max-w-sm bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl p-5 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto"
         style={{ paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom))' }}
       >
         <div className="flex items-center justify-between">
@@ -85,6 +140,29 @@ export default function PlateCalculator({ unit = 'kg', initialWeight = '', onClo
           </div>
         </div>
 
+        {/* Qué discos hay en tu gym: toca uno para descartarlo */}
+        <div className="space-y-1.5">
+          <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
+            Discos disponibles <span className="normal-case font-medium tracking-normal">— toca los que no tengas</span>
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {plates.map((plate) => {
+              const off = disabled.has(plate);
+              return (
+                <button
+                  key={plate}
+                  onClick={() => togglePlate(plate)}
+                  className={`transition-all ${off ? 'opacity-30 grayscale' : ''}`}
+                  aria-pressed={off}
+                  title={off ? 'Descartado — toca para recuperarlo' : 'Toca para descartarlo'}
+                >
+                  <PlateChip plate={plate} small />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {result?.error && (
           <p className="text-xs font-semibold text-red-500 text-center py-2">{result.error}</p>
         )}
@@ -92,33 +170,49 @@ export default function PlateCalculator({ unit = 'kg', initialWeight = '', onClo
         {result && !result.error && (
           <div className="space-y-2">
             <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">
-              Por cada lado ({result.perSide.toLocaleString('es-ES', { maximumFractionDigits: 2 })} {unit})
+              Por cada lado ({formatNum(result.perSide)} {unit})
+              {result.options.length > 1 && ` — ${result.options.length} maneras`}
             </p>
-            {result.breakdown.length === 0 ? (
+
+            {result.perSide === 0 ? (
               <p className="text-sm text-zinc-500 text-center py-2">Barra sola, sin discos.</p>
-            ) : (
-              <div className="flex flex-wrap gap-2">
-                {result.breakdown.map(({ plate, count }) => (
-                  <span
-                    key={plate}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-black text-white ${PLATE_COLORS[plate] || 'bg-zinc-600'}`}
-                  >
-                    {plate} <span className="text-xs font-bold opacity-80">×{count}</span>
-                  </span>
-                ))}
-              </div>
-            )}
-            {result.remaining > 0.01 && (
-              <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">
-                No sale exacto: faltan {result.remaining.toLocaleString('es-ES', { maximumFractionDigits: 2 })} {unit} por lado con discos estándar.
+            ) : result.options.length === 0 ? (
+              <p className="text-xs text-zinc-500 text-center py-2">
+                No sale con los discos disponibles. Recupera alguno de los descartados.
               </p>
+            ) : (
+              <div className="space-y-2">
+                {result.options.map((option, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center justify-between gap-2 p-2.5 rounded-xl border
+                      ${index === 0
+                        ? 'border-brand-300 dark:border-brand-800 bg-brand-50/60 dark:bg-brand-950/20'
+                        : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950/40'}`}
+                  >
+                    <div className="flex flex-wrap gap-1.5">
+                      {option.breakdown.map(({ plate, count }) => (
+                        <PlateChip key={plate} plate={plate} count={count} small />
+                      ))}
+                    </div>
+                    <span className="text-[10px] text-zinc-400 font-bold shrink-0">
+                      {option.totalPlates} {option.totalPlates === 1 ? 'disco' : 'discos'}
+                    </span>
+                  </div>
+                ))}
+                {result.inexact && (
+                  <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium">
+                    No sale exacto: faltan {formatNum(result.options[0].remaining)} {unit} por lado con estos discos.
+                  </p>
+                )}
+              </div>
             )}
           </div>
         )}
 
         {!result && (
           <p className="text-xs text-zinc-400 dark:text-zinc-500 text-center py-2">
-            Escribe el peso total y te digo qué discos poner por lado.
+            Escribe el peso total y te enseño varias formas de montarlo.
           </p>
         )}
       </div>

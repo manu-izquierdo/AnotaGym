@@ -28,16 +28,19 @@ export default function ConfirmDialog({
         <h3 className="font-bold text-zinc-900 dark:text-zinc-100">{title}</h3>
         {message && <p className="text-sm text-zinc-500 leading-relaxed">{message}</p>}
         <div className="flex gap-2 pt-1">
-          <button
-            onClick={onCancel}
-            className="flex-1 h-10 rounded-xl text-sm font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all active:scale-[0.97]"
-          >
-            {cancelLabel}
-          </button>
+          {/* Sin cancelLabel el diálogo funciona como aviso de un solo botón */}
+          {cancelLabel && (
+            <button
+              onClick={onCancel}
+              className="flex-1 h-10 rounded-xl text-sm font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all active:scale-[0.97]"
+            >
+              {cancelLabel}
+            </button>
+          )}
           <button
             onClick={onConfirm}
-            className={`flex-1 h-10 rounded-xl text-sm font-bold text-white transition-all active:scale-[0.97]
-              ${danger ? 'bg-red-600 hover:bg-red-500' : 'bg-brand-600 hover:bg-brand-500'}`}
+            className={`flex-1 h-10 rounded-xl text-sm font-bold transition-all active:scale-[0.97]
+              ${danger ? 'bg-red-600 hover:bg-red-500 text-white' : 'bg-brand-600 hover:bg-brand-500 text-on-brand'}`}
           >
             {confirmLabel}
           </button>

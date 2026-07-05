@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { getMuscleImage } from '../../data/muscleImages';
 import TrainingGuideView from './TrainingGuideView';
+import ConfirmDialog from '../UI/ConfirmDialog';
 
 // Solo lo cargan los admins al abrir el panel — fuera del bundle principal
 const AdminExercisesView = lazy(() => import('../Admin/AdminExercisesView'));
@@ -114,6 +115,8 @@ export default function SettingsView({
   const [catalogQuery, setCatalogQuery] = useState('');
   const [showOnlyHidden, setShowOnlyHidden] = useState(false);
   const [customRest, setCustomRest] = useState('');
+  const [confirmDeleteExercise, setConfirmDeleteExercise] = useState(null); // ejercicio propio a borrar
+  const [confirmRestoreHidden, setConfirmRestoreHidden] = useState(false);
   const fileInputRef = useRef(null);
 
   const myExercises = useMemo(
@@ -451,17 +454,24 @@ export default function SettingsView({
                 </div>
                 <button
                   className="text-xs font-semibold text-red-500 hover:text-red-400 bg-red-50 dark:bg-red-950/30 px-2 py-1 rounded-lg transition-colors"
-                  onClick={() => {
-                    if (window.confirm(`¿Eliminar "${exercise.name}"? Se quitará también de tus rutinas.`)) {
-                      onDeleteExercise(exercise.id);
-                    }
-                  }}
+                  onClick={() => setConfirmDeleteExercise(exercise)}
                 >
                   Eliminar
                 </button>
               </div>
             ))}
           </Card>
+        )}
+
+        {confirmDeleteExercise && (
+          <ConfirmDialog
+            title={`¿Eliminar "${confirmDeleteExercise.name}"?`}
+            message="Se quitará también de tus rutinas. Esta acción no se puede deshacer."
+            confirmLabel="Eliminar"
+            danger
+            onConfirm={() => { onDeleteExercise(confirmDeleteExercise.id); setConfirmDeleteExercise(null); }}
+            onCancel={() => setConfirmDeleteExercise(null)}
+          />
         )}
       </div>
     );
@@ -497,12 +507,7 @@ export default function SettingsView({
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  if (window.confirm('¿Volver a mostrar todos los ejercicios ocultos?')) {
-                    onSavePreferences({ hiddenExercises: [] });
-                    setShowOnlyHidden(false);
-                  }
-                }}
+                onClick={() => setConfirmRestoreHidden(true)}
                 className="text-[11px] font-bold px-2.5 py-1.5 rounded-lg text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
               >
                 Restaurar todos
@@ -551,6 +556,20 @@ export default function SettingsView({
             </div>
           )}
         </Card>
+
+        {confirmRestoreHidden && (
+          <ConfirmDialog
+            title="¿Restaurar los ejercicios ocultos?"
+            message={`Volverán a mostrarse los ${hiddenByMe.size} ejercicios que tenías ocultos.`}
+            confirmLabel="Restaurar"
+            onConfirm={() => {
+              onSavePreferences({ hiddenExercises: [] });
+              setShowOnlyHidden(false);
+              setConfirmRestoreHidden(false);
+            }}
+            onCancel={() => setConfirmRestoreHidden(false)}
+          />
+        )}
       </div>
     );
   }

@@ -9,6 +9,7 @@ import ProfileView from './components/Profile/ProfileView';
 import SettingsView from './components/Profile/SettingsView';
 import RestTimerPill from './components/Tracker/RestTimerPill';
 import SaveRoutineDialog from './components/Tracker/SaveRoutineDialog';
+import ConfirmDialog from './components/UI/ConfirmDialog';
 import { useAuth } from './contexts/AuthContext';
 import useFirestoreData from './hooks/useFirestoreData';
 import { generateUUID } from './utils/uuid';
@@ -47,8 +48,18 @@ function App() {
   const [restTimerEnd, setRestTimerEnd] = useState(null);
   // Sesión libre recién terminada, pendiente de ofrecer "guardar como rutina"
   const [saveRoutinePrompt, setSaveRoutinePrompt] = useState(null);
+  // Rutina llegada por enlace compartido: { routine } o { error: true }
+  const [importPrompt, setImportPrompt] = useState(null);
 
   // ---- Hooks siempre ANTES de cualquier return condicional ----
+
+  // La barra de estado del móvil (meta theme-color) acompaña al fondo actual
+  const syncThemeColorMeta = () => {
+    const paletteId = resolvePaletteId(workoutState.preferences?.accentColor);
+    const isDark = document.documentElement.classList.contains('dark');
+    const bg = PALETTES[paletteId][isDark ? 'dark' : 'light'].bg;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', bg);
+  };
 
   useEffect(() => {
     const theme = workoutState.preferences?.theme || 'dark';
@@ -56,6 +67,7 @@ function App() {
     const applyTheme = () => {
       const isDark = theme === 'system' ? media.matches : theme !== 'light';
       document.documentElement.classList.toggle('dark', isDark);
+      syncThemeColorMeta();
     };
     applyTheme();
     if (theme === 'system') {
@@ -63,7 +75,7 @@ function App() {
       media.addEventListener('change', applyTheme);
       return () => media.removeEventListener('change', applyTheme);
     }
-  }, [workoutState.preferences?.theme]);
+  }, [workoutState.preferences?.theme, workoutState.preferences?.accentColor]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // La paleta define variables para claro Y oscuro a la vez (:root / :root.dark),
@@ -77,7 +89,8 @@ function App() {
       document.head.appendChild(styleEl);
     }
     styleEl.textContent = buildPaletteCss(palette);
-  }, [workoutState.preferences?.accentColor]);
+    syncThemeColorMeta();
+  }, [workoutState.preferences?.accentColor]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // Al terminar de cargar los datos remotos: si había una sesión a medias,
@@ -96,21 +109,15 @@ function App() {
       try {
         const decoded = JSON.parse(decodeURIComponent(atob(importData)));
         if (decoded && decoded.name && decoded.exercises) {
-          if (window.confirm(`¿Alguien ha compartido contigo la rutina "${decoded.name}". ¿Quieres importarla a tu catálogo?`)) {
-            const newRoutine = {
-              ...decoded,
-              id: `template-${Date.now()}`,
-              exercises: decoded.exercises.map(ex => ({ ...ex, id: `${ex.exerciseId}-${generateUUID()}` }))
-            };
-            handleSaveTemplate(newRoutine);
-            alert('¡Rutina importada con éxito!');
-          }
+          setImportPrompt({ routine: decoded });
+        } else {
+          setImportPrompt({ error: true });
         }
       } catch (e) {
         console.error('Error importando rutina compartida', e);
-        alert('El enlace de la rutina es inválido o está corrupto.');
+        setImportPrompt({ error: true });
       }
-      
+
       // Limpiar URL para no importar infinitamente
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -633,6 +640,37 @@ function App() {
           exerciseCount={saveRoutinePrompt.exercises.length}
           onSave={handleSaveSessionAsRoutine}
           onClose={() => setSaveRoutinePrompt(null)}
+        />
+      )}
+
+      {importPrompt?.routine && (
+        <ConfirmDialog
+          title="Rutina compartida contigo"
+          message={`¿Quieres importar "${importPrompt.routine.name}" (${importPrompt.routine.exercises.length} ejercicios) a tus rutinas?`}
+          confirmLabel="Importar"
+          cancelLabel="Ahora no"
+          onConfirm={() => {
+            const decoded = importPrompt.routine;
+            handleSaveTemplate({
+              ...decoded,
+              id: `template-${Date.now()}`,
+              exercises: decoded.exercises.map((ex) => ({ ...ex, id: `${ex.exerciseId}-${generateUUID()}` })),
+            });
+            setImportPrompt(null);
+            setActiveTab('routine');
+          }}
+          onCancel={() => setImportPrompt(null)}
+        />
+      )}
+
+      {importPrompt?.error && (
+        <ConfirmDialog
+          title="Enlace no válido"
+          message="El enlace de la rutina es inválido o está corrupto. Pide a tu compañero que lo vuelva a compartir."
+          confirmLabel="Entendido"
+          cancelLabel={null}
+          onConfirm={() => setImportPrompt(null)}
+          onCancel={() => setImportPrompt(null)}
         />
       )}
     </>

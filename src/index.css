@@ -7,9 +7,15 @@
    en estático para que la app pinte bien antes de que arranque React.
    Al elegir otra paleta, App.jsx inyecta un <style> que las sustituye. */
 :root{--ui-0:254 252 250;--ui-50:251 246 242;--ui-100:239 234 230;--ui-200:228 222 218;--ui-300:209 202 197;--ui-400:170 162 156;--ui-500:145 136 130;--ui-600:122 112 105;--ui-700:102 92 85;--ui-800:83 72 65;--ui-900:58 46 38;--ui-950:38 30 25;--brand-50:251 245 242;--brand-100:247 235 229;--brand-200:243 223 213;--brand-300:234 200 183;--brand-400:225 175 150;--brand-500:217 155 124;--brand-600:191 136 109;--brand-700:161 115 92;--brand-800:130 93 74;--brand-900:104 74 60;--brand-950:74 53 42;--accent-50:246 249 245;--accent-100:238 243 235;--accent-200:226 234 221;--accent-300:212 224 204;--accent-400:196 212 185;--accent-500:183 203 170;--accent-600:137 152 128;--accent-700:110 122 102;--accent-800:88 97 82;--accent-900:70 77 65;--accent-950:51 57 48;--brand-contrast:255 255 255;--accent-contrast:58 46 38;}
-:root.dark{--ui-0:255 255 255;--ui-50:249 246 243;--ui-100:242 235 228;--ui-200:221 214 208;--ui-300:200 193 187;--ui-400:162 156 150;--ui-500:137 131 126;--ui-600:116 110 105;--ui-700:86 80 74;--ui-800:64 58 53;--ui-900:42 36 31;--ui-950:32 27 23;--brand-50:250 241 236;--brand-100:245 229 220;--brand-200:239 213 199;--brand-300:230 189 168;--brand-400:223 172 146;--brand-500:222 169 141;--brand-600:219 161 131;--brand-700:186 137 111;--brand-800:153 113 92;--brand-900:120 89 72;--brand-950:70 52 42;--accent-50:242 246 239;--accent-100:229 236 224;--accent-200:216 227 208;--accent-300:196 212 184;--accent-400:177 198 161;--accent-500:168 192 151;--accent-600:148 169 133;--accent-700:121 138 109;--accent-800:92 106 83;--accent-900:67 77 60;--accent-950:47 54 42;--brand-contrast:16 14 12;--accent-contrast:16 14 12;}
+:root.dark{--ui-0:255 255 255;--ui-50:248 246 245;--ui-100:240 236 233;--ui-200:219 215 212;--ui-300:198 194 192;--ui-400:159 157 154;--ui-500:134 132 130;--ui-600:113 111 109;--ui-700:82 80 79;--ui-800:60 58 57;--ui-900:38 36 35;--ui-950:28 27 26;--brand-50:250 242 237;--brand-100:246 230 221;--brand-200:241 215 201;--brand-300:233 193 171;--brand-400:227 177 149;--brand-500:226 173 145;--brand-600:223 166 135;--brand-700:190 141 115;--brand-800:156 116 95;--brand-900:123 91 74;--brand-950:71 53 43;--accent-50:242 246 239;--accent-100:229 236 224;--accent-200:216 227 208;--accent-300:196 212 184;--accent-400:177 198 161;--accent-500:168 192 151;--accent-600:148 169 133;--accent-700:121 138 109;--accent-800:92 106 83;--accent-900:67 77 60;--accent-950:47 54 42;--brand-contrast:14 14 13;--accent-contrast:14 14 13;}
 
 @layer base {
+  /* Base a 17px: Figtree/Manrope rinden algo más finas que Inter y a 16px
+     la letra quedaba pequeña. Todo lo que va en rem escala en proporción. */
+  html {
+    font-size: 17px;
+  }
+
   body {
     overscroll-behavior-y: none;
     -webkit-tap-highlight-color: transparent;
@@ -27,6 +33,13 @@
     font-family: 'DM Sans', 'Figtree', sans-serif;
   }
 }
+
+/* Los tamaños micro van en px fijos y no escalan con la base: se amplían
+   1px aquí. Fuera de @layer para ganar a las utilidades de Tailwind. */
+.text-\[8px\]  { font-size: 9px; }
+.text-\[9px\]  { font-size: 10px; }
+.text-\[10px\] { font-size: 11px; }
+.text-\[11px\] { font-size: 12px; }
 
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar { display: none; }

@@ -13,13 +13,16 @@ const BLACK = '#000000';
 export const PALETTES = {
   terracota: {
     name: 'Terracota y pistacho',
+    // El oscuro es grafito casi neutro con un matiz cálido muy sutil: los
+    // fondos marrones se veían raros (feedback de Manu); el patrón bueno es
+    // el de menta/lavanda/acero, donde el color lo ponen primario y acento.
     light: { bg: '#FBF6F2', surface: '#FEFCFA', primary: '#D99B7C', accent: '#B7CBAA', text: '#3A2E26' },
-    dark:  { bg: '#201B17', surface: '#2A241F', primary: '#DBA183', accent: '#A8C097', text: '#F2EBE4' },
+    dark:  { bg: '#1C1B1A', surface: '#262423', primary: '#DFA687', accent: '#A8C097', text: '#F0ECE9' },
   },
   coral: {
     name: 'Coral y verde botella',
     light: { bg: '#FCF5F1', surface: '#FEFBF9', primary: '#E19A7C', accent: '#8FB39E', text: '#402F24' },
-    dark:  { bg: '#1E1A18', surface: '#282220', primary: '#E68A6C', accent: '#7FB8A8', text: '#F5EDE9' },
+    dark:  { bg: '#1D1B1A', surface: '#272424', primary: '#E68F72', accent: '#84BBAB', text: '#F2EEEB' },
   },
   rosa: {
     name: 'Rosa empolvado',
@@ -49,7 +52,7 @@ export const PALETTES = {
   mostaza: {
     name: 'Mostaza y petróleo',
     light: { bg: '#FBF8F1', surface: '#FEFCF8', primary: '#E3C26E', accent: '#9DBFC0', text: '#3D3421' },
-    dark:  { bg: '#1E1B14', surface: '#28241B', primary: '#E3C26E', accent: '#9DBFC0', text: '#F3EFE2' },
+    dark:  { bg: '#1B1B19', surface: '#252523', primary: '#E5C778', accent: '#9DBFC0', text: '#F1EFE9' },
   },
 };
 

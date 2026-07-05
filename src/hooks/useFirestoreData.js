@@ -19,7 +19,7 @@ const DEFAULT_WORKOUT_STATE = {
   activeSession: null,
   completedSessions: [],
   bodyMetrics: [],
-  preferences: { theme: 'dark', unit: 'kg', accentColor: 'violet' },
+  preferences: { theme: 'dark', unit: 'kg', accentColor: 'terracota' },
 };
 
 /**

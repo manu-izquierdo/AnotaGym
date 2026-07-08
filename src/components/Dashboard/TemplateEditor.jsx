@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { GripVertical } from 'lucide-react';
+import { GripVertical, Info } from 'lucide-react';
 import { generateUUID } from '../../utils/uuid';
 import { getMuscleImage } from '../../data/muscleImages';
+import { matchesSearch } from '../../data/exerciseUtils';
+import ExerciseImage from '../UI/ExerciseImage';
+import ExerciseDetailSheet from '../Exercises/ExerciseDetailSheet';
 
 const MAX_EXERCISES_PER_TEMPLATE = 15;
 const MIN_SETS_PER_EXERCISE = 1;
@@ -118,6 +121,7 @@ export default function TemplateEditor({
   const [selectedGroupFilter, setSelectedGroupFilter] = useState('all');
   const [selectedEquipmentFilter, setSelectedEquipmentFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [detailExercise, setDetailExercise] = useState(null); // ficha de ejercicio abierta
 
   // { exerciseIndex, setIndex } — which set index is being edited in the picker
   const [pickerTarget, setPickerTarget] = useState(null);
@@ -127,7 +131,7 @@ export default function TemplateEditor({
       if (exercise.hidden) return false; // ocultados por admin o por el usuario
       const groupOk = selectedGroupFilter === 'all' || exercise.muscleGroup === selectedGroupFilter;
       const equipOk = selectedEquipmentFilter === 'all' || exercise.equipment === selectedEquipmentFilter;
-      const searchOk = (exercise.name || '').toLowerCase().includes(searchTerm.toLowerCase());
+      const searchOk = matchesSearch(exercise, searchTerm);
       return groupOk && equipOk && searchOk;
     });
 
@@ -587,26 +591,31 @@ export default function TemplateEditor({
                   <p className="font-bold text-zinc-500 text-xs uppercase tracking-wider mb-2">{group}</p>
                   <div className="grid gap-1.5">
                     {exercises.map((exercise) => (
-                      <button
+                      <div
                         key={exercise.id}
-                        onClick={() => handleAddExercise(exercise.id)}
-                        className="text-left bg-zinc-800 p-2.5 rounded-xl border border-zinc-700 hover:border-brand-600 hover:bg-zinc-700 active:bg-zinc-700 transition-all flex items-center gap-3"
+                        className="bg-zinc-800 rounded-xl border border-zinc-700 hover:border-brand-600 transition-all flex items-center"
                       >
-                        <img
-                          src={exercise.imageUrl || getMuscleImage(group)}
-                          alt={group}
-                          loading="lazy"
-                          className="w-10 h-10 rounded-lg object-cover bg-zinc-900 border border-zinc-700/50"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = getMuscleImage(group);
-                          }}
-                        />
-                        <div>
-                          <span className="block text-sm text-zinc-100 font-semibold">{exercise.name}</span>
-                          <span className="text-[10px] text-zinc-400">{exercise.equipment || 'Otro'}</span>
-                        </div>
-                      </button>
+                        <button
+                          onClick={() => handleAddExercise(exercise.id)}
+                          className="flex-1 min-w-0 text-left p-2.5 flex items-center gap-3"
+                        >
+                          <ExerciseImage
+                            exercise={exercise}
+                            className="w-12 h-12 rounded-lg object-cover bg-zinc-900 border border-zinc-700/50 shrink-0"
+                          />
+                          <div className="min-w-0">
+                            <span className="block text-sm text-zinc-100 font-semibold truncate">{exercise.name}</span>
+                            <span className="text-[10px] text-zinc-400">{exercise.equipment || 'Otro'}</span>
+                          </div>
+                        </button>
+                        <button
+                          onClick={() => setDetailExercise(exercise)}
+                          className="p-2.5 text-zinc-500 hover:text-brand-400 transition-colors shrink-0"
+                          aria-label={`Ver ficha de ${exercise.name}`}
+                        >
+                          <Info size={17} />
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -675,6 +684,10 @@ export default function TemplateEditor({
           }
           onClose={() => setPickerTarget(null)}
         />
+      )}
+
+      {detailExercise && (
+        <ExerciseDetailSheet exercise={detailExercise} onClose={() => setDetailExercise(null)} />
       )}
       </div>
     </div>

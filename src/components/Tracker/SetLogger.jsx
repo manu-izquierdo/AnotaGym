@@ -1,10 +1,13 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { Card, Button } from '../UI/Card';
 import ConfirmDialog from '../UI/ConfirmDialog';
-import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell, Calculator } from 'lucide-react';
+import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell, Calculator, Info } from 'lucide-react';
 import PlateCalculator from './PlateCalculator';
 import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
 import { getMuscleImage } from '../../data/muscleImages';
+import { matchesSearch, normalizeText } from '../../data/exerciseUtils';
+import ExerciseImage from '../UI/ExerciseImage';
+import ExerciseDetailSheet from '../Exercises/ExerciseDetailSheet';
 
 // ─── 1RM Estimation (Epley formula) ─────────────────────────────────────────
 // Most accurate between 2–12 reps.
@@ -75,16 +78,16 @@ function InlineTypePicker({ current, onChange }) {
 }
 
 /** Hoja modal para añadir un ejercicio a la sesión en marcha (Quick Log) */
-function ExercisePickerSheet({ exerciseLibrary, onPick, onClose }) {
+function ExercisePickerSheet({ exerciseLibrary, onPick, onInfo, onClose }) {
   const [query, setQuery] = useState('');
 
   const results = useMemo(() => {
     const pool = (exerciseLibrary || []).filter((ex) => !ex.hidden);
-    const q = query.trim().toLowerCase();
+    const q = query.trim();
     const filtered = q
       ? pool.filter((ex) =>
-          (ex.name || '').toLowerCase().includes(q) ||
-          (ex.muscleGroup || '').toLowerCase().includes(q))
+          matchesSearch(ex, q) ||
+          normalizeText(ex.muscleGroup).includes(normalizeText(q)))
       : pool;
     return filtered.slice(0, 50);
   }, [exerciseLibrary, query]);
@@ -115,23 +118,30 @@ function ExercisePickerSheet({ exerciseLibrary, onPick, onClose }) {
             <p className="text-xs text-zinc-500 text-center py-6">Sin resultados para “{query}”.</p>
           )}
           {results.map((ex) => (
-            <button
-              key={ex.id}
-              onClick={() => onPick(ex.id)}
-              className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800/60 text-left transition-colors"
-            >
-              <img
-                src={ex.imageUrl || getMuscleImage(ex.muscleGroup)}
-                alt=""
-                loading="lazy"
-                className="w-10 h-10 rounded-lg object-cover bg-zinc-100 dark:bg-zinc-800 shrink-0"
-                onError={(e) => { e.target.onerror = null; e.target.src = getMuscleImage(ex.muscleGroup); }}
-              />
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">{ex.name}</p>
-                <p className="text-[11px] text-zinc-500">{ex.muscleGroup}{ex.equipment ? ` · ${ex.equipment}` : ''}</p>
-              </div>
-            </button>
+            <div key={ex.id} className="flex items-center gap-1 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800/60 transition-colors">
+              <button
+                onClick={() => onPick(ex.id)}
+                className="flex-1 min-w-0 flex items-center gap-3 p-2.5 text-left"
+              >
+                <ExerciseImage
+                  exercise={ex}
+                  className="w-12 h-12 rounded-lg object-cover bg-zinc-100 dark:bg-zinc-800 shrink-0"
+                />
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 truncate">{ex.name}</p>
+                  <p className="text-[11px] text-zinc-500">{ex.muscleGroup}{ex.equipment ? ` · ${ex.equipment}` : ''}</p>
+                </div>
+              </button>
+              {onInfo && (
+                <button
+                  onClick={() => onInfo(ex)}
+                  className="p-2.5 mr-1 text-zinc-400 hover:text-brand-500 transition-colors shrink-0"
+                  aria-label={`Ver ficha de ${ex.name}`}
+                >
+                  <Info size={17} />
+                </button>
+              )}
+            </div>
           ))}
           {!query && results.length > 0 && (
             <p className="text-[10px] text-zinc-400 text-center py-2">Escribe para buscar entre todo el catálogo.</p>
@@ -168,6 +178,7 @@ export default function SetLogger({
   const [confirmRemoveId, setConfirmRemoveId] = useState(null);
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [calcWeight, setCalcWeight] = useState(null); // null = cerrada; ''|número = abierta
+  const [detailExercise, setDetailExercise] = useState(null); // ficha de ejercicio abierta
 
   const getExerciseById = useCallback(
     (exerciseId) => exerciseLibrary.find((exercise) => exercise.id === exerciseId),
@@ -289,12 +300,17 @@ export default function SetLogger({
         <Card key={exercise.id} className="space-y-4">
           <div className="mb-4">
             <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <img
-                  src={getExerciseById(exercise.exerciseId)?.imageUrl || getMuscleImage(getExerciseById(exercise.exerciseId)?.muscleGroup)}
-                  alt={getExerciseById(exercise.exerciseId)?.muscleGroup}
-                  loading="lazy"
-                  className="w-12 h-12 rounded-xl object-cover bg-zinc-100 dark:bg-zinc-900 shadow-sm border border-zinc-200 dark:border-zinc-800"
+              <button
+                onClick={() => {
+                  const ex = getExerciseById(exercise.exerciseId);
+                  if (ex) setDetailExercise(ex);
+                }}
+                className="flex items-center gap-3 text-left active:opacity-70 transition-opacity"
+                title="Ver ficha del ejercicio"
+              >
+                <ExerciseImage
+                  exercise={getExerciseById(exercise.exerciseId)}
+                  className="w-14 h-14 rounded-xl object-cover bg-zinc-100 dark:bg-zinc-900 shadow-sm border border-zinc-200 dark:border-zinc-800"
                 />
                 <div>
                   <h3 className="text-zinc-900 dark:text-zinc-100 font-bold text-lg leading-tight">
@@ -306,7 +322,7 @@ export default function SetLogger({
                       : `${exercise.sets.length} ${exercise.sets.length === 1 ? 'serie' : 'series'}`}
                   </p>
                 </div>
-              </div>
+              </button>
               <div className="flex items-center gap-1">
                 {plateCalcEnabled && (
                   <button
@@ -613,8 +629,13 @@ export default function SetLogger({
             onAddExercise?.(exerciseId);
             setShowExercisePicker(false);
           }}
+          onInfo={setDetailExercise}
           onClose={() => setShowExercisePicker(false)}
         />
+      )}
+
+      {detailExercise && (
+        <ExerciseDetailSheet exercise={detailExercise} onClose={() => setDetailExercise(null)} />
       )}
     </div>
   );

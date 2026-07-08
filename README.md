@@ -41,7 +41,8 @@ Sin App Store, sin Play Store, y siempre actualizada a la última versión.
 
 #### 1. Crea tu rutina (o entrena sin ella)
 
-- En la pantalla principal, toca **+ Nueva** y monta tu rutina: elige ejercicios del catálogo (¡más de 900 con foto!), define series y repeticiones objetivo, y ordénalos arrastrando.
+- En la pantalla principal, toca **+ Nueva** y monta tu rutina: elige ejercicios del catálogo (todos en español y con foto animada), define series y repeticiones objetivo, y ordénalos arrastrando.
+- Toca cualquier ejercicio (o su botón ℹ️) y se abre su **ficha**: foto grande en movimiento, descripción y un diagrama corporal con los músculos que trabaja resaltados.
 - ¿Tienes prisa o improvisas? Usa el **Entreno libre (Quick Log)**: empieza a entrenar sin plantilla, añade ejercicios sobre la marcha, y al terminar la app te ofrece guardarlo como rutina para repetirlo.
 - ¿Un compañero te pasa su rutina? Impórtala con un toque desde un **enlace compartido**. Tú también puedes compartir las tuyas.
 
@@ -87,7 +88,7 @@ Sin App Store, sin Play Store, y siempre actualizada a la última versión.
 | 🧮 **Calculadora de discos** | Opcional: qué discos cargar por lado, con aviso si el peso no sale exacto |
 | 💪 **RIR / RPE opcional** | Anota el esfuerzo de cada serie con la escala que prefieras, o ninguna |
 | 🎓 **Guía de entrenamiento** | Los tipos de serie explicados dentro de la app: qué son y cuándo usarlos |
-| 📚 **Catálogo enorme** | Más de 900 ejercicios con foto, en español, y puedes añadir los tuyos |
+| 📚 **Catálogo cuidado** | Ejercicios en español con foto animada, descripción, nivel y diagrama muscular — y puedes añadir los tuyos |
 | 🌍 **Funciona sin internet** | Entrena en sótanos sin cobertura: se sincroniza al volver la conexión |
 | ☁️ **Multi-dispositivo** | Empieza en el móvil, revisa en el ordenador: todo sincronizado |
 | 💾 **Tus datos, tuyos** | Exporta e importa todo en un archivo JSON cuando quieras |
@@ -211,7 +212,7 @@ No App Store, no Play Store, always up to date.
 
 ### 📖 How to use it
 
-1. **Build your routine** — pick from 900+ exercises with photos, set target sets/reps, reorder by dragging. Or skip templates entirely with **Quick Log**: train freely and save it as a routine when you finish. You can also import routines shared by friends via link.
+1. **Build your routine** — pick from a curated exercise catalog with animated photos (tap any exercise for its detail sheet: big moving photo, description and a body diagram highlighting the muscles worked), set target sets/reps, reorder by dragging. Or skip templates entirely with **Quick Log**: train freely and save it as a routine when you finish. You can also import routines shared by friends via link.
 2. **Train and log** — enter weight and reps — the set checks itself off ✅ and the **rest timer** starts on its own. Tag sets as *Top Set*, *Drop Set*, *To Failure*… add notes per exercise (grip, bench angle…) that show up again next time you train it, and add or remove exercises mid-session.
 3. **Watch yourself progress** — interactive per-exercise charts (max weight, estimated 1RM, volume), personal records with dates, full session history with a monthly calendar (you can fix mistyped sets afterwards), and bodyweight tracking.
 4. **Make it yours** — dark, light or System (follows your device) mode, 8 pastel color palettes, a custom nickname, and opt-in tools (plate calculator, real-time RM estimates, RIR/RPE effort tracking) you can enable in Settings. Unsure about set types? The in-app **Training Guide** explains each one.
@@ -233,7 +234,7 @@ No App Store, no Play Store, always up to date.
 | 🧮 **Plate calculator** | Optional: which plates to load per side, warns if the weight isn't exact |
 | 💪 **Optional RIR / RPE** | Log per-set effort with the scale you prefer, or none at all |
 | 🎓 **Training guide** | Set types explained in-app: what they are and when to use them |
-| 📚 **Huge catalog** | 900+ exercises with photos, plus your own custom ones |
+| 📚 **Curated catalog** | Exercises with animated photos, descriptions, level and muscle diagrams — plus your own custom ones |
 | 🌍 **Works offline** | Train in basements with no signal — syncs when you're back online |
 | ☁️ **Multi-device** | Start on your phone, review on your computer: always in sync |
 | 💾 **Your data, yours** | Export and import everything as JSON, anytime |

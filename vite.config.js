@@ -45,7 +45,7 @@ export default defineConfig({
         // cambian entre releases → el navegador los mantiene en caché
         manualChunks: {
           firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/app-check'],
-          exercises: ['./src/data/extendedLibrary.js'],
+          exercises: ['./src/data/exerciseLibrary.js'],
         },
       },
     },

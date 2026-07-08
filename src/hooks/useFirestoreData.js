@@ -11,7 +11,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { defaultExerciseLibrary } from '../data/exerciseLibrary';
-import { extendedExerciseLibrary } from '../data/extendedLibrary';
 import { generateUUID } from '../utils/uuid';
 
 const DEFAULT_WORKOUT_STATE = {
@@ -228,7 +227,7 @@ export default function useFirestoreData(uid, isAdmin) {
   const bundledIds = new Set();
   const exercisesMap = new Map();
 
-  [...defaultExerciseLibrary, ...extendedExerciseLibrary].forEach((ex) => {
+  defaultExerciseLibrary.forEach((ex) => {
     bundledIds.add(ex.id);
     exercisesMap.set(ex.id, { ...ex, _bundled: true });
   });

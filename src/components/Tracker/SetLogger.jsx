@@ -5,7 +5,7 @@ import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell, Calcula
 import PlateCalculator from './PlateCalculator';
 import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
 import { getMuscleImage } from '../../data/muscleImages';
-import { matchesSearch, normalizeText } from '../../data/exerciseUtils';
+import { matchesSearch } from '../../data/exerciseUtils';
 import ExerciseImage from '../UI/ExerciseImage';
 import ExerciseDetailSheet from '../Exercises/ExerciseDetailSheet';
 
@@ -84,11 +84,7 @@ function ExercisePickerSheet({ exerciseLibrary, onPick, onInfo, onClose }) {
   const results = useMemo(() => {
     const pool = (exerciseLibrary || []).filter((ex) => !ex.hidden);
     const q = query.trim();
-    const filtered = q
-      ? pool.filter((ex) =>
-          matchesSearch(ex, q) ||
-          normalizeText(ex.muscleGroup).includes(normalizeText(q)))
-      : pool;
+    const filtered = q ? pool.filter((ex) => matchesSearch(ex, q)) : pool;
     return filtered.slice(0, 50);
   }, [exerciseLibrary, query]);
 

@@ -9,7 +9,7 @@ import {
   matchesSearch, MUSCLE_EN_TO_ES, MUSCLE_OPTIONS, LEVEL_OPTIONS, normalizeText,
 } from '../../data/exerciseUtils';
 
-const MUSCLE_GROUPS = ['Pectoral', 'Espalda', 'Piernas', 'Hombros', 'Brazos', 'Core', 'Cardio', 'Cuello'];
+const MUSCLE_GROUPS = ['Pectoral', 'Espalda', 'Piernas', 'Hombros', 'Brazos', 'Core', 'Funcional', 'Movilidad', 'Cardio', 'Cuello'];
 const EQUIPMENT_OPTIONS = [
   'Barra', 'Mancuernas', 'Máquina', 'Polea', 'Peso corporal', 'Smith machine',
   'Kettlebell', 'Bandas elásticas', 'Balón medicinal', 'Fitball', 'Foam roller', 'Barra EZ', 'Otro',
@@ -619,9 +619,10 @@ export default function AdminExercisesView({ exercises, onSaveGlobal, onDeleteGl
 
       {confirmRestore && (
         <ConfirmDialog
-          title="Restaurar catálogo"
-          message="Se volverán a mostrar todos los ejercicios ocultos para todos los usuarios."
-          confirmLabel="Restaurar"
+          title="Restaurar catálogo de fábrica"
+          message="Se borrarán TODOS los cambios globales: ediciones sobre el catálogo, ejercicios globales añadidos y ocultos. El catálogo quedará exactamente como viene en la app. Los ejercicios privados de cada usuario no se tocan."
+          confirmLabel="Restaurar todo"
+          danger
           onConfirm={() => { setConfirmRestore(false); onRestoreAll(); }}
           onCancel={() => setConfirmRestore(false)}
         />

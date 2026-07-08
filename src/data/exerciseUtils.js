@@ -23,9 +23,20 @@ export function normalizeText(text) {
     .replace(/[\u0300-\u036f]/g, '');
 }
 
+/**
+ * Búsqueda por palabras: cada palabra del término debe aparecer en el nombre,
+ * el grupo muscular o el material, en cualquier orden. "press banca" encuentra
+ * "Press de banca plano con barra"; "curl polea" encuentra "Curl en polea baja".
+ */
 export function matchesSearch(exercise, term) {
   if (!term) return true;
-  return normalizeText(exercise?.name).includes(normalizeText(term));
+  const haystack = normalizeText(
+    `${exercise?.name || ''} ${exercise?.muscleGroup || ''} ${exercise?.equipment || ''}`
+  );
+  return normalizeText(term)
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((word) => haystack.includes(word));
 }
 
 /**

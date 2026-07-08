@@ -204,15 +204,14 @@ export default function useFirestoreData(uid, isAdmin) {
   }, [uid, isAdmin, globalExercises, privateExercises, setWorkoutState]);
 
   /**
-   * Restaura el catálogo por defecto: quita los ocultados.
-   * Admin → borra los tombstones {hidden:true} de /globalExercises (para todos).
+   * Restaura el catálogo de fábrica (el del bundle JS).
+   * Admin → borra TODOS los docs de /globalExercises: tombstones {hidden:true},
+   * overrides de ejercicios del bundle y altas globales del admin.
    * Usuario → vacía su lista personal de ocultos.
-   * (El catálogo base vive en el bundle JS, no hace falta copiarlo a Firestore.)
    */
   const restoreDefaultExercises = useCallback(async () => {
     if (isAdmin) {
-      const tombstones = globalExercises.filter((e) => e.hidden);
-      await Promise.all(tombstones.map((e) => deleteDoc(doc(db, 'globalExercises', e.id))));
+      await Promise.all(globalExercises.map((e) => deleteDoc(doc(db, 'globalExercises', e.id))));
     }
     setWorkoutState((prev) => ({
       ...prev,

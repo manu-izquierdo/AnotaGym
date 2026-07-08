@@ -13,6 +13,8 @@ const GROUP_FALLBACK_MUSCLES = {
   Brazos: ['Bíceps', 'Tríceps'],
   Piernas: ['Cuádriceps', 'Isquiotibiales', 'Glúteos'],
   Core: ['Abdominales'],
+  Funcional: ['Cuádriceps', 'Hombros', 'Abdominales'],
+  Cardio: ['Cuádriceps', 'Gemelos'],
   Cuello: ['Cuello'],
 };
 

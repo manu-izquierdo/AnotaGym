@@ -1,5 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Home, LineChart, UserCircle2, Settings, Dumbbell } from 'lucide-react';
+
+/**
+ * Detecta si el teclado en pantalla está abierto (móvil). En iOS los elementos
+ * `fixed` flotan de forma errática sobre el teclado al hacer scroll, así que
+ * la nav inferior se oculta mientras se escribe y reaparece al cerrar el teclado.
+ */
+function useKeyboardOpen() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return undefined;
+    const onResize = () => {
+      setOpen(window.innerHeight - vv.height > 150);
+    };
+    vv.addEventListener('resize', onResize);
+    onResize();
+    return () => vv.removeEventListener('resize', onResize);
+  }, []);
+  return open;
+}
 
 const NAV_ITEMS = [
   { key: 'routine', label: 'Rutina', icon: Home },
@@ -35,6 +55,7 @@ function Avatar({ user, size = 'w-8 h-8' }) {
 }
 
 export default function MobileAppShell({ children, activeTab, onTabChange, onProfileClick, user }) {
+  const keyboardOpen = useKeyboardOpen();
   return (
     <div className="flex min-h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
 
@@ -108,7 +129,7 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
       {/* Navegación inferior (solo móvil). El padding inferior respeta la barra
           de gestos del iPhone (safe area) para que los botones no queden debajo. */}
       <nav
-        className="md:hidden fixed bottom-0 w-full backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-t border-zinc-200 dark:border-zinc-800/80 pt-2 px-4 flex justify-between items-center z-20 transition-colors duration-300"
+        className={`md:hidden fixed bottom-0 w-full backdrop-blur-xl bg-white/80 dark:bg-zinc-950/80 border-t border-zinc-200 dark:border-zinc-800/80 pt-2 px-4 flex justify-between items-center z-20 transition-colors duration-300 ${keyboardOpen ? 'hidden' : ''}`}
         style={{ paddingBottom: 'max(0.5rem, calc(env(safe-area-inset-bottom) + 0.25rem))' }}
       >
         {NAV_ITEMS.map(({ key, label, icon: Icon }) => (

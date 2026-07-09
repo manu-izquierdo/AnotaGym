@@ -57,10 +57,10 @@ function SetTypeBadge({ typeId, size = 'sm' }) {
   );
 }
 
-/** Inline type picker — horizontal scroll row of chips */
+/** Inline type picker — todos los tipos visibles a la vez (sin scroll oculto) */
 function InlineTypePicker({ current, onChange }) {
   return (
-    <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+    <div className="flex flex-wrap gap-1.5 pb-1">
       {SET_TYPES.map((type) => (
         <button
           key={type.id}
@@ -109,13 +109,6 @@ function ExercisePickerSheet({ exerciseLibrary, onPick, onInfo, onClose }) {
       .slice(0, 60);
   }, [pool, query, groupFilter, equipFilter]);
 
-  const chip = (selected) =>
-    `shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
-      selected
-        ? 'bg-brand-600 text-on-brand'
-        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300'
-    }`;
-
   return (
     <div className="fixed inset-0 z-50 bg-black/60 sm:flex sm:items-center sm:justify-center sm:p-4" onClick={onClose}>
       <div
@@ -139,22 +132,24 @@ function ExercisePickerSheet({ exerciseLibrary, onPick, onInfo, onClose }) {
               <X size={20} />
             </button>
           </div>
-          {/* Filtros rápidos: grupo muscular y material */}
-          <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-4 px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <button className={chip(groupFilter === 'all')} onClick={() => setGroupFilter('all')}>Todos</button>
-            {groups.map((g) => (
-              <button key={g} className={chip(groupFilter === g)} onClick={() => setGroupFilter(groupFilter === g ? 'all' : g)}>
-                {g}
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-4 px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <button className={chip(equipFilter === 'all')} onClick={() => setEquipFilter('all')}>Cualquier material</button>
-            {equipments.map((eq) => (
-              <button key={eq} className={chip(equipFilter === eq)} onClick={() => setEquipFilter(equipFilter === eq ? 'all' : eq)}>
-                {eq}
-              </button>
-            ))}
+          {/* Filtros por grupo muscular y material (desplegables, como en el editor) */}
+          <div className="grid grid-cols-2 gap-2">
+            <select
+              value={groupFilter}
+              onChange={(e) => setGroupFilter(e.target.value)}
+              className="w-full min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-brand-500"
+            >
+              <option value="all">Todos los grupos</option>
+              {groups.map((g) => <option key={g} value={g}>{g}</option>)}
+            </select>
+            <select
+              value={equipFilter}
+              onChange={(e) => setEquipFilter(e.target.value)}
+              className="w-full min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-brand-500"
+            >
+              <option value="all">Todo el material</option>
+              {equipments.map((eq) => <option key={eq} value={eq}>{eq}</option>)}
+            </select>
           </div>
         </div>
         <div className="flex-1 overflow-y-auto p-2" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}>

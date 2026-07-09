@@ -217,8 +217,11 @@ export default function useFirestoreData(uid, isAdmin) {
       id: generateUUID(),
       name: exerciseData.name.trim(),
       muscleGroup: exerciseData.muscleGroup.trim(),
-      equipment: exerciseData.equipment || 'Custom',
+      equipment: exerciseData.equipment || 'Otro',
       ...(exerciseData.imageUrl ? { imageUrl: exerciseData.imageUrl.trim() } : {}),
+      ...(exerciseData.description ? { description: exerciseData.description } : {}),
+      ...(exerciseData.primaryMuscles?.length ? { primaryMuscles: exerciseData.primaryMuscles } : {}),
+      ...(exerciseData.secondaryMuscles?.length ? { secondaryMuscles: exerciseData.secondaryMuscles } : {}),
     };
 
     const privateRef = doc(db, 'users', uid, 'privateExercises', exercise.id);

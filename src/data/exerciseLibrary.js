@@ -539,6 +539,13 @@ export const defaultExerciseLibrary = [
     level: 'Principiante',
   },
   {
+    id: 'ex_205', name: 'Curl martillo en polea con cuerda', muscleGroup: 'Brazos', equipment: 'Polea',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Cable_Hammer_Curls_-_Rope_Attachment/0.jpg',
+    description: 'Agarra la cuerda de la polea baja con las palmas enfrentadas. Sube hasta los hombros con los codos pegados al cuerpo y baja manteniendo la tensión del cable.',
+    primaryMuscles: ['Bíceps'], secondaryMuscles: ['Antebrazos'],
+    level: 'Principiante',
+  },
+  {
     id: 'ex_067', name: 'Curl spider', muscleGroup: 'Brazos', equipment: 'Mancuernas',
     imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Spider_Curl/0.jpg',
     description: 'Túmbate boca abajo en el banco inclinado con los brazos colgando. Sube las mancuernas apretando arriba y baja hasta estirar por completo.',

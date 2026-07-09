@@ -12,11 +12,13 @@ const MAX_SETS_PER_EXERCISE = 10;
 
 // ─── Set Types Definition ────────────────────────────────────────────────────
 
+// Orden pensado para la cronología real de un entreno: primero se calienta,
+// luego vienen las series efectivas
 export const SET_TYPES = [
+  { id: 'warmup',    label: 'Calentamiento',  short: 'CAL', color: 'bg-zinc-600 text-zinc-300',               desc: 'No computa en el volumen total'         },
   { id: 'normal',    label: 'Normal',        short: 'NRM', color: 'bg-zinc-700 text-zinc-200',               desc: 'Serie estándar'                         },
   { id: 'topset',    label: 'Top Set',        short: 'TOP', color: 'bg-amber-600 text-amber-50',              desc: 'Serie al máximo esfuerzo de la sesión'  },
   { id: 'backoff',   label: 'Back-off',       short: 'BOF', color: 'bg-sky-700 text-sky-50',                  desc: 'Serie ligera post top set'              },
-  { id: 'warmup',    label: 'Calentamiento',  short: 'CAL', color: 'bg-zinc-600 text-zinc-300',               desc: 'No computa en el volumen total'         },
   { id: 'dropset',   label: 'Drop Set',       short: 'DRP', color: 'bg-orange-600 text-orange-50',            desc: 'Reducir peso sin descanso'              },
   { id: 'restpause', label: 'Rest-Pause',     short: 'R+P', color: 'bg-violet-700 text-violet-50',            desc: 'Pausa breve dentro de la serie'         },
   { id: 'myo',       label: 'Myo-Rep',        short: 'MYO', color: 'bg-pink-700 text-pink-50',                desc: 'Alta acumulación de reps con mini-sets' },

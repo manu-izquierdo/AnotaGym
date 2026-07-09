@@ -6,8 +6,16 @@ import {
   Palette, Timer, Database, ChevronRight, ChevronLeft, BookOpen,
 } from 'lucide-react';
 import { getMuscleImage } from '../../data/muscleImages';
+import { MUSCLE_OPTIONS, matchesSearch } from '../../data/exerciseUtils';
 import TrainingGuideView from './TrainingGuideView';
 import ConfirmDialog from '../UI/ConfirmDialog';
+
+// Opciones del formulario "Mis ejercicios" (mismos grupos/material que el catálogo)
+const MUSCLE_GROUP_OPTIONS = ['Pectoral', 'Espalda', 'Piernas', 'Hombros', 'Brazos', 'Core', 'Funcional', 'Movilidad', 'Cardio', 'Cuello'];
+const EQUIPMENT_CHOICES = [
+  'Máquina', 'Barra', 'Mancuernas', 'Polea', 'Peso corporal', 'Smith machine',
+  'Kettlebell', 'Bandas elásticas', 'Balón medicinal', 'Fitball', 'Foam roller', 'Barra EZ', 'Otro',
+];
 
 // Solo lo cargan los admins al abrir el panel — fuera del bundle principal
 const AdminExercisesView = lazy(() => import('../Admin/AdminExercisesView'));
@@ -108,7 +116,10 @@ export default function SettingsView({
 
   const [subview, setSubview] = useState(null); // null | 'appearance' | 'training' | 'guide' | 'myExercises' | 'catalog' | 'data'
   const [newExerciseName, setNewExerciseName] = useState('');
-  const [newExerciseMuscle, setNewExerciseMuscle] = useState('');
+  const [newExerciseMuscle, setNewExerciseMuscle] = useState('Pectoral');
+  const [newExerciseEquip, setNewExerciseEquip] = useState('Máquina');
+  const [newExerciseDesc, setNewExerciseDesc] = useState('');
+  const [newExerciseMuscles, setNewExerciseMuscles] = useState([]);
   const [importMsg, setImportMsg] = useState(null); // { ok, text }
   const [importLoading, setImportLoading] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
@@ -136,14 +147,9 @@ export default function SettingsView({
       (ex) => ex._source !== 'private' && (!ex.hidden || hiddenByMe.has(ex.id))
     );
     if (showOnlyHidden) return pool.filter((ex) => hiddenByMe.has(ex.id));
-    const q = catalogQuery.trim().toLowerCase();
+    const q = catalogQuery.trim();
     if (q.length < 2) return null; // aún no se busca
-    return pool
-      .filter((ex) =>
-        (ex.name || '').toLowerCase().includes(q) ||
-        (ex.muscleGroup || '').toLowerCase().includes(q)
-      )
-      .slice(0, 40);
+    return pool.filter((ex) => matchesSearch(ex, q)).slice(0, 40);
   }, [safeExercises, hiddenByMe, catalogQuery, showOnlyHidden]);
 
   const toggleHidden = (id) => {
@@ -154,10 +160,17 @@ export default function SettingsView({
   };
 
   const handleCreateExerciseSubmit = async () => {
-    if (!newExerciseName.trim() || !newExerciseMuscle.trim()) return;
-    await onCreateExercise({ name: newExerciseName, muscleGroup: newExerciseMuscle });
+    if (!newExerciseName.trim()) return;
+    await onCreateExercise({
+      name: newExerciseName,
+      muscleGroup: newExerciseMuscle,
+      equipment: newExerciseEquip,
+      ...(newExerciseDesc.trim() ? { description: newExerciseDesc.trim() } : {}),
+      ...(newExerciseMuscles.length ? { primaryMuscles: newExerciseMuscles } : {}),
+    });
     setNewExerciseName('');
-    setNewExerciseMuscle('');
+    setNewExerciseDesc('');
+    setNewExerciseMuscles([]);
   };
 
   const handleImportFile = async (e) => {
@@ -425,15 +438,62 @@ export default function SettingsView({
         </p>
 
         <Card className="space-y-3">
+          <Input
+            placeholder="Nombre del ejercicio (Ej. Curl en banco inclinado)"
+            value={newExerciseName}
+            onChange={(e) => setNewExerciseName(e.target.value)}
+          />
           <div className="flex gap-2">
-            <div className="flex-[2]">
-              <Input placeholder="Nombre (Ej. Curl Bíceps)" value={newExerciseName} onChange={(e) => setNewExerciseName(e.target.value)} />
-            </div>
-            <div className="flex-1">
-              <Input placeholder="Grupo (Ej. Brazos)" value={newExerciseMuscle} onChange={(e) => setNewExerciseMuscle(e.target.value)} />
-            </div>
+            <select
+              value={newExerciseMuscle}
+              onChange={(e) => setNewExerciseMuscle(e.target.value)}
+              className="flex-1 min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-brand-500"
+            >
+              {MUSCLE_GROUP_OPTIONS.map((g) => <option key={g} value={g}>{g}</option>)}
+            </select>
+            <select
+              value={newExerciseEquip}
+              onChange={(e) => setNewExerciseEquip(e.target.value)}
+              className="flex-1 min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-brand-500"
+            >
+              {EQUIPMENT_CHOICES.map((eq) => <option key={eq} value={eq}>{eq}</option>)}
+            </select>
           </div>
-          <Button onClick={handleCreateExerciseSubmit} className="h-10 text-sm">
+          <textarea
+            placeholder="Descripción (opcional): cómo se ejecuta, ajustes de la máquina…"
+            value={newExerciseDesc}
+            onChange={(e) => setNewExerciseDesc(e.target.value)}
+            rows={2}
+            className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 outline-none focus:border-brand-500 resize-none"
+          />
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
+              Músculos que trabaja (opcional)
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {MUSCLE_OPTIONS.map((m) => {
+                const selected = newExerciseMuscles.includes(m);
+                return (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setNewExerciseMuscles((prev) =>
+                      selected ? prev.filter((x) => x !== m) : [...prev, m]
+                    )}
+                    className={`px-2.5 py-1 rounded-full text-[11px] font-semibold transition-colors ${
+                      selected
+                        ? 'bg-brand-600 text-on-brand'
+                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300'
+                    }`}
+                  >
+                    {m}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="text-[10px] text-zinc-400 mt-1.5">Si los marcas, la ficha del ejercicio los resaltará en el diagrama corporal.</p>
+          </div>
+          <Button onClick={handleCreateExerciseSubmit} disabled={!newExerciseName.trim()} className="h-10 text-sm w-full">
             <Plus size={15} className="mr-1" /> Crear ejercicio
           </Button>
         </Card>

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Card, Button } from '../UI/Card';
-import { Pencil, Check, X, Scale } from 'lucide-react';
+import { Pencil, Check, X } from 'lucide-react';
 
 export default function ProfileView({
   completedSessions,
@@ -173,20 +173,6 @@ export default function ProfileView({
           <p className="text-2xl font-bold text-brand-600 dark:text-brand-400">{stats.volume.toLocaleString()} {safePreferences.unit}</p>
         </Card>
       </div>
-
-      {/* El registro de peso corporal vive ahora en Progreso, junto a su gráfica */}
-      <Card className="p-4 flex items-start gap-3">
-        <div className="w-9 h-9 rounded-xl bg-brand-50 dark:bg-brand-950/40 flex items-center justify-center shrink-0">
-          <Scale size={17} className="text-brand-500" />
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">Peso corporal</p>
-          <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
-            Ahora se registra en <strong className="text-zinc-700 dark:text-zinc-300">Progreso → Resumen</strong>,
-            junto a su gráfica de evolución y el historial de medidas.
-          </p>
-        </div>
-      </Card>
 
       <Button
         variant="ghost"

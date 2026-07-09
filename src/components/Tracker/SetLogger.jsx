@@ -77,41 +77,91 @@ function InlineTypePicker({ current, onChange }) {
   );
 }
 
-/** Hoja modal para añadir un ejercicio a la sesión en marcha (Quick Log) */
+/**
+ * Hoja modal para añadir un ejercicio a la sesión en marcha (Quick Log).
+ * En móvil ocupa TODA la pantalla con el buscador arriba: así los resultados
+ * crecen hacia abajo desde arriba y el teclado nunca los tapa.
+ */
 function ExercisePickerSheet({ exerciseLibrary, onPick, onInfo, onClose }) {
   const [query, setQuery] = useState('');
+  const [groupFilter, setGroupFilter] = useState('all');
+  const [equipFilter, setEquipFilter] = useState('all');
+
+  const pool = useMemo(
+    () => (exerciseLibrary || []).filter((ex) => !ex.hidden),
+    [exerciseLibrary]
+  );
+  const groups = useMemo(
+    () => [...new Set(pool.map((ex) => ex.muscleGroup).filter(Boolean))],
+    [pool]
+  );
+  const equipments = useMemo(
+    () => [...new Set(pool.map((ex) => ex.equipment).filter(Boolean))].sort((a, b) => a.localeCompare(b)),
+    [pool]
+  );
 
   const results = useMemo(() => {
-    const pool = (exerciseLibrary || []).filter((ex) => !ex.hidden);
     const q = query.trim();
-    const filtered = q ? pool.filter((ex) => matchesSearch(ex, q)) : pool;
-    return filtered.slice(0, 50);
-  }, [exerciseLibrary, query]);
+    return pool
+      .filter((ex) => (groupFilter === 'all' || ex.muscleGroup === groupFilter))
+      .filter((ex) => (equipFilter === 'all' || ex.equipment === equipFilter))
+      .filter((ex) => matchesSearch(ex, q))
+      .slice(0, 60);
+  }, [pool, query, groupFilter, equipFilter]);
+
+  const chip = (selected) =>
+    `shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
+      selected
+        ? 'bg-brand-600 text-on-brand'
+        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300'
+    }`;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 flex items-end sm:items-center justify-center sm:p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 bg-black/60 sm:flex sm:items-center sm:justify-center sm:p-4" onClick={onClose}>
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[80vh]"
+        className="w-full h-full sm:h-auto sm:max-h-[85vh] sm:max-w-md bg-white dark:bg-zinc-900 sm:border border-zinc-200 dark:border-zinc-700 sm:rounded-2xl shadow-2xl flex flex-col"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
       >
-        <div className="p-4 pb-3 flex items-center gap-2 border-b border-zinc-100 dark:border-zinc-800">
-          <div className="relative flex-1">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-            <input
-              autoFocus
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar ejercicio…"
-              className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none focus:border-brand-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 transition-all"
-            />
+        <div className="p-4 pb-2 space-y-2.5 border-b border-zinc-100 dark:border-zinc-800">
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1">
+              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+              <input
+                autoFocus
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Buscar ejercicio…"
+                className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl pl-9 pr-3 py-2.5 text-sm outline-none focus:border-brand-500 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 transition-all"
+              />
+            </div>
+            <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" aria-label="Cerrar">
+              <X size={20} />
+            </button>
           </div>
-          <button onClick={onClose} className="p-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" aria-label="Cerrar">
-            <X size={20} />
-          </button>
+          {/* Filtros rápidos: grupo muscular y material */}
+          <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-4 px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <button className={chip(groupFilter === 'all')} onClick={() => setGroupFilter('all')}>Todos</button>
+            {groups.map((g) => (
+              <button key={g} className={chip(groupFilter === g)} onClick={() => setGroupFilter(groupFilter === g ? 'all' : g)}>
+                {g}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-1.5 overflow-x-auto pb-1 -mx-4 px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <button className={chip(equipFilter === 'all')} onClick={() => setEquipFilter('all')}>Cualquier material</button>
+            {equipments.map((eq) => (
+              <button key={eq} className={chip(equipFilter === eq)} onClick={() => setEquipFilter(equipFilter === eq ? 'all' : eq)}>
+                {eq}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="overflow-y-auto p-2" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}>
+        <div className="flex-1 overflow-y-auto p-2" style={{ paddingBottom: 'max(0.5rem, env(safe-area-inset-bottom))' }}>
           {results.length === 0 && (
-            <p className="text-xs text-zinc-500 text-center py-6">Sin resultados para “{query}”.</p>
+            <p className="text-xs text-zinc-500 text-center py-6">
+              Sin resultados{query ? ` para “${query}”` : ''}{groupFilter !== 'all' || equipFilter !== 'all' ? ' con estos filtros' : ''}.
+            </p>
           )}
           {results.map((ex) => (
             <div key={ex.id} className="flex items-center gap-1 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800/60 transition-colors">

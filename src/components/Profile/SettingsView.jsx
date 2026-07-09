@@ -329,8 +329,16 @@ export default function SettingsView({
               </p>
             )}
             <p className="text-[11px] text-zinc-500 mt-2 leading-relaxed">
-              El temporizador se activará automáticamente al marcar una serie como completada. Al llegar a 0, tu móvil vibrará.
+              El temporizador se activará automáticamente al marcar una serie como completada.
             </p>
+            <div className="mt-3">
+              <ToggleRow
+                title="Aviso al terminar el descanso"
+                desc="Pitido (y vibración donde el móvil lo permita) cuando el timer llegue a 0. Necesitas la app abierta y el sonido del móvil activado."
+                checked={safePreferences.restTimerSound !== false}
+                onChange={(v) => onSavePreferences({ restTimerSound: v })}
+              />
+            </div>
           </div>
 
           <div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { X, Plus, Minus, Timer } from 'lucide-react';
+import { playTimerEndSound } from '../../utils/timerSound';
 
-export default function RestTimerPill({ endTime, onAdd, onStop }) {
+export default function RestTimerPill({ endTime, soundEnabled = true, onAdd, onStop }) {
   const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
@@ -10,9 +11,13 @@ export default function RestTimerPill({ endTime, onAdd, onStop }) {
     const updateTimer = () => {
       const remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
       setTimeLeft(remaining);
-      
+
       if (remaining === 0) {
-        // Vibrar si está soportado (iPhone/Android)
+        // Aviso de fin de descanso: pitido (si está activado en Ajustes)
+        // y vibración donde esté soportada (Android; iOS no vibra en web)
+        if (soundEnabled) {
+          playTimerEndSound();
+        }
         if (typeof navigator !== 'undefined' && navigator.vibrate) {
           navigator.vibrate([300, 100, 300, 100, 300]);
         }

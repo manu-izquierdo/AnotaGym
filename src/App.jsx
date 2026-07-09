@@ -13,6 +13,7 @@ import ConfirmDialog from './components/UI/ConfirmDialog';
 import { useAuth } from './contexts/AuthContext';
 import useFirestoreData from './hooks/useFirestoreData';
 import { generateUUID } from './utils/uuid';
+import { primeTimerSound } from './utils/timerSound';
 import { PALETTES, resolvePaletteId, buildPaletteCss } from './theme/palettes';
 
 const createSessionSets = (templateExercise) =>
@@ -193,6 +194,11 @@ function App() {
     if (startsTimer) {
       const duration = workoutState.preferences?.defaultRestTimer ?? 90;
       if (duration > 0) {
+        // Estamos dentro de un gesto del usuario: desbloquear el audio ahora
+        // para que el aviso pueda sonar solo cuando el timer llegue a 0 (iOS).
+        if (workoutState.preferences?.restTimerSound !== false) {
+          primeTimerSound();
+        }
         setRestTimerEnd(Date.now() + duration * 1000);
       }
     }
@@ -621,6 +627,7 @@ function App() {
       {restTimerEnd && (
         <RestTimerPill
           endTime={restTimerEnd}
+          soundEnabled={workoutState.preferences?.restTimerSound !== false}
           onAdd={(secs) => setRestTimerEnd((prev) => prev + secs * 1000)}
           onStop={() => setRestTimerEnd(null)}
         />

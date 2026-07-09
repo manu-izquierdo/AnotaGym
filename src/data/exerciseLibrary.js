@@ -141,6 +141,7 @@ export const defaultExerciseLibrary = [
   },
   {
     id: 'ex_183', name: 'Cruce de poleas a altura media', muscleGroup: 'Pectoral', equipment: 'Polea',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Cable_Crossover/0.jpg',
     description: 'Coloca las poleas a la altura del pecho. Junta las manos al frente con los codos semiflexionados y vuelve abriendo despacio.',
     primaryMuscles: ['Pectoral'], secondaryMuscles: ['Hombros'],
     level: 'Principiante',
@@ -467,6 +468,7 @@ export const defaultExerciseLibrary = [
   },
   {
     id: 'ex_098', name: 'Flexiones pike', muscleGroup: 'Hombros', equipment: 'Peso corporal',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Decline_Push-Up/0.jpg',
     description: 'Desde la plancha, eleva la cadera formando una V invertida. Flexiona los codos bajando la cabeza hacia el suelo entre las manos y empuja para volver.',
     primaryMuscles: ['Hombros'], secondaryMuscles: ['Tríceps'],
     level: 'Intermedio',
@@ -644,6 +646,7 @@ export const defaultExerciseLibrary = [
   },
   {
     id: 'ex_194', name: 'Kaz press', muscleGroup: 'Brazos', equipment: 'Smith machine',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/JM_Press/0.jpg',
     description: 'Con agarre estrecho en la barra guiada, baja hacia la parte baja del pecho dejando que los codos viajen al frente. Extiende con fuerza hasta bloquear.',
     primaryMuscles: ['Tríceps'], secondaryMuscles: ['Pectoral', 'Hombros'],
     level: 'Avanzado',
@@ -828,12 +831,14 @@ export const defaultExerciseLibrary = [
   },
   {
     id: 'ex_197', name: 'Prensa pendular', muscleGroup: 'Piernas', equipment: 'Máquina',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Hack_Squat/0.jpg',
     description: 'Ajusta la espalda al respaldo y los pies en la plataforma. Baja todo el recorrido que controles y empuja sin bloquear las rodillas.',
     primaryMuscles: ['Cuádriceps'], secondaryMuscles: ['Gemelos', 'Glúteos', 'Isquiotibiales'],
     level: 'Intermedio',
   },
   {
     id: 'ex_198', name: 'Sentadilla con cinturón (belt squat)', muscleGroup: 'Piernas', equipment: 'Máquina',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Bodyweight_Squat/0.jpg',
     description: 'Engancha el cinturón a la cadera y colócate sobre la plataforma. Baja en sentadilla con el torso erguido y empuja para subir.',
     primaryMuscles: ['Cuádriceps'], secondaryMuscles: ['Glúteos', 'Aductores'],
     level: 'Intermedio',
@@ -978,6 +983,7 @@ export const defaultExerciseLibrary = [
   // ── Funcional ──
   {
     id: 'ex_148', name: 'Burpee', muscleGroup: 'Funcional', equipment: 'Peso corporal',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Pushups/0.jpg',
     description: 'Desde de pie, apoya las manos y lleva los pies atrás de un salto, haz una flexión, recoge los pies y salta en vertical. Repite sin pausa.',
     primaryMuscles: ['Cuádriceps'], secondaryMuscles: ['Pectoral', 'Hombros', 'Abdominales', 'Gemelos', 'Isquiotibiales'],
     level: 'Intermedio',

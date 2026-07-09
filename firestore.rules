@@ -47,6 +47,11 @@ service cloud.firestore {
       allow read, write: if isOwner(uid);
     }
 
+    // ── Sesiones completadas (una por documento) ────────────────────────────
+    match /users/{uid}/sessions/{sessionId} {
+      allow read, write: if isOwner(uid);
+    }
+
     // ── Ejercicios privados del usuario ─────────────────────────────────────
     match /users/{uid}/privateExercises/{exerciseId} {
       allow read, write: if isOwner(uid);

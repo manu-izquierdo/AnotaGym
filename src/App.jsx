@@ -33,6 +33,8 @@ function App() {
   const {
     workoutState,
     setWorkoutState,
+    saveSession,
+    deleteSession,
     exercises,
     loading,
     addExercise,
@@ -269,11 +271,9 @@ function App() {
       exercises: cleanedExercises,
     };
 
-    setWorkoutState((prev) => ({
-      ...prev,
-      completedSessions: [...prev.completedSessions, completedSession],
-      activeSession: null,
-    }));
+    // La sesión va a su propio documento; el doc principal solo suelta la activa
+    saveSession(completedSession);
+    setWorkoutState((prev) => ({ ...prev, activeSession: null }));
 
     // Entreno libre con contenido → ofrecer convertirlo en rutina
     if (!session.templateId) {
@@ -494,20 +494,12 @@ function App() {
   };
 
   const handleDeleteSession = (sessionId) => {
-    setWorkoutState((prev) => ({
-      ...prev,
-      completedSessions: prev.completedSessions.filter((s) => s.id !== sessionId),
-    }));
+    deleteSession(sessionId);
   };
 
   // Corregir un entrenamiento ya guardado (peso/reps mal apuntados un día)
   const handleUpdateSession = (updatedSession) => {
-    setWorkoutState((prev) => ({
-      ...prev,
-      completedSessions: prev.completedSessions.map((s) =>
-        s.id === updatedSession.id ? updatedSession : s
-      ),
-    }));
+    saveSession(updatedSession);
   };
 
   const handleDeleteBodyMetric = (date) => {

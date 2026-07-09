@@ -4,10 +4,10 @@ import {
   onSnapshot,
   setDoc,
   collection,
-  addDoc,
   deleteDoc,
-  query,
   getDocs,
+  writeBatch,
+  deleteField,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { defaultExerciseLibrary } from '../data/exerciseLibrary';
@@ -16,33 +16,78 @@ import { generateUUID } from '../utils/uuid';
 const DEFAULT_WORKOUT_STATE = {
   routineTemplates: [],
   activeSession: null,
-  completedSessions: [],
   bodyMetrics: [],
   preferences: { theme: 'dark', unit: 'kg', accentColor: 'terracota' },
 };
+
+// Firestore limita los batches a 500 operaciones
+const BATCH_LIMIT = 400;
 
 /**
  * Hook que sincroniza el estado de entrenamiento con Firestore.
  *
  * Estructura en Firestore:
- *   /users/{uid}/workoutData/main          — rutinas, sesiones, métricas, preferencias
+ *   /users/{uid}/workoutData/main          — rutinas, sesión activa, métricas, preferencias
+ *   /users/{uid}/sessions/{sessionId}      — UNA sesión completada por documento
  *   /users/{uid}/privateExercises/{id}     — ejercicios privados del usuario
  *   /globalExercises/{id}                  — ejercicios globales (solo admin escribe)
  *
- * La propiedad `exercises` que expone este hook es la fusión de globales + privados.
+ * Las sesiones completadas vivían antes como array dentro de workoutData/main
+ * (límite de 1 MB por documento → ~450 sesiones y la cuenta dejaba de guardar).
+ * Ahora cada sesión es su propio documento y este hook migra el formato viejo
+ * de forma perezosa e idempotente: si el doc principal trae un array
+ * `completedSessions` no vacío, se copia a la subcolección y se elimina del doc.
+ *
+ * Hacia fuera NADA cambia: el hook expone `workoutState.completedSessions`
+ * (ensamblado desde la subcolección, orden cronológico) igual que siempre.
  */
 export default function useFirestoreData(uid, isAdmin) {
   const [workoutState, setWorkoutStateLocal] = useState(DEFAULT_WORKOUT_STATE);
+  const [completedSessions, setCompletedSessions] = useState([]);
   const [globalExercises, setGlobalExercises] = useState([]);
   const [privateExercises, setPrivateExercises] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [mainLoaded, setMainLoaded] = useState(false);
+  const [sessionsLoaded, setSessionsLoaded] = useState(false);
 
   // Ref para evitar escrituras a Firestore de cambios que vienen de Firestore
   const isRemoteUpdate = useRef(false);
+  // Copia siempre actual de las sesiones para usarla en callbacks sin re-crearlos
+  const sessionsRef = useRef([]);
+  sessionsRef.current = completedSessions;
+  const migrating = useRef(false);
+
+  // ---- Migración perezosa del formato antiguo ----
+  // Copia el array legacy a /users/{uid}/sessions y lo borra del doc principal.
+  // Idempotente: los ids se conservan, re-ejecutarla solo sobreescribe iguales.
+  const migrateLegacySessions = useCallback(async (legacySessions) => {
+    if (migrating.current || !legacySessions?.length) return;
+    migrating.current = true;
+    try {
+      for (let i = 0; i < legacySessions.length; i += BATCH_LIMIT) {
+        const batch = writeBatch(db);
+        legacySessions.slice(i, i + BATCH_LIMIT).forEach((session) => {
+          const id = session.id || generateUUID();
+          batch.set(doc(db, 'users', uid, 'sessions', id), { ...session, id });
+        });
+        await batch.commit();
+      }
+      // Solo si TODO se copió bien se retira el array del doc principal.
+      await setDoc(
+        doc(db, 'users', uid, 'workoutData', 'main'),
+        { completedSessions: deleteField(), sessionsMigrated: true },
+        { merge: true }
+      );
+      console.info(`Migradas ${legacySessions.length} sesiones a la subcolección.`);
+    } catch (err) {
+      console.error('Error migrando sesiones al formato nuevo:', err);
+    } finally {
+      migrating.current = false;
+    }
+  }, [uid]);
 
   // ---- Listeners de Firestore ----
 
-  // 1. Datos principales (rutinas, sesiones, métricas, prefs)
+  // 1. Datos principales (rutinas, sesión activa, métricas, prefs)
   useEffect(() => {
     if (!uid) return;
     const mainRef = doc(db, 'users', uid, 'workoutData', 'main');
@@ -50,21 +95,49 @@ export default function useFirestoreData(uid, isAdmin) {
     const unsub = onSnapshot(mainRef, (snap) => {
       isRemoteUpdate.current = true;
       if (snap.exists()) {
-        setWorkoutStateLocal((prev) => ({ ...DEFAULT_WORKOUT_STATE, ...snap.data() }));
+        const data = snap.data();
+        // Formato antiguo detectado → migrar (también se auto-repara si una
+        // versión vieja de la app volviera a escribir el array).
+        if (Array.isArray(data.completedSessions) && data.completedSessions.length > 0) {
+          migrateLegacySessions(data.completedSessions);
+        }
+        const { completedSessions: _legacy, ...mainData } = data;
+        setWorkoutStateLocal({ ...DEFAULT_WORKOUT_STATE, ...mainData });
       } else {
         // Primera vez — inicializar documento
-        setDoc(mainRef, DEFAULT_WORKOUT_STATE);
+        setDoc(mainRef, { ...DEFAULT_WORKOUT_STATE, sessionsMigrated: true });
       }
-      setLoading(false);
+      setMainLoaded(true);
       // Permitir escrituras locales de nuevo en el próximo tick
       setTimeout(() => { isRemoteUpdate.current = false; }, 0);
     }, (err) => {
       console.error('Firestore main listener error:', err);
-      setLoading(false);
+      setMainLoaded(true);
+    });
+
+    return unsub;
+  }, [uid, migrateLegacySessions]);
+
+  // 1b. Sesiones completadas (una por documento, orden cronológico)
+  useEffect(() => {
+    if (!uid) return;
+    const sessionsCol = collection(db, 'users', uid, 'sessions');
+
+    const unsub = onSnapshot(sessionsCol, (snap) => {
+      const sessions = snap.docs
+        .map((d) => ({ ...d.data(), id: d.id }))
+        .sort((a, b) => new Date(a.finishedAt || 0) - new Date(b.finishedAt || 0));
+      setCompletedSessions(sessions);
+      setSessionsLoaded(true);
+    }, (err) => {
+      console.error('Firestore sessions listener error:', err);
+      setSessionsLoaded(true);
     });
 
     return unsub;
   }, [uid]);
+
+  const loading = !mainLoaded || !sessionsLoaded;
 
   // 2. Ejercicios globales (todos los usuarios los ven)
   useEffect(() => {
@@ -105,13 +178,30 @@ export default function useFirestoreData(uid, isAdmin) {
       clearTimeout(saveTimeout.current);
       saveTimeout.current = setTimeout(() => {
         const mainRef = doc(db, 'users', uid, 'workoutData', 'main');
-        setDoc(mainRef, next, { merge: true }).catch((err) =>
+        // Las sesiones completadas viven en su subcolección: nunca deben
+        // volver a escribirse dentro del doc principal (límite de 1 MB).
+        const { completedSessions: _cs, ...mainData } = next;
+        setDoc(mainRef, mainData, { merge: true }).catch((err) =>
           console.error('Error saving to Firestore:', err)
         );
       }, 800);
 
       return next;
     });
+  }, [uid]);
+
+  // ---- Sesiones completadas (una por documento) ----
+
+  /** Guarda una sesión completada (nueva o corregida). */
+  const saveSession = useCallback(async (session) => {
+    const id = session.id || generateUUID();
+    await setDoc(doc(db, 'users', uid, 'sessions', id), { ...session, id });
+    return id;
+  }, [uid]);
+
+  /** Elimina una sesión completada. */
+  const deleteSession = useCallback(async (sessionId) => {
+    await deleteDoc(doc(db, 'users', uid, 'sessions', sessionId));
   }, [uid]);
 
   // ---- Gestión de ejercicios ----
@@ -183,7 +273,7 @@ export default function useFirestoreData(uid, isAdmin) {
       return;
     }
 
-    // Limpiar referencias en el estado de entrenamiento
+    // Limpiar referencias en rutinas y sesión activa
     setWorkoutState((prev) => ({
       ...prev,
       routineTemplates: prev.routineTemplates.map((t) => ({
@@ -196,11 +286,22 @@ export default function useFirestoreData(uid, isAdmin) {
             exercises: prev.activeSession.exercises.filter((e) => e.exerciseId !== exerciseId),
           }
         : null,
-      completedSessions: prev.completedSessions.map((s) => ({
-        ...s,
-        exercises: s.exercises.filter((e) => e.exerciseId !== exerciseId),
-      })),
     }));
+
+    // Limpiar referencias en las sesiones completadas afectadas (subcolección)
+    const affected = sessionsRef.current.filter((s) =>
+      s.exercises?.some((e) => e.exerciseId === exerciseId)
+    );
+    for (let i = 0; i < affected.length; i += BATCH_LIMIT) {
+      const batch = writeBatch(db);
+      affected.slice(i, i + BATCH_LIMIT).forEach((s) => {
+        batch.set(doc(db, 'users', uid, 'sessions', s.id), {
+          ...s,
+          exercises: s.exercises.filter((e) => e.exerciseId !== exerciseId),
+        });
+      });
+      await batch.commit();
+    }
   }, [uid, isAdmin, globalExercises, privateExercises, setWorkoutState]);
 
   /**
@@ -249,12 +350,14 @@ export default function useFirestoreData(uid, isAdmin) {
     .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
 
   // ---- Export / Import ----
+  // El formato del archivo NO cambia: workoutState.completedSessions sigue
+  // siendo un array en el JSON. Los backups viejos importan sin problema.
 
   const exportData = useCallback(() => {
     const data = {
       exportedAt: new Date().toISOString(),
       version: 1,
-      workoutState,
+      workoutState: { ...workoutState, completedSessions },
       privateExercises,
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -264,15 +367,37 @@ export default function useFirestoreData(uid, isAdmin) {
     a.download = `gymlog-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
-  }, [workoutState, privateExercises]);
+  }, [workoutState, completedSessions, privateExercises]);
 
   const importData = useCallback(async (jsonData) => {
     try {
       const parsed = JSON.parse(jsonData);
       if (!parsed.workoutState) throw new Error('Formato inválido');
 
+      const { completedSessions: importedSessions, ...mainState } = parsed.workoutState;
+
+      // Importar reemplaza TODO (comportamiento de siempre): también las
+      // sesiones actuales de la subcolección se sustituyen por las del archivo.
+      const existing = await getDocs(collection(db, 'users', uid, 'sessions'));
+      const toDelete = existing.docs.map((d) => d.ref);
+      for (let i = 0; i < toDelete.length; i += BATCH_LIMIT) {
+        const batch = writeBatch(db);
+        toDelete.slice(i, i + BATCH_LIMIT).forEach((ref) => batch.delete(ref));
+        await batch.commit();
+      }
+
+      const sessions = Array.isArray(importedSessions) ? importedSessions : [];
+      for (let i = 0; i < sessions.length; i += BATCH_LIMIT) {
+        const batch = writeBatch(db);
+        sessions.slice(i, i + BATCH_LIMIT).forEach((session) => {
+          const id = session.id || generateUUID();
+          batch.set(doc(db, 'users', uid, 'sessions', id), { ...session, id });
+        });
+        await batch.commit();
+      }
+
       const mainRef = doc(db, 'users', uid, 'workoutData', 'main');
-      await setDoc(mainRef, parsed.workoutState);
+      await setDoc(mainRef, { ...mainState, sessionsMigrated: true });
 
       // Restaurar ejercicios privados si los hay
       if (Array.isArray(parsed.privateExercises)) {
@@ -290,8 +415,11 @@ export default function useFirestoreData(uid, isAdmin) {
   }, [uid]);
 
   return {
-    workoutState,
+    // Hacia los componentes el estado luce como siempre: con completedSessions
+    workoutState: { ...workoutState, completedSessions },
     setWorkoutState,
+    saveSession,
+    deleteSession,
     exercises,
     globalExercises,
     privateExercises,

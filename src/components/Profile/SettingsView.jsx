@@ -11,10 +11,10 @@ import TrainingGuideView from './TrainingGuideView';
 import ConfirmDialog from '../UI/ConfirmDialog';
 
 // Opciones del formulario "Mis ejercicios" (mismos grupos/material que el catálogo)
-const MUSCLE_GROUP_OPTIONS = ['Pectoral', 'Espalda', 'Piernas', 'Hombros', 'Brazos', 'Core', 'Funcional', 'Movilidad', 'Cardio', 'Cuello'];
+const MUSCLE_GROUP_OPTIONS = ['Piernas', 'Pectoral', 'Core', 'Bíceps', 'Tríceps', 'Espalda', 'Hombros', 'Cuello', 'Funcional', 'Cardio', 'Movilidad'];
 const EQUIPMENT_CHOICES = [
-  'Máquina', 'Barra', 'Mancuernas', 'Polea', 'Peso corporal', 'Smith machine',
-  'Kettlebell', 'Bandas elásticas', 'Balón medicinal', 'Fitball', 'Foam roller', 'Barra EZ', 'Otro',
+  'Barra', 'Smith machine', 'Polea', 'Mancuernas', 'Peso corporal', 'Máquina',
+  'Barra EZ', 'Balón medicinal', 'Fitball', 'Bandas elásticas', 'Kettlebell', 'Foam roller', 'Otro',
 ];
 
 // Solo lo cargan los admins al abrir el panel — fuera del bundle principal

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { GripVertical, Info } from 'lucide-react';
 import { generateUUID } from '../../utils/uuid';
 import { getMuscleImage } from '../../data/muscleImages';
-import { matchesSearch } from '../../data/exerciseUtils';
+import { matchesSearch, orderByList, GROUP_ORDER, EQUIPMENT_ORDER } from '../../data/exerciseUtils';
 import ExerciseImage from '../UI/ExerciseImage';
 import ExerciseDetailSheet from '../Exercises/ExerciseDetailSheet';
 
@@ -137,12 +137,16 @@ export default function TemplateEditor({
       return groupOk && equipOk && searchOk;
     });
 
-    return filtered.reduce((acc, currentExercise) => {
+    const byGroup = filtered.reduce((acc, currentExercise) => {
       const group = currentExercise.muscleGroup || 'Otro';
       if (!acc[group]) acc[group] = [];
       acc[group].push(currentExercise);
       return acc;
     }, {});
+    // Grupos en orden fijo: hipertrofia primero, funcional/cardio/movilidad después
+    return Object.fromEntries(
+      orderByList(Object.keys(byGroup), GROUP_ORDER).map((g) => [g, byGroup[g]])
+    );
   }, [exerciseLibrary, searchTerm, selectedGroupFilter, selectedEquipmentFilter]);
 
   const exerciseIndex = useMemo(() => {
@@ -153,11 +157,11 @@ export default function TemplateEditor({
   }, [exerciseLibrary]);
 
   const availableGroups = useMemo(
-    () => ['all', ...Array.from(new Set(exerciseLibrary.map((exercise) => exercise.muscleGroup)))],
+    () => ['all', ...orderByList([...new Set(exerciseLibrary.map((exercise) => exercise.muscleGroup))], GROUP_ORDER)],
     [exerciseLibrary]
   );
   const availableEquipment = useMemo(
-    () => ['all', ...Array.from(new Set(exerciseLibrary.map((exercise) => exercise.equipment || 'Otro')))],
+    () => ['all', ...orderByList([...new Set(exerciseLibrary.map((exercise) => exercise.equipment || 'Otro'))], EQUIPMENT_ORDER)],
     [exerciseLibrary]
   );
 
@@ -607,11 +611,13 @@ export default function TemplateEditor({
               {Object.entries(groupedExercises).map(([group, exercises]) => (
                 <div key={group} className="mb-4">
                   <p className="font-bold text-zinc-500 text-xs uppercase tracking-wider mb-2">{group}</p>
-                  <div className="grid gap-1.5">
+                  {/* flex-col y no grid: los nombres largos (nowrap) ensanchaban la
+                      pista del grid más allá del contenedor y las tarjetas se cortaban */}
+                  <div className="flex flex-col gap-1.5">
                     {exercises.map((exercise) => (
                       <div
                         key={exercise.id}
-                        className="bg-zinc-800 rounded-xl border border-zinc-700 hover:border-brand-600 transition-all flex items-center"
+                        className="w-full min-w-0 bg-zinc-800 rounded-xl border border-zinc-700 hover:border-brand-600 transition-all flex items-center"
                       >
                         <button
                           onClick={() => handleAddExercise(exercise.id)}
@@ -663,7 +669,7 @@ export default function TemplateEditor({
                 onChange={(event) => setNewExGroup(event.target.value)}
                 className="w-full bg-zinc-800 p-3 rounded-lg mb-6 text-white outline-none border border-zinc-700"
               >
-                {Array.from(new Set(exerciseLibrary.map((exercise) => exercise.muscleGroup))).map(
+                {orderByList([...new Set(exerciseLibrary.map((exercise) => exercise.muscleGroup))], GROUP_ORDER).map(
                   (group) => (
                     <option key={group} value={group}>
                       {group}

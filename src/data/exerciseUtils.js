@@ -76,6 +76,30 @@ export const MUSCLE_OPTIONS = Object.keys(MUSCLE_TO_MODEL);
 
 export const LEVEL_OPTIONS = ['Principiante', 'Intermedio', 'Avanzado'];
 
+/**
+ * Orden fijo de los grupos musculares en listas y filtros:
+ * primero el bloque de hipertrofia, después funcional/cardio/movilidad.
+ */
+export const GROUP_ORDER = [
+  'Piernas', 'Pectoral', 'Core', 'Bíceps', 'Tríceps', 'Espalda', 'Hombros', 'Cuello',
+  'Funcional', 'Cardio', 'Movilidad',
+];
+
+/** Orden fijo del material: primero el de hipertrofia, lo accesorio al final. */
+export const EQUIPMENT_ORDER = [
+  'Barra', 'Smith machine', 'Polea', 'Mancuernas', 'Peso corporal', 'Máquina',
+  'Barra EZ', 'Balón medicinal', 'Fitball', 'Bandas elásticas', 'Kettlebell', 'Foam roller', 'Otro',
+];
+
+/** Ordena valores según una lista de referencia; los desconocidos van al final. */
+export function orderByList(values, order) {
+  const pos = (v) => {
+    const i = order.indexOf(v);
+    return i === -1 ? order.length : i;
+  };
+  return [...values].sort((a, b) => pos(a) - pos(b) || a.localeCompare(b));
+}
+
 export function musclesToModelZones(muscles = []) {
   const zones = new Set();
   muscles.forEach((m) => (MUSCLE_TO_MODEL[m] || []).forEach((z) => zones.add(z)));

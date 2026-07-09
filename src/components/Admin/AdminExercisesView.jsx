@@ -9,10 +9,10 @@ import {
   matchesSearch, MUSCLE_EN_TO_ES, MUSCLE_OPTIONS, LEVEL_OPTIONS, normalizeText,
 } from '../../data/exerciseUtils';
 
-const MUSCLE_GROUPS = ['Pectoral', 'Espalda', 'Piernas', 'Hombros', 'Brazos', 'Core', 'Funcional', 'Movilidad', 'Cardio', 'Cuello'];
+const MUSCLE_GROUPS = ['Piernas', 'Pectoral', 'Core', 'Bíceps', 'Tríceps', 'Espalda', 'Hombros', 'Cuello', 'Funcional', 'Cardio', 'Movilidad'];
 const EQUIPMENT_OPTIONS = [
-  'Barra', 'Mancuernas', 'Máquina', 'Polea', 'Peso corporal', 'Smith machine',
-  'Kettlebell', 'Bandas elásticas', 'Balón medicinal', 'Fitball', 'Foam roller', 'Barra EZ', 'Otro',
+  'Barra', 'Smith machine', 'Polea', 'Mancuernas', 'Peso corporal', 'Máquina',
+  'Barra EZ', 'Balón medicinal', 'Fitball', 'Bandas elásticas', 'Kettlebell', 'Foam roller', 'Otro',
 ];
 const PAGE_SIZE = 60;
 const FEDB_INDEX_URL = 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/dist/exercises.json';

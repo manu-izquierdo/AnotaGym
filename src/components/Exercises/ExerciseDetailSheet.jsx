@@ -11,6 +11,8 @@ const GROUP_FALLBACK_MUSCLES = {
   Espalda: ['Dorsales', 'Espalda media'],
   Hombros: ['Hombros'],
   Brazos: ['Bíceps', 'Tríceps'],
+  Bíceps: ['Bíceps'],
+  Tríceps: ['Tríceps'],
   Piernas: ['Cuádriceps', 'Isquiotibiales', 'Glúteos'],
   Core: ['Abdominales'],
   Funcional: ['Cuádriceps', 'Hombros', 'Abdominales'],

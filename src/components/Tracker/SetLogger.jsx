@@ -5,7 +5,7 @@ import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell, Calcula
 import PlateCalculator from './PlateCalculator';
 import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
 import { getMuscleImage } from '../../data/muscleImages';
-import { matchesSearch } from '../../data/exerciseUtils';
+import { matchesSearch, orderByList, GROUP_ORDER, EQUIPMENT_ORDER } from '../../data/exerciseUtils';
 import ExerciseImage from '../UI/ExerciseImage';
 import ExerciseDetailSheet from '../Exercises/ExerciseDetailSheet';
 
@@ -92,11 +92,11 @@ function ExercisePickerSheet({ exerciseLibrary, onPick, onInfo, onClose }) {
     [exerciseLibrary]
   );
   const groups = useMemo(
-    () => [...new Set(pool.map((ex) => ex.muscleGroup).filter(Boolean))],
+    () => orderByList([...new Set(pool.map((ex) => ex.muscleGroup).filter(Boolean))], GROUP_ORDER),
     [pool]
   );
   const equipments = useMemo(
-    () => [...new Set(pool.map((ex) => ex.equipment).filter(Boolean))].sort((a, b) => a.localeCompare(b)),
+    () => orderByList([...new Set(pool.map((ex) => ex.equipment).filter(Boolean))], EQUIPMENT_ORDER),
     [pool]
   );
 

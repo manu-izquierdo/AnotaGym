@@ -14,3 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </ErrorBoundary>
   </React.StrictMode>,
 )
+
+// La app ya está montada: retirar el splash estático del index.html
+document.getElementById('splash')?.remove()

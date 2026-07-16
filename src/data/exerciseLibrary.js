@@ -147,6 +147,21 @@ export const defaultExerciseLibrary = [
     level: 'Principiante',
   },
 
+  {
+    id: 'ex_212', name: 'Cruce unilateral en polea', muscleGroup: 'Pectoral', equipment: 'Polea',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Single-Arm_Cable_Crossover/0.jpg',
+    description: 'Con la polea alta a un lado, lleva la mano en arco hasta la línea media del cuerpo apretando el pecho. Vuelve controlando y cambia de lado.',
+    primaryMuscles: ['Pectoral'], secondaryMuscles: ['Hombros'],
+    level: 'Principiante',
+  },
+  {
+    id: 'ex_213', name: 'Press plano unilateral con mancuerna', muscleGroup: 'Pectoral', equipment: 'Mancuernas',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One_Arm_Dumbbell_Bench_Press/0.jpg',
+    description: 'Tumbado con una sola mancuerna, empuja en vertical mientras el core evita que gires. Completa las repeticiones y cambia de brazo.',
+    primaryMuscles: ['Pectoral'], secondaryMuscles: ['Hombros', 'Tríceps'],
+    level: 'Intermedio',
+  },
+
   // ── Espalda ──
   {
     id: 'ex_014', name: 'Dominadas', muscleGroup: 'Espalda', equipment: 'Peso corporal',
@@ -346,6 +361,35 @@ export const defaultExerciseLibrary = [
     level: 'Principiante',
   },
 
+  {
+    id: 'ex_206', name: 'Jalón unilateral en polea', muscleGroup: 'Espalda', equipment: 'Polea',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One_Arm_Lat_Pulldown/0.jpg',
+    description: 'Sentado frente a la polea alta, tira del maneral con una mano hasta la altura del hombro llevando el codo abajo. Sube controlando y cambia de brazo.',
+    primaryMuscles: ['Dorsales'], secondaryMuscles: ['Bíceps', 'Espalda media'],
+    level: 'Principiante',
+  },
+  {
+    id: 'ex_207', name: 'Pull-over unilateral en polea', muscleGroup: 'Espalda', equipment: 'Polea',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Straight-Arm_Pulldown/0.jpg',
+    description: 'De pie frente a la polea alta, baja el maneral con el brazo casi recto hasta la cadera en un arco amplio. Vuelve despacio y completa el lado antes de cambiar.',
+    primaryMuscles: ['Dorsales'], secondaryMuscles: [],
+    level: 'Intermedio',
+  },
+  {
+    id: 'ex_208', name: 'Remo alto en polea (espalda alta)', muscleGroup: 'Espalda', equipment: 'Polea',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Cable_Rope_Rear-Delt_Rows/0.jpg',
+    description: 'Con la cuerda a la altura de la cara y los codos altos, tira hacia ti separando las manos al final. Aprieta la espalda alta y vuelve despacio.',
+    primaryMuscles: ['Hombros'], secondaryMuscles: ['Espalda media', 'Trapecios'],
+    level: 'Principiante',
+  },
+  {
+    id: 'ex_209', name: 'Remo unilateral en polea alta', muscleGroup: 'Espalda', equipment: 'Polea',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Kneeling_Single-Arm_High_Pulley_Row/0.jpg',
+    description: 'De rodillas frente a la polea alta, rema el maneral hacia las costillas llevando el codo atrás y abajo. Cambia de lado al terminar la serie.',
+    primaryMuscles: ['Dorsales'], secondaryMuscles: ['Bíceps', 'Espalda media'],
+    level: 'Principiante',
+  },
+
   // ── Hombros ──
   {
     id: 'ex_045', name: 'Press militar con barra de pie', muscleGroup: 'Hombros', equipment: 'Barra',
@@ -472,6 +516,21 @@ export const defaultExerciseLibrary = [
     description: 'Desde la plancha, eleva la cadera formando una V invertida. Flexiona los codos bajando la cabeza hacia el suelo entre las manos y empuja para volver.',
     primaryMuscles: ['Hombros'], secondaryMuscles: ['Tríceps'],
     level: 'Intermedio',
+  },
+
+  {
+    id: 'ex_214', name: 'Curl unilateral en polea', muscleGroup: 'Bíceps', equipment: 'Polea',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_One-Arm_Cable_Curl/0.jpg',
+    description: 'De pie junto a la polea baja, sube el maneral hasta el hombro con el codo pegado al costado. Baja manteniendo la tensión y cambia de brazo.',
+    primaryMuscles: ['Bíceps'], secondaryMuscles: [],
+    level: 'Principiante',
+  },
+  {
+    id: 'ex_215', name: 'Extensión de tríceps unilateral con mancuerna', muscleGroup: 'Tríceps', equipment: 'Mancuernas',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Standing_One-Arm_Dumbbell_Triceps_Extension/0.jpg',
+    description: 'Con la mancuerna sobre la cabeza y el brazo vertical, baja por detrás flexionando solo el codo y extiende hasta arriba. Cambia de brazo al acabar.',
+    primaryMuscles: ['Tríceps'], secondaryMuscles: [],
+    level: 'Principiante',
   },
 
   // ── Brazos (Bíceps / Tríceps) ──
@@ -663,6 +722,21 @@ export const defaultExerciseLibrary = [
     imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Palms-Down_Wrist_Curl_Over_A_Bench/0.jpg',
     description: 'Apoya los antebrazos en el banco con las palmas hacia abajo y las muñecas fuera. Sube el dorso de las manos todo lo posible y baja despacio.',
     primaryMuscles: ['Antebrazos'], secondaryMuscles: [],
+    level: 'Principiante',
+  },
+
+  {
+    id: 'ex_210', name: 'Press de hombro unilateral con mancuerna', muscleGroup: 'Hombros', equipment: 'Mancuernas',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/Dumbbell_One-Arm_Shoulder_Press/0.jpg',
+    description: 'De pie o sentado, empuja la mancuerna en vertical con un brazo mientras aprietas el abdomen para no inclinarte. Completa el lado y cambia.',
+    primaryMuscles: ['Hombros'], secondaryMuscles: ['Tríceps'],
+    level: 'Intermedio',
+  },
+  {
+    id: 'ex_211', name: 'Elevación lateral unilateral', muscleGroup: 'Hombros', equipment: 'Mancuernas',
+    imageUrl: 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/One-Arm_Side_Laterals/0.jpg',
+    description: 'Agarrado a un soporte con la mano libre, sube la mancuerna hasta la horizontal liderando con el codo. Baja despacio y cambia de brazo.',
+    primaryMuscles: ['Hombros'], secondaryMuscles: [],
     level: 'Principiante',
   },
 

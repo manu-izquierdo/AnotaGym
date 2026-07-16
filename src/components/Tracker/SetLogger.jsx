@@ -219,6 +219,7 @@ export default function SetLogger({
   const [confirmRemoveId, setConfirmRemoveId] = useState(null);
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [calcWeight, setCalcWeight] = useState(null); // null = cerrada; ''|número = abierta
+  const [openRmInfo, setOpenRmInfo] = useState({}); // panel de RMs de la última sesión, por ejercicio
   const [detailExercise, setDetailExercise] = useState(null); // ficha de ejercicio abierta
 
   const getExerciseById = useCallback(
@@ -269,13 +270,16 @@ export default function SetLogger({
   }, [completedSessions]);
 
   // Previous session best estimated 1RM per exercise (for delta comparison)
+  // Mejor serie de la última sesión por ejercicio: { est: {rm1,rm5,rm8}, weight, reps }
   const prevRmByExercise = useMemo(() => {
     const result = {};
     Object.entries(previousSessionByExercise).forEach(([exerciseId, sets]) => {
       let best = null;
       sets.forEach(set => {
         const est = estimateRM(set.weight, set.reps);
-        if (est && (best === null || est.rm1 > best.rm1)) best = est;
+        if (est && (best === null || est.rm1 > best.est.rm1)) {
+          best = { est, weight: set.weight, reps: set.reps };
+        }
       });
       if (best) result[exerciseId] = best;
     });
@@ -357,14 +361,33 @@ export default function SetLogger({
                   <h3 className="text-zinc-900 dark:text-zinc-100 font-bold text-lg leading-tight">
                     {getExerciseById(exercise.exerciseId)?.name || 'Ejercicio desconocido'}
                   </h3>
-                  <p className="text-sm text-zinc-500 mt-0.5">
-                    {exercise.targetReps
-                      ? `Objetivo: ${exercise.targetSets} sets · ${exercise.targetReps} reps`
-                      : `${exercise.sets.length} ${exercise.sets.length === 1 ? 'serie' : 'series'}`}
+                  <p className="text-sm mt-0.5">
+                    {exercise.targetReps ? (
+                      <span className="font-semibold text-brand-600 dark:text-brand-400">
+                        Objetivo: {exercise.targetSets}×{exercise.targetReps} reps
+                      </span>
+                    ) : (
+                      <span className="text-zinc-500">
+                        {exercise.sets.length} {exercise.sets.length === 1 ? 'serie' : 'series'}
+                      </span>
+                    )}
                   </p>
                 </div>
               </button>
               <div className="flex items-center gap-1">
+                {showRmEstimates && prevRmByExercise[exercise.exerciseId] && (
+                  <button
+                    onClick={() => setOpenRmInfo((p) => ({ ...p, [exercise.id]: !p[exercise.id] }))}
+                    className={`px-1.5 py-1 rounded-lg text-[10px] font-black transition-colors ${
+                      openRmInfo[exercise.id]
+                        ? 'bg-brand-50 text-brand-500 dark:bg-brand-500/20'
+                        : 'text-zinc-400 hover:text-brand-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                    }`}
+                    title="RMs estimados según tu última sesión"
+                  >
+                    RM
+                  </button>
+                )}
                 {plateCalcEnabled && (
                   <button
                     onClick={() => {
@@ -395,6 +418,29 @@ export default function SetLogger({
             </div>
           </div>
 
+          {/* Panel RM bajo demanda: qué podrías levantar hoy según tu última sesión */}
+          {openRmInfo[exercise.id] && prevRmByExercise[exercise.exerciseId] && (() => {
+            const last = prevRmByExercise[exercise.exerciseId];
+            return (
+              <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 animate-in fade-in slide-in-from-top-2">
+                <p className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider mb-2">
+                  Tu mejor serie del último día: {last.weight} {unit} × {last.reps} reps
+                </p>
+                <div className="flex items-center justify-around">
+                  {[['1RM', last.est.rm1], ['5RM', last.est.rm5], ['8RM', last.est.rm8]].map(([label, value]) => (
+                    <div key={label} className="flex flex-col items-center">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-400">{label} est.</span>
+                      <span className="text-base font-black text-brand-600 dark:text-brand-400">{value} {unit}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[10px] text-zinc-400 mt-2 leading-relaxed">
+                  Orientativo: si hoy quieres trabajar a menos repeticiones, este es el peso aproximado que podrías mover.
+                </p>
+              </div>
+            );
+          })()}
+
           {(previousNotesByExercise[exercise.exerciseId] || []).length > 0 && (
             <div className="space-y-1.5">
               {previousNotesByExercise[exercise.exerciseId].map((note, noteIndex) => (
@@ -415,7 +461,7 @@ export default function SetLogger({
             <div className="animate-in fade-in slide-in-from-top-2">
               <textarea
                 className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-sm resize-none focus:border-brand-500 outline-none text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400 transition-all"
-                placeholder="Agarre, inclinación del banco, sensaciones… la verás la próxima vez que hagas este ejercicio"
+                placeholder="Agarre, inclinación, sensaciones…"
                 value={exercise.notes || ''}
                 onChange={e => onExerciseFieldChange(exercise.id, 'notes', e.target.value)}
                 rows={2}
@@ -432,8 +478,10 @@ export default function SetLogger({
 
               // Current set RM estimation
               const currentRm = estimateRM(set.weight, set.reps);
-              // Previous session best RM for comparison
-              const prevBestRm = prevRmByExercise[exercise.exerciseId];
+              // Comparar contra la MISMA serie (nº de orden) de la sesión anterior:
+              // comparar todas contra la mejor pintaba en rojo las series ligeras
+              // aunque estuvieras igualando o mejorando serie a serie.
+              const prevSetRm = estimateRM(previousWeight, previousReps);
 
               // Set type
               const setTypeId = set.setType || 'normal';
@@ -564,24 +612,24 @@ export default function SetLogger({
                         label="1RM est."
                         value={currentRm.rm1}
                         unit={unit}
-                        prev={prevBestRm?.rm1}
-                        isHigher={prevBestRm && currentRm.rm1 > prevBestRm.rm1}
+                        prev={prevSetRm?.rm1}
+                        isHigher={prevSetRm && currentRm.rm1 > prevSetRm.rm1}
                       />
                       <div className="w-px h-6 bg-zinc-200 dark:bg-zinc-700" />
                       <RmBadge
                         label="5RM est."
                         value={currentRm.rm5}
                         unit={unit}
-                        prev={prevBestRm?.rm5}
-                        isHigher={prevBestRm && currentRm.rm5 > prevBestRm.rm5}
+                        prev={prevSetRm?.rm5}
+                        isHigher={prevSetRm && currentRm.rm5 > prevSetRm.rm5}
                       />
                       <div className="w-px h-6 bg-zinc-200 dark:bg-zinc-700" />
                       <RmBadge
                         label="8RM est."
                         value={currentRm.rm8}
                         unit={unit}
-                        prev={prevBestRm?.rm8}
-                        isHigher={prevBestRm && currentRm.rm8 > prevBestRm.rm8}
+                        prev={prevSetRm?.rm8}
+                        isHigher={prevSetRm && currentRm.rm8 > prevSetRm.rm8}
                       />
                     </div>
                   )}

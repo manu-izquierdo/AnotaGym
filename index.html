@@ -39,6 +39,23 @@
   <meta name="apple-mobile-web-app-title" content="AnotaGym" />
   <meta name="theme-color" content="#201B17" />
 
+  <!-- Splash mínimo: se pinta al instante (antes de descargar el JS) y React lo
+       sustituye al montar. Evita la pantalla negra vacía en arranques lentos. -->
+  <style>
+    #splash {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      background: #09090b; z-index: 9999;
+    }
+    #splash .logo {
+      width: 52px; height: 52px; border-radius: 14px; background: #d99b7c;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; animation: splash-pulse 1.2s ease-in-out infinite;
+    }
+    #splash p { color: #a1a1aa; font-family: system-ui, sans-serif; font-size: 13px; font-weight: 600; margin: 0; }
+    @keyframes splash-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.9); opacity: 0.7; } }
+  </style>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,6 +66,10 @@
 
 <body
   class="font-sans bg-zinc-50 dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 antialiased overscroll-none selection:bg-indigo-500/30">
+  <div id="splash" aria-hidden="true">
+    <div class="logo">🏋️</div>
+    <p>AnotaGym</p>
+  </div>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>

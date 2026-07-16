@@ -361,10 +361,10 @@ export default function SetLogger({
                   <h3 className="text-zinc-900 dark:text-zinc-100 font-bold text-lg leading-tight">
                     {getExerciseById(exercise.exerciseId)?.name || 'Ejercicio desconocido'}
                   </h3>
-                  <p className="text-sm mt-0.5">
+                  <p className="text-sm mt-0.5 whitespace-nowrap">
                     {exercise.targetReps ? (
                       <span className="font-semibold text-brand-600 dark:text-brand-400">
-                        Objetivo: {exercise.targetSets}×{exercise.targetReps} reps
+                        {exercise.targetSets}×{exercise.targetReps}
                       </span>
                     ) : (
                       <span className="text-zinc-500">
@@ -502,9 +502,11 @@ export default function SetLogger({
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm">
                         {exerciseName}
-                        <span className="text-zinc-400 dark:text-zinc-500 font-normal text-xs ml-1.5">
-                          #{set.order}{exercise.targetReps ? ` · obj. ${exercise.targetReps} reps` : ''}
-                        </span>
+                        {exercise.targetReps && (
+                          <span className="text-brand-600 dark:text-brand-400 font-semibold text-xs ml-1.5">
+                            {exercise.targetReps}
+                          </span>
+                        )}
                       </span>
                     </div>
 

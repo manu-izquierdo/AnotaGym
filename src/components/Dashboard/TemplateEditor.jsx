@@ -28,6 +28,10 @@ export const SET_TYPES = [
 export const SET_TYPE_MAP = Object.fromEntries(SET_TYPES.map((t) => [t.id, t]));
 const DEFAULT_SET_TYPE = 'normal';
 
+// Tipos que se enseñan de primeras en los selectores; los avanzados
+// (back-off, rest-pause, myo-reps) quedan tras "más…" para no abrumar.
+export const PRIMARY_SET_TYPE_IDS = ['warmup', 'normal', 'topset', 'dropset', 'failure'];
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 const createDraftFromTemplate = (template) => {
@@ -68,6 +72,14 @@ const syncSetTypes = (setTypes = [], targetSets) => {
 // ─── SetTypePicker (small modal/popover) ─────────────────────────────────────
 
 function SetTypePicker({ current, onChange, onClose }) {
+  // Se enseñan los tipos básicos (y el actual si es avanzado); "más…" despliega el resto
+  const [showAll, setShowAll] = useState(
+    () => !PRIMARY_SET_TYPE_IDS.includes(current) && Boolean(SET_TYPE_MAP[current])
+  );
+  const visibleTypes = showAll
+    ? SET_TYPES
+    : SET_TYPES.filter((t) => PRIMARY_SET_TYPE_IDS.includes(t.id) || t.id === current);
+
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center p-4" onClick={onClose}>
       <div
@@ -75,7 +87,7 @@ function SetTypePicker({ current, onChange, onClose }) {
         onClick={(e) => e.stopPropagation()}
       >
         <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3">Tipo de serie</p>
-        {SET_TYPES.map((type) => (
+        {visibleTypes.map((type) => (
           <button
             key={type.id}
             onClick={() => { onChange(type.id); onClose(); }}
@@ -95,6 +107,14 @@ function SetTypePicker({ current, onChange, onClose }) {
             {current === type.id && <span className="text-brand-400 text-sm">✓</span>}
           </button>
         ))}
+        {!showAll && (
+          <button
+            onClick={() => setShowAll(true)}
+            className="w-full p-2.5 text-brand-400 text-sm font-bold rounded-xl border border-dashed border-zinc-700 hover:border-brand-500 transition-colors"
+          >
+            Más tipos (back-off, rest-pause, myo-reps)…
+          </button>
+        )}
         <button
           onClick={onClose}
           className="w-full mt-2 p-2.5 text-zinc-400 bg-zinc-800 rounded-xl text-sm"

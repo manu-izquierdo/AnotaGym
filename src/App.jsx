@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Play, Zap, ChevronRight, Dumbbell } from 'lucide-react';
 import MobileAppShell from './components/Layout/MobileAppShell';
 import LoginView from './components/Auth/LoginView';
 import SplitView from './components/Dashboard/SplitView';
 import TemplateEditor from './components/Dashboard/TemplateEditor';
 import SetLogger from './components/Tracker/SetLogger';
 import HistoryView from './components/History/HistoryView';
-import ProfileView from './components/Profile/ProfileView';
 import SettingsView from './components/Profile/SettingsView';
 import RestTimerPill from './components/Tracker/RestTimerPill';
 import SaveRoutineDialog from './components/Tracker/SaveRoutineDialog';
@@ -45,6 +45,111 @@ const sanitizeSharedRoutine = (decoded) => {
     exercises,
   };
 };
+
+/**
+ * Barra flotante "entrenamiento en curso" (estilo Hevy): visible mientras hay
+ * sesión activa y NO estás en la pestaña Entrenar. Permite navegar por toda
+ * la app (mirar récords, progreso…) sin perder el entreno, y volver de un toque.
+ */
+function ActiveSessionBanner({ session, onResume }) {
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const timer = setInterval(() => setTick((t) => t + 1), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const elapsed = Math.max(0, Math.floor((Date.now() - new Date(session.startedAt).getTime()) / 1000));
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  const clock = h > 0
+    ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+    : `${m}:${String(s).padStart(2, '0')}`;
+
+  return (
+    <button
+      type="button"
+      onClick={onResume}
+      className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 pl-4 pr-3 py-2.5 rounded-full bg-brand-600 hover:bg-brand-500 text-on-brand shadow-2xl transition-all active:scale-[0.97] animate-in fade-in slide-in-from-bottom-4 duration-300 max-w-[92vw]"
+      aria-label="Volver al entrenamiento en curso"
+    >
+      <span className="w-2 h-2 rounded-full bg-current animate-pulse shrink-0" />
+      <span className="text-sm font-bold truncate">{session.templateName}</span>
+      <span className="text-sm font-mono font-bold tabular-nums shrink-0">{clock}</span>
+      <ChevronRight size={16} className="shrink-0" />
+    </button>
+  );
+}
+
+/**
+ * Pestaña Entrenar sin sesión activa: lanzadera para empezar un entreno libre
+ * o cualquiera de tus rutinas de un toque.
+ */
+function TrainLauncher({ templates, onStartQuickLog, onStartTraining, onGoToRoutines }) {
+  return (
+    <div className="p-4 space-y-6 pb-12">
+      <div>
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Entrenar</h2>
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">Empieza un entreno libre o lanza una de tus rutinas.</p>
+      </div>
+
+      <button
+        type="button"
+        onClick={onStartQuickLog}
+        className="w-full flex items-center gap-3 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm hover:shadow-md md:hover:-translate-y-0.5 transition-all text-left group"
+      >
+        <span className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-brand-600">
+          <Zap size={20} className="text-on-brand" />
+        </span>
+        <span className="flex-1 min-w-0">
+          <span className="block text-sm font-bold text-zinc-900 dark:text-zinc-100">Entreno libre</span>
+          <span className="block text-xs text-zinc-500 mt-0.5">Sin plantilla, añadiendo ejercicios sobre la marcha</span>
+        </span>
+        <ChevronRight size={18} className="text-zinc-300 dark:text-zinc-600 group-hover:text-brand-500 transition-colors shrink-0" />
+      </button>
+
+      {templates.length > 0 ? (
+        <div>
+          <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-3 px-1">Mis rutinas</h3>
+          <div className="space-y-2">
+            {templates.map((template) => (
+              <div
+                key={template.id}
+                className="flex items-center gap-3 p-3.5 rounded-2xl border border-zinc-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100 truncate">{template.name}</p>
+                  <p className="text-xs text-zinc-500 mt-0.5">
+                    {template.exercises.length} {template.exercises.length === 1 ? 'ejercicio' : 'ejercicios'}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => onStartTraining(template.id)}
+                  className="flex items-center gap-1.5 px-4 h-10 rounded-xl bg-brand-600 hover:bg-brand-500 text-on-brand text-sm font-bold transition-all active:scale-[0.97] shrink-0"
+                >
+                  <Play size={13} fill="currentColor" /> Empezar
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="text-center py-10 rounded-2xl border-2 border-dashed border-zinc-200 dark:border-zinc-800">
+          <Dumbbell className="w-10 h-10 mx-auto text-zinc-300 dark:text-zinc-700 mb-3" />
+          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-300">Aún no tienes rutinas.</p>
+          <button
+            type="button"
+            onClick={onGoToRoutines}
+            className="mt-2 text-xs font-bold text-brand-600 dark:text-brand-400"
+          >
+            Crea la primera en la pestaña Rutina →
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 const createSessionSets = (templateExercise) =>
   Array.from({ length: templateExercise.targetSets }, (_, index) => ({
@@ -127,9 +232,9 @@ function App() {
 
   useEffect(() => {
     // Al terminar de cargar los datos remotos: si había una sesión a medias,
-    // llevar al usuario directamente al tracker (al montar aún no hay datos)
+    // llevar al usuario directamente a Entrenar (al montar aún no hay datos)
     if (!loading && workoutState.activeSession) {
-      setActiveTab('tracker');
+      setActiveTab('train');
     }
   }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -199,7 +304,7 @@ function App() {
     };
 
     setWorkoutState((prev) => ({ ...prev, activeSession }));
-    setActiveTab('tracker');
+    setActiveTab('train');
   };
 
   // Una serie se autocompleta cuando todos sus campos de datos están rellenos
@@ -300,6 +405,7 @@ function App() {
 
     if (cleanedExercises.length === 0) {
       setWorkoutState((prev) => ({ ...prev, activeSession: null }));
+      setActiveTab('routine');
       return;
     }
 
@@ -317,6 +423,8 @@ function App() {
       console.error('Error guardando la sesión completada:', err)
     );
     setWorkoutState((prev) => ({ ...prev, activeSession: null }));
+    // Al terminar, enseñar el progreso (historial) con la sesión recién guardada
+    setActiveTab('tracker');
 
     // Entreno libre con contenido → ofrecer convertirlo en rutina
     if (!session.templateId) {
@@ -363,7 +471,7 @@ function App() {
   const handleStartQuickLog = () => {
     // Si ya hay una sesión en marcha, no la pisamos: llevamos al usuario a ella
     if (workoutState.activeSession) {
-      setActiveTab('tracker');
+      setActiveTab('train');
       return;
     }
     const activeSession = {
@@ -374,7 +482,7 @@ function App() {
       exercises: [],
     };
     setWorkoutState((prev) => ({ ...prev, activeSession }));
-    setActiveTab('tracker');
+    setActiveTab('train');
   };
 
   const createEmptySet = (exerciseInstanceId, order, setType = 'normal') => ({
@@ -572,7 +680,7 @@ function App() {
       <MobileAppShell
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        onProfileClick={() => setActiveTab('profile')}
+        onProfileClick={() => setActiveTab('settings')}
         user={uiUser}
       >
         {activeTab === 'routine' && (
@@ -591,7 +699,7 @@ function App() {
           />
         )}
 
-        {activeTab === 'tracker' && (
+        {activeTab === 'train' && (
           workoutState.activeSession ? (
             <SetLogger
               activeSession={workoutState.activeSession}
@@ -611,26 +719,25 @@ function App() {
               effortMode={workoutState.preferences?.effortMode || 'off'}
             />
           ) : (
-            <HistoryView
-              completedSessions={workoutState.completedSessions}
-              exerciseLibrary={exercises}
-              bodyMetrics={workoutState.bodyMetrics}
-              unit={workoutState.preferences?.unit || 'kg'}
-              onDeleteSession={handleDeleteSession}
-              onUpdateSession={handleUpdateSession}
-              onAddBodyMetric={handleAddBodyMetric}
-              onDeleteBodyMetric={handleDeleteBodyMetric}
+            <TrainLauncher
+              templates={workoutState.routineTemplates}
+              onStartQuickLog={handleStartQuickLog}
+              onStartTraining={handleStartTraining}
+              onGoToRoutines={() => setActiveTab('routine')}
             />
           )
         )}
 
-        {activeTab === 'profile' && (
-          <ProfileView
+        {activeTab === 'tracker' && (
+          <HistoryView
             completedSessions={workoutState.completedSessions}
-            preferences={workoutState.preferences}
-            onSavePreferences={handleSavePreferences}
-            onLogout={logout}
-            user={uiUser}
+            exerciseLibrary={exercises}
+            bodyMetrics={workoutState.bodyMetrics}
+            unit={workoutState.preferences?.unit || 'kg'}
+            onDeleteSession={handleDeleteSession}
+            onUpdateSession={handleUpdateSession}
+            onAddBodyMetric={handleAddBodyMetric}
+            onDeleteBodyMetric={handleDeleteBodyMetric}
           />
         )}
 
@@ -645,11 +752,21 @@ function App() {
             onRestoreExercises={handleRestoreDefaultExercises}
             onExportData={exportData}
             onImportData={importData}
+            completedSessions={workoutState.completedSessions}
+            onLogout={logout}
             user={uiUser}
             isAdmin={isAdmin}
           />
         )}
       </MobileAppShell>
+
+      {/* Entrenamiento en curso: barra flotante para volver desde cualquier pestaña */}
+      {workoutState.activeSession && activeTab !== 'train' && (
+        <ActiveSessionBanner
+          session={workoutState.activeSession}
+          onResume={() => setActiveTab('train')}
+        />
+      )}
 
       {editingTemplate && (
         <TemplateEditor
@@ -667,6 +784,7 @@ function App() {
           soundEnabled={workoutState.preferences?.restTimerSound !== false}
           onAdd={(secs) => setRestTimerEnd((prev) => prev + secs * 1000)}
           onStop={() => setRestTimerEnd(null)}
+          raised={Boolean(workoutState.activeSession) && activeTab !== 'train'}
         />
       )}
 

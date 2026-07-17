@@ -8,6 +8,7 @@ import {
 import { getMuscleImage } from '../../data/muscleImages';
 import { MUSCLE_OPTIONS, matchesSearch } from '../../data/exerciseUtils';
 import TrainingGuideView from './TrainingGuideView';
+import ProfileView from './ProfileView';
 import ConfirmDialog from '../UI/ConfirmDialog';
 
 // Opciones del formulario "Mis ejercicios" (mismos grupos/material que el catálogo)
@@ -108,13 +109,15 @@ export default function SettingsView({
   onRestoreExercises,
   onExportData,
   onImportData,
+  completedSessions,
+  onLogout,
   user,
   isAdmin,
 }) {
   const safePreferences = preferences || { theme: 'dark', unit: 'kg' };
   const safeExercises = exercises || [];
 
-  const [subview, setSubview] = useState(null); // null | 'appearance' | 'training' | 'guide' | 'myExercises' | 'catalog' | 'data'
+  const [subview, setSubview] = useState(null); // null | 'profile' | 'appearance' | 'training' | 'guide' | 'myExercises' | 'catalog' | 'data'
   const [newExerciseName, setNewExerciseName] = useState('');
   const [newExerciseMuscle, setNewExerciseMuscle] = useState('Pectoral');
   const [newExerciseEquip, setNewExerciseEquip] = useState('Máquina');
@@ -236,6 +239,24 @@ export default function SettingsView({
   ].join(' · ');
 
   // ─── Subvistas ────────────────────────────────────────────────────────────
+
+  // Perfil ya no es pestaña de la nav: vive aquí, dentro de Ajustes
+  if (subview === 'profile') {
+    return (
+      <div className="pb-10">
+        <div className="p-4 pb-0">
+          <SubviewHeader title="Perfil" onBack={() => setSubview(null)} />
+        </div>
+        <ProfileView
+          completedSessions={completedSessions}
+          preferences={safePreferences}
+          onSavePreferences={onSavePreferences}
+          onLogout={onLogout}
+          user={user}
+        />
+      </div>
+    );
+  }
 
   if (subview === 'appearance') {
     return (
@@ -730,29 +751,34 @@ export default function SettingsView({
         <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Ajustes</h2>
       </div>
 
-      {/* Cuenta */}
-      <Card className="flex items-center gap-3">
-        {user?.photoURL ? (
-          <img src={user.photoURL} alt="Avatar" className="w-12 h-12 rounded-full object-cover" />
-        ) : (
-          <div className="w-12 h-12 rounded-full bg-brand-600/20 flex items-center justify-center">
-            <span className="text-brand-500 font-bold">
-              {(user?.displayName || user?.email || 'U').slice(0, 2).toUpperCase()}
-            </span>
+      {/* Cuenta → abre el Perfil (avatar, apodo, estadísticas, cerrar sesión) */}
+      <button type="button" onClick={() => setSubview('profile')} className="w-full text-left">
+        <Card className="flex items-center gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
+          {user?.photoURL ? (
+            <img src={user.photoURL} alt="Avatar" className="w-12 h-12 rounded-full object-cover" />
+          ) : (
+            <div className="w-12 h-12 rounded-full bg-brand-600/20 flex items-center justify-center">
+              <span className="text-brand-500 font-bold">
+                {(user?.displayName || user?.email || 'U').slice(0, 2).toUpperCase()}
+              </span>
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate">
+              {user?.displayName || 'Usuario'}
+            </p>
+            <p className="text-xs text-zinc-500 truncate">
+              {user?.email || 'Perfil, estadísticas y sesión'}
+            </p>
           </div>
-        )}
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate">
-            {user?.displayName || 'Usuario'}
-          </p>
-          <p className="text-xs text-zinc-500 truncate">{user?.email}</p>
-        </div>
-        {isAdmin && (
-          <span className="shrink-0 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/30 px-2 py-1 rounded-full border border-brand-200 dark:border-brand-800">
-            <Shield size={10} /> Admin
-          </span>
-        )}
-      </Card>
+          {isAdmin && (
+            <span className="shrink-0 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/30 px-2 py-1 rounded-full border border-brand-200 dark:border-brand-800">
+              <Shield size={10} /> Admin
+            </span>
+          )}
+          <ChevronRight size={17} className="text-zinc-300 dark:text-zinc-600 shrink-0" />
+        </Card>
+      </button>
 
       <MenuGroup label="Preferencias">
         <MenuRow

@@ -3,7 +3,7 @@ import { Card, Button } from '../UI/Card';
 import ConfirmDialog from '../UI/ConfirmDialog';
 import { PlayCircle, Check, BookOpen, Plus, Trash2, Search, X, Dumbbell, Calculator, Info } from 'lucide-react';
 import PlateCalculator from './PlateCalculator';
-import { SET_TYPE_MAP, SET_TYPES } from '../Dashboard/TemplateEditor';
+import { SET_TYPE_MAP, SET_TYPES, PRIMARY_SET_TYPE_IDS } from '../Dashboard/TemplateEditor';
 import { getMuscleImage } from '../../data/muscleImages';
 import { matchesSearch, orderByList, GROUP_ORDER, EQUIPMENT_ORDER } from '../../data/exerciseUtils';
 import ExerciseImage from '../UI/ExerciseImage';
@@ -57,11 +57,18 @@ function SetTypeBadge({ typeId, size = 'sm' }) {
   );
 }
 
-/** Inline type picker — todos los tipos visibles a la vez (sin scroll oculto) */
+/** Inline type picker — los tipos básicos a la vista, los avanzados tras "más…" */
 function InlineTypePicker({ current, onChange }) {
+  const [showAll, setShowAll] = useState(
+    () => !PRIMARY_SET_TYPE_IDS.includes(current) && Boolean(SET_TYPE_MAP[current])
+  );
+  const visibleTypes = showAll
+    ? SET_TYPES
+    : SET_TYPES.filter((t) => PRIMARY_SET_TYPE_IDS.includes(t.id) || t.id === current);
+
   return (
-    <div className="flex flex-wrap gap-1.5 pb-1">
-      {SET_TYPES.map((type) => (
+    <div className="flex flex-wrap items-center gap-1.5 pb-1">
+      {visibleTypes.map((type) => (
         <button
           key={type.id}
           onClick={() => onChange(type.id)}
@@ -73,6 +80,15 @@ function InlineTypePicker({ current, onChange }) {
           {type.short}
         </button>
       ))}
+      {!showAll && (
+        <button
+          onClick={() => setShowAll(true)}
+          className="shrink-0 text-[9px] font-black px-2 py-1 rounded-md border-2 border-dashed border-zinc-300 dark:border-zinc-600 text-zinc-500 hover:text-brand-500 hover:border-brand-400 transition-colors"
+          title="Ver más tipos: back-off, rest-pause, myo-reps"
+        >
+          más…
+        </button>
+      )}
     </div>
   );
 }

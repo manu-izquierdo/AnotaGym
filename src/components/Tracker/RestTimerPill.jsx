@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { X, Plus, Minus, Timer } from 'lucide-react';
 import { playTimerEndSound } from '../../utils/timerSound';
 
-export default function RestTimerPill({ endTime, soundEnabled = true, onAdd, onStop }) {
+// `raised`: sube la píldora cuando la barra de "entrenamiento en curso" ocupa
+// su sitio habitual (al navegar fuera de la pestaña Entrenar con descanso activo)
+export default function RestTimerPill({ endTime, soundEnabled = true, onAdd, onStop, raised = false }) {
   const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function RestTimerPill({ endTime, soundEnabled = true, onAdd, onS
   const formatted = `${mins}:${secs.toString().padStart(2, '0')}`;
 
   return (
-    <div className="fixed bottom-20 left-1/2 -translate-x-1/2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-full shadow-2xl shadow-brand-500/20 border border-zinc-800 dark:border-zinc-200 px-4 py-2 flex items-center gap-4 z-50 animate-in fade-in slide-in-from-bottom-4 zoom-in-95 duration-300">
+    <div className={`fixed ${raised ? 'bottom-36 md:bottom-20' : 'bottom-20'} left-1/2 -translate-x-1/2 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-full shadow-2xl shadow-brand-500/20 border border-zinc-800 dark:border-zinc-200 px-4 py-2 flex items-center gap-4 z-50 animate-in fade-in slide-in-from-bottom-4 zoom-in-95 duration-300`}>
       <div className="flex items-center gap-2 font-mono text-xl font-bold tracking-tight">
         <Timer size={18} className="text-brand-500" />
         {formatted}

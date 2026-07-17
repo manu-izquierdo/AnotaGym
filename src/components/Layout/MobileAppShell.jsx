@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Home, LineChart, UserCircle2, Settings, Dumbbell } from 'lucide-react';
+import { Home, LineChart, Settings, Dumbbell } from 'lucide-react';
 
 /**
  * Detecta si el teclado en pantalla está abierto (móvil). En iOS los elementos
@@ -21,10 +21,12 @@ function useKeyboardOpen() {
   return open;
 }
 
+// Perfil ya no es pestaña: vive dentro de Ajustes. "Entrenar" tiene la suya
+// propia y el entreno activo deja de secuestrar la pestaña de Progreso.
 const NAV_ITEMS = [
   { key: 'routine', label: 'Rutina', icon: Home },
+  { key: 'train', label: 'Entrenar', icon: Dumbbell },
   { key: 'tracker', label: 'Progreso', icon: LineChart },
-  { key: 'profile', label: 'Perfil', icon: UserCircle2 },
   { key: 'settings', label: 'Ajustes', icon: Settings },
 ];
 
@@ -66,8 +68,7 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
         </div>
 
         <nav className="flex flex-col gap-1">
-          {/* Perfil no va en esta lista: su entrada es la fila de usuario de abajo */}
-          {NAV_ITEMS.filter(({ key }) => key !== 'profile').map(({ key, label, icon: Icon }) => {
+          {NAV_ITEMS.map(({ key, label, icon: Icon }) => {
             const isActive = activeTab === key;
             return (
               <button
@@ -86,17 +87,15 @@ export default function MobileAppShell({ children, activeTab, onTabChange, onPro
           })}
         </nav>
 
+        {/* Atajo al perfil (vive dentro de Ajustes) */}
         <button
           type="button"
           onClick={onProfileClick}
-          className={`mt-auto flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors text-left
-            ${activeTab === 'profile'
-              ? 'bg-brand-100 dark:bg-brand-950/60'
-              : 'hover:bg-zinc-100 dark:hover:bg-zinc-800/60'}`}
+          className="mt-auto flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors text-left hover:bg-zinc-100 dark:hover:bg-zinc-800/60"
         >
           <Avatar user={user} />
           <div className="min-w-0">
-            <p className={`text-sm truncate ${activeTab === 'profile' ? 'font-bold text-brand-700 dark:text-brand-400' : 'font-semibold'}`}>
+            <p className="text-sm truncate font-semibold">
               {user?.displayName || 'Mi perfil'}
             </p>
             {user?.email && <p className="text-[11px] text-zinc-500 truncate">{user.email}</p>}

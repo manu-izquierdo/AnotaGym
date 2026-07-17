@@ -57,7 +57,9 @@ export default function ExerciseProgress({ completedSessions, exerciseLibrary, u
           if (w <= 0 && r <= 0) return;
           maxWeight = Math.max(maxWeight, w);
           bestE1rm = Math.max(bestE1rm, epley(w, r));
-          volume += w * r;
+          // Los calentamientos no computan en el volumen (peso máx y 1RM sí los
+          // miran, pero al ser series ligeras nunca ganan a las efectivas)
+          if (set.setType !== 'warmup') volume += w * r;
           setSummaries.push(`${r || '–'}×${w || '–'}`);
         });
         if (setSummaries.length === 0) return;

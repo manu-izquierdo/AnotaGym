@@ -122,6 +122,8 @@ export default function SettingsView({
   const [newExerciseMuscles, setNewExerciseMuscles] = useState([]);
   const [importMsg, setImportMsg] = useState(null); // { ok, text }
   const [importLoading, setImportLoading] = useState(false);
+  // Archivo leído y validado, a la espera de que el usuario confirme el reemplazo
+  const [pendingImport, setPendingImport] = useState(null); // { text, sessions, routines }
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [catalogQuery, setCatalogQuery] = useState('');
   const [showOnlyHidden, setShowOnlyHidden] = useState(false);
@@ -173,22 +175,43 @@ export default function SettingsView({
     setNewExerciseMuscles([]);
   };
 
+  // Paso 1: leer y validar el archivo. Importar reemplaza TODOS los datos de
+  // la cuenta, así que nunca se ejecuta directamente: se pide confirmación
+  // enseñando qué contiene el archivo.
   const handleImportFile = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    setImportLoading(true);
     setImportMsg(null);
     try {
       const text = await file.text();
-      const result = await onImportData(text);
-      setImportMsg(result.ok
-        ? { ok: true, text: 'Datos importados correctamente' }
-        : { ok: false, text: result.message });
+      const parsed = JSON.parse(text);
+      if (!parsed.workoutState) throw new Error('no es un backup de AnotaGym');
+      setPendingImport({
+        text,
+        sessions: Array.isArray(parsed.workoutState.completedSessions)
+          ? parsed.workoutState.completedSessions.length
+          : 0,
+        routines: Array.isArray(parsed.workoutState.routineTemplates)
+          ? parsed.workoutState.routineTemplates.length
+          : 0,
+      });
     } catch {
-      setImportMsg({ ok: false, text: 'Error al leer el archivo' });
+      setImportMsg({ ok: false, text: 'El archivo no es un backup válido de AnotaGym' });
     }
-    setImportLoading(false);
     e.target.value = '';
+  };
+
+  // Paso 2: el usuario ha confirmado el reemplazo
+  const confirmImport = async () => {
+    const text = pendingImport?.text;
+    setPendingImport(null);
+    if (!text) return;
+    setImportLoading(true);
+    const result = await onImportData(text);
+    setImportMsg(result.ok
+      ? { ok: true, text: 'Datos importados correctamente' }
+      : { ok: false, text: result.message });
+    setImportLoading(false);
   };
 
   const paletteId = resolvePaletteId(safePreferences.accentColor);
@@ -320,6 +343,7 @@ export default function SettingsView({
             <div className="flex gap-2 mt-2">
               <Input
                 type="number"
+                inputMode="numeric"
                 min="5"
                 max="900"
                 placeholder="Otro (segundos, ej. 10)"
@@ -683,6 +707,17 @@ export default function SettingsView({
             </p>
           )}
         </Card>
+
+        {pendingImport && (
+          <ConfirmDialog
+            title="¿Reemplazar todos tus datos?"
+            message={`El archivo contiene ${pendingImport.sessions} ${pendingImport.sessions === 1 ? 'entrenamiento' : 'entrenamientos'} y ${pendingImport.routines} ${pendingImport.routines === 1 ? 'rutina' : 'rutinas'}. Tus datos actuales se sustituirán por completo por los del archivo.`}
+            confirmLabel="Reemplazar"
+            danger
+            onConfirm={confirmImport}
+            onCancel={() => setPendingImport(null)}
+          />
+        )}
       </div>
     );
   }

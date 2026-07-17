@@ -475,6 +475,7 @@ export default function TemplateEditor({
                   <label className="text-xs font-medium text-zinc-500">Series</label>
                   <input
                     type="number"
+                    inputMode="numeric"
                     min="1"
                     max="10"
                     value={exercise.targetSets}

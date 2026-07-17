@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
   doc,
   onSnapshot,
@@ -168,27 +168,52 @@ export default function useFirestoreData(uid, isAdmin) {
   // ---- Escritura a Firestore (debounced) ----
 
   const saveTimeout = useRef(null);
+  // Último estado pendiente de escribir: permite volcarlo de inmediato si la
+  // app pasa a segundo plano antes de que venza el debounce.
+  const pendingMain = useRef(null);
+
+  const flushPendingWrite = useCallback(() => {
+    if (!uid || !pendingMain.current) return;
+    clearTimeout(saveTimeout.current);
+    const mainData = pendingMain.current;
+    pendingMain.current = null;
+    const mainRef = doc(db, 'users', uid, 'workoutData', 'main');
+    setDoc(mainRef, mainData, { merge: true }).catch((err) =>
+      console.error('Error saving to Firestore:', err)
+    );
+  }, [uid]);
 
   const setWorkoutState = useCallback((updater) => {
     setWorkoutStateLocal((prev) => {
       const next = typeof updater === 'function' ? updater(prev) : updater;
       if (isRemoteUpdate.current) return next;
 
+      // Las sesiones completadas viven en su subcolección: nunca deben
+      // volver a escribirse dentro del doc principal (límite de 1 MB).
+      const { completedSessions: _cs, ...mainData } = next;
+      pendingMain.current = mainData;
+
       // Guardar en Firestore con debounce de 800ms para no escribir en cada tecla
       clearTimeout(saveTimeout.current);
-      saveTimeout.current = setTimeout(() => {
-        const mainRef = doc(db, 'users', uid, 'workoutData', 'main');
-        // Las sesiones completadas viven en su subcolección: nunca deben
-        // volver a escribirse dentro del doc principal (límite de 1 MB).
-        const { completedSessions: _cs, ...mainData } = next;
-        setDoc(mainRef, mainData, { merge: true }).catch((err) =>
-          console.error('Error saving to Firestore:', err)
-        );
-      }, 800);
+      saveTimeout.current = setTimeout(flushPendingWrite, 800);
 
       return next;
     });
-  }, [uid]);
+  }, [uid, flushPendingWrite]);
+
+  // Si bloqueas el móvil o cambias de app justo tras anotar la última serie,
+  // el debounce moriría sin escribir: se vuelca lo pendiente al ocultarse.
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') flushPendingWrite();
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    window.addEventListener('pagehide', flushPendingWrite);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener('pagehide', flushPendingWrite);
+    };
+  }, [flushPendingWrite]);
 
   // ---- Sesiones completadas (una por documento) ----
 
@@ -326,31 +351,36 @@ export default function useFirestoreData(uid, isAdmin) {
   // ---- Fusión de catálogos ----
   // Catálogo local (JS) + globales (Firestore, prevalecen: el admin puede
   // corregir cualquier entrada con un doc del mismo id) + privados del usuario.
-  const hiddenByUser = new Set(workoutState.preferences?.hiddenExercises || []);
-  const bundledIds = new Set();
-  const exercisesMap = new Map();
+  // Memoizada: sin esto se recalculaba (mapa + sort de 190+ entradas) en cada
+  // pulsación durante la sesión activa.
+  const hiddenExercises = workoutState.preferences?.hiddenExercises;
+  const exercises = useMemo(() => {
+    const hiddenByUser = new Set(hiddenExercises || []);
+    const bundledIds = new Set();
+    const exercisesMap = new Map();
 
-  defaultExerciseLibrary.forEach((ex) => {
-    bundledIds.add(ex.id);
-    exercisesMap.set(ex.id, { ...ex, _bundled: true });
-  });
-  [...globalExercises, ...privateExercises].forEach((ex) => {
-    const existing = exercisesMap.get(ex.id);
-    // Firestore pisa al bundle, pero conservamos la imageUrl local si el doc no trae una
-    exercisesMap.set(ex.id, {
-      ...existing,
-      ...ex,
-      imageUrl: ex.imageUrl || existing?.imageUrl,
-      _bundled: bundledIds.has(ex.id),
+    defaultExerciseLibrary.forEach((ex) => {
+      bundledIds.add(ex.id);
+      exercisesMap.set(ex.id, { ...ex, _bundled: true });
     });
-  });
+    [...globalExercises, ...privateExercises].forEach((ex) => {
+      const existing = exercisesMap.get(ex.id);
+      // Firestore pisa al bundle, pero conservamos la imageUrl local si el doc no trae una
+      exercisesMap.set(ex.id, {
+        ...existing,
+        ...ex,
+        imageUrl: ex.imageUrl || existing?.imageUrl,
+        _bundled: bundledIds.has(ex.id),
+      });
+    });
 
-  // `hidden` unifica el tombstone global y la lista personal del usuario.
-  // OJO: los ocultos NO se eliminan de la lista — siguen resolviendo nombre e
-  // imagen en historial y sesiones; los selectores/listas filtran !ex.hidden.
-  const exercises = Array.from(exercisesMap.values())
-    .map((ex) => (hiddenByUser.has(ex.id) ? { ...ex, hidden: true } : ex))
-    .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    // `hidden` unifica el tombstone global y la lista personal del usuario.
+    // OJO: los ocultos NO se eliminan de la lista — siguen resolviendo nombre e
+    // imagen en historial y sesiones; los selectores/listas filtran !ex.hidden.
+    return Array.from(exercisesMap.values())
+      .map((ex) => (hiddenByUser.has(ex.id) ? { ...ex, hidden: true } : ex))
+      .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  }, [globalExercises, privateExercises, hiddenExercises]);
 
   // ---- Export / Import ----
   // El formato del archivo NO cambia: workoutState.completedSessions sigue
@@ -381,21 +411,26 @@ export default function useFirestoreData(uid, isAdmin) {
 
       // Importar reemplaza TODO (comportamiento de siempre): también las
       // sesiones actuales de la subcolección se sustituyen por las del archivo.
+      // Orden seguro: PRIMERO se escriben las del archivo y solo después se
+      // borran las que sobran — si algo falla a mitad, no se pierde nada.
       const existing = await getDocs(collection(db, 'users', uid, 'sessions'));
-      const toDelete = existing.docs.map((d) => d.ref);
-      for (let i = 0; i < toDelete.length; i += BATCH_LIMIT) {
-        const batch = writeBatch(db);
-        toDelete.slice(i, i + BATCH_LIMIT).forEach((ref) => batch.delete(ref));
-        await batch.commit();
-      }
 
       const sessions = Array.isArray(importedSessions) ? importedSessions : [];
+      const importedIds = new Set();
       for (let i = 0; i < sessions.length; i += BATCH_LIMIT) {
         const batch = writeBatch(db);
         sessions.slice(i, i + BATCH_LIMIT).forEach((session) => {
           const id = session.id || generateUUID();
+          importedIds.add(id);
           batch.set(doc(db, 'users', uid, 'sessions', id), { ...session, id });
         });
+        await batch.commit();
+      }
+
+      const toDelete = existing.docs.filter((d) => !importedIds.has(d.id)).map((d) => d.ref);
+      for (let i = 0; i < toDelete.length; i += BATCH_LIMIT) {
+        const batch = writeBatch(db);
+        toDelete.slice(i, i + BATCH_LIMIT).forEach((ref) => batch.delete(ref));
         await batch.commit();
       }
 

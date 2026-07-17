@@ -566,6 +566,7 @@ export default function SetLogger({
                       </label>
                       <input
                         type="number"
+                        inputMode="decimal"
                         step="0.5"
                         value={set.weight}
                         onChange={(event) =>
@@ -581,6 +582,7 @@ export default function SetLogger({
                       </label>
                       <input
                         type="number"
+                        inputMode="numeric"
                         value={set.reps}
                         onChange={(event) =>
                           onSetFieldChange(exercise.id, set.id, 'reps', event.target.value)
@@ -596,6 +598,7 @@ export default function SetLogger({
                         </label>
                         <input
                           type="text"
+                          inputMode="decimal"
                           value={set.effort}
                           onChange={(event) =>
                             onSetFieldChange(exercise.id, set.id, 'effort', event.target.value)

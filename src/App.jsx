@@ -16,6 +16,36 @@ import { generateUUID } from './utils/uuid';
 import { primeTimerSound } from './utils/timerSound';
 import { PALETTES, resolvePaletteId, buildPaletteCss } from './theme/palettes';
 
+// Valida y limpia una rutina llegada por enlace compartido. El JSON viene de
+// una URL que cualquiera puede manipular: solo se aceptan los campos conocidos
+// y con tamaños acotados — sin esto, un enlace malicioso o una rutina gigante
+// podría inflar el doc principal hacia el límite de 1 MB y romper el guardado.
+const sanitizeSharedRoutine = (decoded) => {
+  if (!decoded || typeof decoded.name !== 'string' || !Array.isArray(decoded.exercises)) return null;
+  const name = decoded.name.trim().slice(0, 60);
+  if (!name || decoded.exercises.length === 0 || decoded.exercises.length > 20) return null;
+
+  const exercises = [];
+  for (const ex of decoded.exercises) {
+    if (!ex || typeof ex.exerciseId !== 'string' || !ex.exerciseId || ex.exerciseId.length > 64) return null;
+    const targetSets = Math.min(Math.max(parseInt(ex.targetSets, 10) || 1, 1), 10);
+    const setTypes = Array.isArray(ex.setTypes)
+      ? ex.setTypes.slice(0, targetSets).map((t) => (typeof t === 'string' ? t.slice(0, 16) : 'normal'))
+      : [];
+    exercises.push({
+      exerciseId: ex.exerciseId,
+      targetSets,
+      targetReps: typeof ex.targetReps === 'string' ? ex.targetReps.slice(0, 12) : '',
+      setTypes,
+    });
+  }
+  return {
+    name,
+    focus: typeof decoded.focus === 'string' ? decoded.focus.slice(0, 40) : '',
+    exercises,
+  };
+};
+
 const createSessionSets = (templateExercise) =>
   Array.from({ length: templateExercise.targetSets }, (_, index) => ({
     id: `${templateExercise.id}-set-${index + 1}`,
@@ -110,9 +140,12 @@ function App() {
     
     if (importData && currentUser && !loading) {
       try {
+        // Cota de tamaño antes siquiera de decodificar (una rutina real ocupa ~1-3 KB)
+        if (importData.length > 20000) throw new Error('enlace demasiado grande');
         const decoded = JSON.parse(decodeURIComponent(atob(importData)));
-        if (decoded && decoded.name && decoded.exercises) {
-          setImportPrompt({ routine: decoded });
+        const routine = sanitizeSharedRoutine(decoded);
+        if (routine) {
+          setImportPrompt({ routine });
         } else {
           setImportPrompt({ error: true });
         }
@@ -277,8 +310,12 @@ function App() {
       exercises: cleanedExercises,
     };
 
-    // La sesión va a su propio documento; el doc principal solo suelta la activa
-    saveSession(completedSession);
+    // La sesión va a su propio documento; el doc principal solo suelta la activa.
+    // Sin await: con la caché offline la promesa solo resuelve cuando el
+    // servidor confirma, y en el gym sin cobertura no debe bloquear la UI.
+    saveSession(completedSession).catch((err) =>
+      console.error('Error guardando la sesión completada:', err)
+    );
     setWorkoutState((prev) => ({ ...prev, activeSession: null }));
 
     // Entreno libre con contenido → ofrecer convertirlo en rutina

@@ -29,8 +29,10 @@ export default function ProfileView({
     const safe = completedSessions || [];
     const sessions = safe.length;
     const sets = safe.reduce((acc, s) => acc + s.exercises.reduce((a, ex) => a + ex.sets.length, 0), 0);
+    // Los calentamientos no computan en el volumen (es lo que promete su tipo de serie)
     const volume = safe.reduce((acc, s) => acc + s.exercises.reduce(
-      (a, ex) => a + ex.sets.reduce((sv, set) => sv + (parseFloat(set.weight) || 0) * (parseInt(set.reps, 10) || 0), 0), 0
+      (a, ex) => a + ex.sets.reduce((sv, set) =>
+        set.setType === 'warmup' ? sv : sv + (parseFloat(set.weight) || 0) * (parseInt(set.reps, 10) || 0), 0), 0
     ), 0);
     return { sessions, sets, volume: Math.round(volume) };
   }, [completedSessions]);

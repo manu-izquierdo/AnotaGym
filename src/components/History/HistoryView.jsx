@@ -10,8 +10,10 @@ import RecordsView from '../Progress/RecordsView';
 function isoToDay(isoDate) { return (isoDate || '').slice(0, 10); }
 function sessionDate(session) { return session.finishedAt || session.startedAt; }
 function calcVolume(exercises) {
+  // Los calentamientos no computan en el volumen (es lo que promete su tipo de serie)
   return (exercises || []).reduce((acc, ex) =>
-    acc + (ex.sets || []).reduce((s, set) => s + (parseFloat(set.weight) || 0) * (parseInt(set.reps, 10) || 0), 0), 0);
+    acc + (ex.sets || []).reduce((s, set) =>
+      set.setType === 'warmup' ? s : s + (parseFloat(set.weight) || 0) * (parseInt(set.reps, 10) || 0), 0), 0);
 }
 function maxWeightForExercise(exercise) {
   return Math.max(0, ...(exercise.sets || []).map(s => parseFloat(s.weight) || 0));
@@ -188,6 +190,7 @@ function BodyWeightCard({ bodyMetrics, unit, onAddBodyMetric, onDeleteBodyMetric
           <Label>Peso ({unit})</Label>
           <Input
             type="number"
+            inputMode="decimal"
             step="0.1"
             value={weight}
             onChange={e => setWeight(e.target.value)}
@@ -315,6 +318,7 @@ function EditSessionSheet({ session, exerciseIndex, unit, onSave, onClose }) {
                     <span className="text-[11px] text-zinc-400 w-5 shrink-0">#{set.order}</span>
                     <input
                       type="number"
+                      inputMode="decimal"
                       step="0.5"
                       value={set.weight}
                       onChange={(e) => setField(exercise.id, set.id, 'weight', e.target.value)}
@@ -324,6 +328,7 @@ function EditSessionSheet({ session, exerciseIndex, unit, onSave, onClose }) {
                     <span className="text-[10px] text-zinc-400 shrink-0">{unit} ×</span>
                     <input
                       type="number"
+                      inputMode="numeric"
                       value={set.reps}
                       onChange={(e) => setField(exercise.id, set.id, 'reps', e.target.value)}
                       placeholder="Reps"

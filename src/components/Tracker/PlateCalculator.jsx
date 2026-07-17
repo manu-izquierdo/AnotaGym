@@ -113,6 +113,7 @@ export default function PlateCalculator({ unit = 'kg', initialWeight = '', onClo
             <label className="block text-[10px] text-zinc-500 uppercase font-bold tracking-wider mb-1">Peso total ({unit})</label>
             <input
               type="number"
+              inputMode="decimal"
               step="0.5"
               autoFocus
               value={weight}

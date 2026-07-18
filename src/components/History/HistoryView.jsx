@@ -3,6 +3,7 @@ import { Card, Button, Input, Label } from '../UI/Card';
 import ConfirmDialog from '../UI/ConfirmDialog';
 import { Trash2, Dumbbell, Scale, BarChart3, ListChecks, LineChart, Trophy, Pencil, ChevronDown, X } from 'lucide-react';
 import { SET_TYPE_MAP } from '../Dashboard/TemplateEditor';
+import { sanitizeDecimal } from '../../utils/decimal';
 import ProgressChart from '../UI/ProgressChart';
 import ExerciseProgress from '../Progress/ExerciseProgress';
 import RecordsView from '../Progress/RecordsView';
@@ -189,11 +190,10 @@ function BodyWeightCard({ bodyMetrics, unit, onAddBodyMetric, onDeleteBodyMetric
         <div className="flex-1 min-w-0">
           <Label>Peso ({unit})</Label>
           <Input
-            type="number"
+            type="text"
             inputMode="decimal"
-            step="0.1"
             value={weight}
-            onChange={e => setWeight(e.target.value)}
+            onChange={e => setWeight(sanitizeDecimal(e.target.value))}
             placeholder="75.5"
             className="px-2.5 text-sm min-w-0"
           />
@@ -317,11 +317,10 @@ function EditSessionSheet({ session, exerciseIndex, unit, onSave, onClose }) {
                     </span>
                     <span className="text-[11px] text-zinc-400 w-5 shrink-0">#{set.order}</span>
                     <input
-                      type="number"
+                      type="text"
                       inputMode="decimal"
-                      step="0.5"
                       value={set.weight}
-                      onChange={(e) => setField(exercise.id, set.id, 'weight', e.target.value)}
+                      onChange={(e) => setField(exercise.id, set.id, 'weight', sanitizeDecimal(e.target.value))}
                       placeholder={`Peso (${unit})`}
                       className="flex-1 min-w-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 focus:border-brand-500 outline-none rounded-lg px-2.5 py-2 text-sm text-zinc-900 dark:text-zinc-100 transition-all"
                     />

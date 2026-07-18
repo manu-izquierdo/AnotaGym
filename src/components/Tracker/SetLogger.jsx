@@ -6,6 +6,7 @@ import PlateCalculator from './PlateCalculator';
 import { SET_TYPE_MAP, SET_TYPES, PRIMARY_SET_TYPE_IDS } from '../Dashboard/TemplateEditor';
 import { getMuscleImage } from '../../data/muscleImages';
 import { matchesSearch, orderByList, GROUP_ORDER, EQUIPMENT_ORDER } from '../../data/exerciseUtils';
+import { normalizeDecimal, sanitizeDecimal } from '../../utils/decimal';
 import ExerciseImage from '../UI/ExerciseImage';
 import ExerciseDetailSheet from '../Exercises/ExerciseDetailSheet';
 
@@ -581,12 +582,11 @@ export default function SetLogger({
                         Peso ({unit})
                       </label>
                       <input
-                        type="number"
+                        type="text"
                         inputMode="decimal"
-                        step="0.5"
                         value={set.weight}
                         onChange={(event) =>
-                          onSetFieldChange(exercise.id, set.id, 'weight', event.target.value)
+                          onSetFieldChange(exercise.id, set.id, 'weight', sanitizeDecimal(event.target.value))
                         }
                         className="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 focus:border-brand-500 dark:focus:border-brand-500 outline-none rounded-lg px-2.5 py-2 text-sm text-zinc-900 dark:text-zinc-100 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
                         placeholder={previousWeight || '0'}
@@ -617,7 +617,7 @@ export default function SetLogger({
                           inputMode="decimal"
                           value={set.effort}
                           onChange={(event) =>
-                            onSetFieldChange(exercise.id, set.id, 'effort', event.target.value)
+                            onSetFieldChange(exercise.id, set.id, 'effort', normalizeDecimal(event.target.value))
                           }
                           className="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 focus:border-brand-500 dark:focus:border-brand-500 outline-none rounded-lg px-2.5 py-2 text-sm text-zinc-900 dark:text-zinc-100 transition-all placeholder:text-zinc-400 dark:placeholder:text-zinc-600"
                           placeholder="-"

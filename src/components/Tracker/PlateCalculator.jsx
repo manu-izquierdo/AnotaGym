@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { X, Calculator } from 'lucide-react';
+import { sanitizeDecimal } from '../../utils/decimal';
 
 // Discos y barras estándar según la unidad
 const CONFIG = {
@@ -112,12 +113,11 @@ export default function PlateCalculator({ unit = 'kg', initialWeight = '', onClo
           <div className="flex-1">
             <label className="block text-[10px] text-zinc-500 uppercase font-bold tracking-wider mb-1">Peso total ({unit})</label>
             <input
-              type="number"
+              type="text"
               inputMode="decimal"
-              step="0.5"
               autoFocus
               value={weight}
-              onChange={(e) => setWeight(e.target.value)}
+              onChange={(e) => setWeight(sanitizeDecimal(e.target.value))}
               placeholder="0"
               className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2.5 text-lg font-bold text-zinc-900 dark:text-zinc-100 outline-none focus:border-brand-500 transition-all"
             />

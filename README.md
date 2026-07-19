@@ -10,7 +10,7 @@
 [![React](https://img.shields.io/badge/React-18-61dafb)](https://reactjs.org)
 [![Vite](https://img.shields.io/badge/Vite-5-646cff)](https://vitejs.dev)
 
-**🔗 Pruébala ya / Try it now: [anotagym.vercel.app](https://anotagym.vercel.app)**
+**🔗 Pruébala ya / Try it now: [www.anotagym.app](https://www.anotagym.app)**
 
 > **Español** · [English below ↓](#english-version)
 
@@ -28,7 +28,7 @@ A diferencia de apps como Hevy, Caliber o Strong, AnotaGym es completamente **gr
 
 ### 🚀 Empieza en 1 minuto
 
-1. **Abre [anotagym.vercel.app](https://anotagym.vercel.app)** en tu móvil u ordenador
+1. **Abre [www.anotagym.app](https://www.anotagym.app)** en tu móvil u ordenador
 2. **Entra como quieras**: con Google, con email, o en **Modo Invitado** si solo quieres echar un vistazo (sin registrarte)
 3. **Instálala como una app** (opcional, pero muy recomendable):
    - 📱 **iPhone/iPad**: Safari → botón *Compartir* → *Añadir a pantalla de inicio*
@@ -201,7 +201,7 @@ Unlike Hevy, Caliber or Strong, AnotaGym is completely **free, ad-free, with no 
 
 ### 🚀 Get started in 1 minute
 
-1. **Open [anotagym.vercel.app](https://anotagym.vercel.app)** on your phone or computer
+1. **Open [www.anotagym.app](https://www.anotagym.app)** on your phone or computer
 2. **Sign in your way**: Google, email, or **Guest Mode** if you just want to look around (no sign-up)
 3. **Install it as an app** (optional, but worth it):
    - 📱 **iPhone/iPad**: Safari → *Share* → *Add to Home Screen*
